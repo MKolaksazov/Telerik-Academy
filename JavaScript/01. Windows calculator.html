@@ -1,0 +1,253 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <title></title>
+    <link rel="stylesheet" type="text/css" href="Styling/Calc.css">
+    <script src = 'JsFiles/Calc.js'>
+    </script>
+</head>
+<body>
+    <div id="main_div">
+        <!--img src="calculator.png" /-->
+        <span id="calculator">Calculator</span>
+        <div id="main_buttons">
+            <div id="main_buttons_form"></div>
+        </div>
+        <div id="menu">
+            <div id="header">
+                <header>
+                    <input type="button" value="View" />
+                    <input type="button" value="Edit" />
+                    <input type="button" value="Help" />
+                </header>
+            </div>
+            <div id="result">
+                
+                <div id="display">
+                    0
+
+
+                </div>
+            </div>
+            <div id="hex_represent">
+                <table>
+                    <tr>
+                        <td>0000</td>
+                        <td>0000</td>
+                        <td>0000</td>
+                        <td>0000</td>
+                        <td>0000</td>
+                        <td>0000</td>
+                        <td>0000</td>
+                        <td>0000</td>
+                    </tr>
+                    <tr>
+                        <td class="bit">&nbsp;&nbsp;63</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td class="bit">&nbsp;&nbsp;47</td>
+                        <td></td>
+                        <td></td>
+                        <td class="bit">&nbsp;&nbsp;32</td>
+                    </tr>
+                    <tr>
+                        <td>0000</td>
+                        <td>0000</td>
+                        <td>1000</td>
+                        <td>0111</td>
+                        <td>0001</td>
+                        <td>1011</td>
+                        <td>1011</td>
+                        <td>0111</td>
+                    </tr>
+                    <tr>
+                        <td class="bit">&nbsp;&nbsp;31</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td class="bit">&nbsp;&nbsp;15</td>
+                        <td></td>
+                        <td></td>
+                        <td class="bit">&nbsp;&nbsp;0</td>
+                        
+                    </tr>
+                </table><br/><br/>
+            </div>
+            <div id="system">
+                <form action="post">
+                    <input type="radio" name="system" value="hex">Hex<br>
+                    <input type="radio" name="system" value="dec" checked="checked">Dec<br>
+                    <input type="radio" name="system" value="oct">Oct<br>
+                    <input type="radio" name="system" value="bin">Bin
+                </form>
+            </div>
+            <div id="memory">
+                <form action="post">
+                    <input type="radio" name="memory" value="qword" checked="checked">Qword<br>
+                    <input type="radio" name="memory" value="dword">DWord<br>
+                    <input type="radio" name="memory" value="word">Word<br>
+                    <input type="radio" name="memory" value="byte">Byte
+                </form>
+            </div>
+            <div id="buttons">
+                <table>
+                    <tr>
+                        <td>
+                            <input type="button" value="" class="btn_style1" id="empty_button" disabled="disabled" />
+                        </td>
+                        <td>
+                            <input type="button" value="Mod" class="btn_style2" />
+                        </td>
+                        <td>
+                            <input type="button" value="A" class="btn_style1" disabled="disabled" />
+                        </td>
+                        <td>
+                            <input type="button" value="MC" class="btn_style1 enabled" />
+                        </td>
+                        <td>
+                            <input type="button" value="MR" class="btn_style1 enabled" />
+                        </td>
+                        <td>
+                            <input type="button" value="MS" class="btn_style1 enabled" />
+                        </td>
+                        <td>
+                            <input type="button" value="M+" class="btn_style1 enabled" />
+                        </td>
+                        <td>
+                            <input type="button" value="M-" class="btn_style1 enabled" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input type="button" value="(" class="btn_style2" />
+                        </td>
+                        <td>
+                            <input type="button" value=")" class="btn_style2" />
+                        </td>
+                        <td>
+                            <input type="button" value="B" class="btn_style1" disabled="disabled" />
+                        </td>
+                        <td>
+                            <input type="button" onclick="backsp()" value="←" class="btn_style2" />
+                        </td>
+                        <td>
+                            <input type="button" onclick="clre()" value="CE" class="btn_style2" />
+                        </td>
+                        <td>
+                            <input type="button" onclick="clr()" value="C" class="btn_style2" />
+                        </td>
+                        <td>
+                            <input type="button" value="±" class="btn_style2" />
+                        </td>
+                        <td>
+                            <input type="button" onclick="sqrt()" value="√" class="btn_style1"  /><!--disabled="disabled"-->
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input type="button" value="RoL" class="btn_style2" />
+                        </td>
+                        <td>
+                            <input type="button" value="RoR" class="btn_style2" />
+                        </td>
+                        <td>
+                            <input type="button" value="C" class="btn_style1" disabled="disabled" />
+                        </td>
+                        <td>
+                            <input type="button" onclick="cifra7()" value="7" class="btn_style3" />
+                        </td>
+                        <td>
+                            <input type="button" onclick="cifra8()" value="8" class="btn_style3" />
+                        </td>
+                        <td>
+                            <input type="button" onclick="cifra9()" value="9" class="btn_style3" />
+                        </td>
+                        <td>
+                            <input type="button" onclick="divided()" value="/" class="btn_style2" />
+                        </td>
+                        <td>
+                            <input type="button" onclick="percent()" value="%" class="btn_style1" disabled="disabled" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input type="button" value="Or" class="btn_style2" />
+                        </td>
+                        <td>
+                            <input type="button" value="Xor" class="btn_style2" />
+                        </td>
+                        <td>
+                            <input type="button" value="D" class="btn_style1" disabled="disabled" />
+                        </td>
+                        <td>
+                            <input type="button" onclick="cifra4()" value="4" class="btn_style3" />
+                        </td>
+                        <td>
+                            <input type="button" onclick="cifra5()" value="5" class="btn_style3" />
+                        </td>
+                        <td>
+                            <input type="button" onclick="cifra6()" value="6" class="btn_style3" />
+                        </td>
+                        <td>
+                            <input type="button" onclick="multiplied()" value="*" class="btn_style2" />
+                        </td>
+                        <td>
+                            <input type="button" onclick="oneDivX()" value="1/x" class="btn_style1"  />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input type="button" value="Lsh" class="btn_style2" />
+                        </td>
+                        <td>
+                            <input type="button" value="Rsh" class="btn_style2" />
+                        </td>
+                        <td>
+                            <input type="button" value="E" class="btn_style1" disabled="disabled" />
+                        </td>
+                        <td>
+                            <input type="button" onclick="cifra1()" value="1" class="btn_style3" />
+                        </td>
+                        <td>
+                            <input type="button" onclick="cifra2()" value="2" class="btn_style3" />
+                        </td>
+                        <td>
+                            <input type="button" value="3" class="btn_style3" onclick="cifra3()"/>
+                        </td>
+                        <td>
+                            <input type="button" onclick="minus()" value="-" class="btn_style2" />
+                        </td>
+                        <td rowspan="2">
+                            <input type="button" onclick="equals()" value="=" id="button_equal" class="btn_style2" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input type="button" value="Not" class="btn_style2" />
+                        </td>
+                        <td>
+                            <input type="button" value="And" class="btn_style2" />
+                        </td>
+                        <td>
+                            <input type="button" value="F" class="btn_style1" disabled="disabled" />
+                        </td>
+                        <td colspan="2">
+                            <input type="button" value="0" id="button_zero" class="btn_style3" onclick="cifra0()"/>
+                        </td>
+                        <td>
+                            <input type="button" value="," class="btn_style1" disabled="disabled" />
+                        </td>
+                        <td>
+                            <input type="button" onclick="plus()" value="+" class="btn_style2" />
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    
+</body>
+</html>

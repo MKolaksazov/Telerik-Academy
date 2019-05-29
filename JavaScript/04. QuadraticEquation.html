@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+
+<html>
+<head>CONDITIONAL STATEMENTS
+</head>
+<body>
+<link rel="stylesheet" type="text/css" href="Styling/Styling.css">
+
+<h1 class="h1">Task 06. Quadratic Equation</h1>
+
+<p id="description"><i>
+		Write a script that enters the coefficients a, b and c of a quadratic equation
+		<em>
+		ax<sup>2</sup> + bx + c = 0
+		</em>
+		and calculates and prints its real roots. Note that quadratic equations may have 0, 1 or 2 real roots.
+</i>
+</p>
+<p>
+<article class="div" >
+<form class="jotform-form" accept-charset="utf-8" id="form">
+
+  <div class="form-all" id="menu" style="float:left;">
+    <ul class="form-section">
+      <li class="form-line" id="id_1">
+        <label class="form-label-left" id="label_1" for="input_1"> a </label>
+        <div id="cid_1" class="form-input">
+          <input type="text" class=" form-textbox" data-type="input-textbox" id="input_1" name="q1_first" size="20" value="" />
+        </div>
+      </li>
+      <li class="form-line" id="id_3">
+        <label class="form-label-left" id="label_3" for="input_3"> b </label>
+        <div id="cid_3" class="form-input">
+          <input type="text" class=" form-textbox" data-type="input-textbox" id="input_3" name="q3_second" size="20" value="" />
+        </div>
+      </li>
+      <li class="form-line" id="id_4">
+        <label class="form-label-left" id="label_4" for="input_4"> c </label>
+        <div id="cid_4" class="form-input">
+          <input type="text" class=" form-textbox" data-type="input-textbox" id="input_4" name="q4_third" size="20" value="" />
+        </div>
+      </li>
+      <li class="form-line" id="id_2">
+        <div id="cid_2" class="form-input-wide">
+          <div style="margin-left:156px" class="form-buttons-wrapper">
+            <button id="input_2" class="form-submit-button" type="button" OnClick="Solve()">
+              Enter
+            </button>
+            <div class="qresult"><p><asp:Label id="quadraticEquation" /></p></div>
+          </div>
+        </div>
+       
+      </li>
+      
+    </ul>
+  </div>
+  
+</form>
+
+<div id="content" >
+<img src="Styling/qeformula.jpg">
+<img src="Styling/qegraphs.jpg">
+</div>
+
+<div id="footer" >
+Copyright &copy;</div>
+
+<script src="JsFiles\QuadraticEquation.js"></script>
+</article>
+</body>
+
+</html> 
