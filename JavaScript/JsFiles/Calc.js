@@ -90,52 +90,57 @@
             else display = display + "0";
             document.getElementById("display").innerHTML = display;
         }
+
+        function dot() {
+            display = display + ".";
+            document.getElementById("display").innerHTML = display;
+        }
             
         function plus() {
             if (sign == "-") {
-                result = result - parseInt(display);
+                result = result - Number(display);
                 sign = "+";
             }
             else if (sign == "+") {
-                result = result + parseInt(display);
+                result = result + Number(display);
                 sign = "+";
             }
             else if (sign == "*") {
-                result = result * parseInt(display);
+                result = result * Number(display);
                 sign = "+";
             }
             else if (sign == "/") {
-                result = result / parseInt(display);
+                result = result / Number(display);
                 sign = "+";
             }
             else if (sign == "") {
                 sign = "+";
-                result = parseInt(display);
+                result = Number(display);
             }
 
             display = "0";
-            document.getElementById("display").innerHTML = result;
+            document.getElementById("display").innerHTML = result*1;
         }
         function minus() {
             if (sign == "-"){
-                result = result - parseInt(display);
+                result = result - Number(display);
                 sign = "-";
             }                  
             else if (sign == "+"){
-                result = result + parseInt(display);
+                result = result + Number(display);
                 sign = "-";
             }                  
             else if (sign == "*"){
-                result = result * parseInt(display);
+                result = result * Number(display);
                 sign = "-";
             }                  
             else if (sign == "/") {
-                result = result / parseInt(display);
+                result = result / Number(display);
                 sign = "-";
             }
             else if (sign == "") {
                 sign = "-";
-                result = parseInt(display);
+                result = Number(display);
             }
 
             display = "0";
@@ -143,24 +148,24 @@
         }
         function multiplied() {
             if (sign == "-") {
-                result = result - parseInt(display);
+                result = result - Number(display);
                 sign = "*";
             }
             else if (sign == "+") {
-                result = result + parseInt(display);
+                result = result + Number(display);
                 sign = "*";
             }
             else if (sign == "*") {
-                result = result * parseInt(display);
+                result = result * Number(display);
                 sign = "*";
             }
             else if (sign == "/") {
-                result = result / parseInt(display);
+                result = result / Number(display);
                 sign = "*";
             }
             else if (sign == "") {
                 sign = "*";
-                result = parseInt(display);
+                result = Number(display);
             }
 
             display = "0";
@@ -168,24 +173,24 @@
         }
         function divided() {
             if (sign == "-") {
-                result = result - parseInt(display);
+                result = result - Number(display);
                 sign = "/";
             }
             else if (sign == "+") {
-                result = result + parseInt(display);
+                result = result + Number(display);
                 sign = "/";
             }
             else if (sign == "*") {
-                result = result * parseInt(display);
+                result = result * Number(display);
                 sign = "/";
             }
             else if (sign == "/") {
-                result = result / parseInt(display);
+                result = result / Number(display);
                 sign = "/";
             }
             else if (sign == "") {
                 sign = "/";
-                result = parseInt(display);
+                result = Number(display);
             }
 
             display = "0";
@@ -194,24 +199,24 @@
 
         function equals() {
             if (sign == "-") {
-                result = result - parseInt(display);
+                result = result - Number(display);
                 sign = "";
             }
             else if (sign == "+") {
-                result = result + parseInt(display);
+                result = result + Number(display);
                 sign = "";
             }
             else if (sign == "*") {
-                result = result * parseInt(display);
+                result = result * Number(display);
                 sign = "";
             }
             else if (sign == "/") {
-                result = result / parseInt(display);
+                result = result / Number(display);
                 sign = "";
             }
             else if (sign == "") {
                 sign = "";
-                result = parseInt(display);
+                result = Number(display);
             }
 
             display = "0";
@@ -219,21 +224,21 @@
         }
 
         function sqrt() {
-            result = Math.sqrt(parseInt(display));
+            result = Math.sqrt(Number(display));
             sign = "";
             display = "0";
             document.getElementById("display").innerHTML = result;
         }
 
         function oneDivX() {
-            result = 1 / parseInt(display);
+            result = 1 / Number(display);
             sign = "";
             display = "0";
             document.getElementById("display").innerHTML = result;
         }
 
         function percent() {
-            result = 1 / parseInt(display);
+            result = 1 / Number(display);
             sign = "";
             display = "0";
             document.getElementById("display").innerHTML = result;
