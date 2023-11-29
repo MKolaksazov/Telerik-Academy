@@ -33,7 +33,7 @@ function init()        // initialize the board
                 tile[i].src="x.png";                        // Initial picture: uncovered tile.
                 tile[i].alt='⬛';
                 tile[i].style="position:absolute; height:30px; width: 30px;";
-                tile[i].style.top=(50+Math.floor(i/columns)*30)+'px';        // Place the tile vertically
+                tile[i].style.top=(180+Math.floor(i/columns)*30)+'px';        // Place the tile vertically
                 tile[i].style.left=(400+i%columns*30)+'px';                // and horizontally.
                 tile[i].addEventListener('mousedown',click);        // Function 'click' will be executed when player clicks on a tile.
                 tile[i].id=i;                                        // The id of the tile is its index.
