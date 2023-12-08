@@ -15,9 +15,9 @@ function picture(index)        // This function returns the name of the image of
 function init()        // initialize the board
         {
         document.getElementById('status').innerHTML=('Click on the tiles to reveal them');
-        mines = document.getElementById('mines').value
-        rows = document.getElementById('rows').value
-        columns = document.getElementById('cols').value
+        mines = document.getElementById('mines').value;
+        rows = document.getElementById('rows').value;
+        columns = document.getElementById('cols').value;
         //mines=15;
         //rows=10; columns=10;        // Set the number of mines and the size of the board.
         remaining=mines;        // The number of mines remaining to be found.
@@ -30,8 +30,9 @@ function init()        // initialize the board
                 tile[i].src="x.png";                        // Initial picture: uncovered tile.
                 tile[i].alt='⬛';
                 tile[i].style="position:absolute; height:30px; width: 30px;";
+                        
                 tile[i].style.top=(180+Math.floor(i/columns)*30)+'px';        // Place the tile vertically
-                tile[i].style.left=(400+i%columns*30)+'px';                // and horizontally.
+                tile[i].style.left=(500+i%columns*30)+'px';                // and horizontally.
                 tile[i].addEventListener('mousedown',click);        // Function 'click' will be executed when player clicks on a tile.
                 tile[i].id=i;                                        // The id of the tile is its index.
                 document.body.appendChild(tile[i]);                // Add the tile to the DOM.
