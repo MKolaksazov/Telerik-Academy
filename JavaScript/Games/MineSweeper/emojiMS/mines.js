@@ -15,8 +15,11 @@ function picture(index)        // This function returns the name of the image of
 function init()        // initialize the board
         {
         document.getElementById('status').innerHTML=('Click on the tiles to reveal them');
-        mines=15;
-        rows=10; columns=10;        // Set the number of mines and the size of the board.
+        mines = document.getElementById('mines').value
+        rows = document.getElementById('rows').value
+        columns = document.getElementById('cols').value
+        //mines=15;
+        //rows=10; columns=10;        // Set the number of mines and the size of the board.
         remaining=mines;        // The number of mines remaining to be found.
         tile=[];
         board=[];
