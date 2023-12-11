@@ -4,14 +4,6 @@ function check(x1, y1)        // this function returns the value of the tile usi
                 return board[x1+y1*columns];
         }
 
-
-function picture(index)        // This function returns the name of the image of the tile (uncovered/flag/question mark).
-                        // To be more precise, it returns the last but four letter of the filename of the image.
-                        // It would be more elegant if we created a separate array to indicate it, but I chose this clunky way to shorten the code a bit.
-        {
-        return tile[index].src.substr(tile[index].src.length-5,1);
-        }
-
 function init()        // initialize the board
         {
         document.getElementById('status').innerHTML=('Click on the tiles to reveal them');
@@ -30,9 +22,8 @@ function init()        // initialize the board
                 tile[i].src="x.png";                        // Initial picture: uncovered tile.
                 tile[i].alt='⬛';
                 tile[i].style="position:absolute; height:30px; width: 30px;";
-                        
                 tile[i].style.top=(180+Math.floor(i/columns)*30)+'px';        // Place the tile vertically
-                tile[i].style.left=(500+i%columns*30)+'px';                // and horizontally.
+                tile[i].style.left=(400+i%columns*30)+'px';                // and horizontally.
                 tile[i].addEventListener('mousedown',click);        // Function 'click' will be executed when player clicks on a tile.
                 tile[i].id=i;                                        // The id of the tile is its index.
                 document.body.appendChild(tile[i]);                // Add the tile to the DOM.
@@ -70,7 +61,12 @@ function init()        // initialize the board
                         }
         }
 
-
+function picture(index)        // This function returns the name of the image of the tile (uncovered/flag/question mark).
+                        // To be more precise, it returns the last but four letter of the filename of the image.
+                        // It would be more elegant if we created a separate array to indicate it, but I chose this clunky way to shorten the code a bit.
+        {
+        return tile[index].src.substr(tile[index].src.length-5,1);
+        }
 
 function click(event)
         {
@@ -96,10 +92,8 @@ function click(event)
                         {
                         for (i=0;i<rows*columns;i++)
                                 {
-                                if(board[i]=='mine') { tile[i].src="m.png";        // show all the mines,
-                                                      tile[i].alt="💣"; }
-                                if(board[i]!='mine'&&picture(i)=='f') { tile[i].src="e.png";        // show a strike-through mine where flags were placed incorrectly.
-                                                                         tile[i].alt="💥"; }
+                                if(board[i]=='mine') tile[i].src="m.png";        // show all the mines,
+                                if(board[i]!='mine'&&picture(i)=='f') tile[i].src="e.png";        // show a strike-through mine where flags were placed incorrectly.
                                 }
 
                         document.getElementById('status').innerHTML='GAME OVER<br><br>Click here to restart';
@@ -124,21 +118,21 @@ function reveal(index)        // Uncover the tile
                 var y=Math.floor(index/columns);
                 if(board[index]==0)        // If the value of the current tile is zero, check all the neighboring tiles:
                 {
-                if(x>0&&picture(index-1) == "x")        reveal(index-1);                                        // left
+                if(x>0&&picture(index-1)=="x")        reveal(index-1);                                        // left
 
-                if(x<(columns-1)&&tile[+index+1].alt == "⬛") reveal(+index+1);                                // right
+                if(x<(Number(columns)-1)&&picture(+index+1)=="x") reveal(+index+1);                                // right
 
-                if(y<(rows-1)&&tile[+index+columns].alt == "⬛") reveal(+index+columns);                        // down
+                if(y<(Number(rows)-1)&&picture(+index+Number(columns))=="x") reveal(+index+Number(columns));                        // down
 
-                if(y>0&&tile[index-columns].alt == "⬛") reveal(index-columns);                                // up
+                if(y>0&&picture(index-Number(columns))=="x") reveal(index-Number(columns));                                // up
 
-                if(x>0&&y>0&&tile[index-columns-1].alt == "⬛") reveal(index-columns-1);                        // up & left
+                if(x>0&&y>0&&picture(index-Number(columns)-1)=="x") reveal(index-Number(columns)-1);                        // up & left
 
-                if(x<(columns-1)&&y<(rows-1)&&tile[+index+columns+1].alt == "⬛") reveal(+index+columns+1);        // down & right
+                if(x<(Number(columns)-1)&&y<(Number(rows)-1)&&picture(+index+Number(columns)+1)=="x") reveal(+index+Number(columns)+1);        // down & right
 
-                if(x>0&&y<(rows-1)&&y<(rows-1)&&tile[+index+columns-1].alt == "⬛") reveal(+index+columns-1);                // down & left
+                if(x>0&&y<(Number(rows)-1)&&y<(Number(rows)-1)&&picture(+index+Number(columns)-1)=="x") reveal(+index+Number(columns)-1);                // down & left
 
-                if(x<(columns-1)&&y>0&&y<(rows-1)&&tile[+index-columns+1].alt == "⬛") reveal(+index-columns+1);                // up & right
+                if(x<(Number(columns)-1)&&y>0&&y<(Number(rows)-1)&&picture(+index-Number(columns)+1)=="x") reveal(+index-Number(columns)+1);                // up & right
 
                 }
 
