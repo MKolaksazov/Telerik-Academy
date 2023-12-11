@@ -124,21 +124,21 @@ function reveal(index)        // Uncover the tile
                 var y=Math.floor(index/columns);
                 if(board[index]==0)        // If the value of the current tile is zero, check all the neighboring tiles:
                 {
-                if(x>0&&picture(index-1)=="x")        reveal(index-1);                                        // left
+                if(x>0&&picture(index-1)=="x" or "⬛")        reveal(index-1);                                        // left
 
-                if(x<(columns-1)&&picture(+index+1)=="x") reveal(+index+1);                                // right
+                if(x<(columns-1)&&picture(+index+1)=="x" or "⬛") reveal(+index+1);                                // right
 
-                if(y<(rows-1)&&picture(+index+columns)=="x") reveal(+index+columns);                        // down
+                if(y<(rows-1)&&picture(+index+columns)=="x" or "⬛") reveal(+index+columns);                        // down
 
-                if(y>0&&picture(index-columns)=="x") reveal(index-columns);                                // up
+                if(y>0&&picture(index-columns)=="x" or "⬛") reveal(index-columns);                                // up
 
-                if(x>0&&y>0&&picture(index-columns-1)=="x") reveal(index-columns-1);                        // up & left
+                if(x>0&&y>0&&picture(index-columns-1)=="x" or "⬛") reveal(index-columns-1);                        // up & left
 
-                if(x<(columns-1)&&y<(rows-1)&&picture(+index+columns+1)=="x") reveal(+index+columns+1);        // down & right
+                if(x<(columns-1)&&y<(rows-1)&&picture(+index+columns+1)=="x" or "⬛") reveal(+index+columns+1);        // down & right
 
-                if(x>0&&y<(rows-1)&&y<(rows-1)&&picture(+index+columns-1)=="x") reveal(+index+columns-1);                // down & left
+                if(x>0&&y<(rows-1)&&y<(rows-1)&&picture(+index+columns-1)=="x" or "⬛") reveal(+index+columns-1);                // down & left
 
-                if(x<(columns-1)&&y>0&&y<(rows-1)&&picture(+index-columns+1)=="x") reveal(+index-columns+1);                // up & right
+                if(x<(columns-1)&&y>0&&y<(rows-1)&&picture(+index-columns+1)=="x" or "⬛") reveal(+index-columns+1);                // up & right
 
                 }
 
