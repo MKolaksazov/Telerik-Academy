@@ -116,7 +116,7 @@ function click(event)
 
 function reveal(index)        // Uncover the tile
         {
-        if(board[index]!='mine'&&picture(index)=="x")        // If it's covered and not a mine:
+        if(board[index]!='mine'&&picture(index)=="⬛")        // If it's covered and not a mine:
                 revealed++;                 // If it was uncovered, increase the count of revealed tiles.
                 tile[index].src=board[index]+".png";        // Uncover the tile.
                 tile[index].alt=board[index];
