@@ -9,7 +9,7 @@ function picture(index)        // This function returns the name of the image of
                         // To be more precise, it returns the last but four letter of the filename of the image.
                         // It would be more elegant if we created a separate array to indicate it, but I chose this clunky way to shorten the code a bit.
         {
-        return tile[index].src.substr(tile[index].src.length-5,1);
+        return tile[index].alt  //.src.substr(tile[index].src.length-5,1);
         }
 
 function init()        // initialize the board
@@ -124,21 +124,21 @@ function reveal(index)        // Uncover the tile
                 var y=Math.floor(index/columns);
                 if(board[index]==0)        // If the value of the current tile is zero, check all the neighboring tiles:
                 {
-                if(x>0&&tile[index-1] == "⬛")        reveal(index-1);                                        // left
+                if(x>0&&tile[index-1].alt == "⬛")        reveal(index-1);                                        // left
 
-                if(x<(columns-1)&&tile[+index+1] == "⬛") reveal(+index+1);                                // right
+                if(x<(columns-1)&&tile[+index+1].alt == "⬛") reveal(+index+1);                                // right
 
-                if(y<(rows-1)&&tile[+index+columns] == "⬛") reveal(+index+columns);                        // down
+                if(y<(rows-1)&&tile[+index+columns].alt == "⬛") reveal(+index+columns);                        // down
 
-                if(y>0&&tile[index-columns] == "⬛") reveal(index-columns);                                // up
+                if(y>0&&tile[index-columns].alt == "⬛") reveal(index-columns);                                // up
 
-                if(x>0&&y>0&&tile[index-columns-1] == "⬛") reveal(index-columns-1);                        // up & left
+                if(x>0&&y>0&&tile[index-columns-1].alt == "⬛") reveal(index-columns-1);                        // up & left
 
-                if(x<(columns-1)&&y<(rows-1)&&tile[+index+columns+1] == "⬛") reveal(+index+columns+1);        // down & right
+                if(x<(columns-1)&&y<(rows-1)&&tile[+index+columns+1].alt == "⬛") reveal(+index+columns+1);        // down & right
 
-                if(x>0&&y<(rows-1)&&y<(rows-1)&&tile[+index+columns-1] == "⬛") reveal(+index+columns-1);                // down & left
+                if(x>0&&y<(rows-1)&&y<(rows-1)&&tile[+index+columns-1].alt == "⬛") reveal(+index+columns-1);                // down & left
 
-                if(x<(columns-1)&&y>0&&y<(rows-1)&&tile[+index-columns+1] == "⬛") reveal(+index-columns+1);                // up & right
+                if(x<(columns-1)&&y>0&&y<(rows-1)&&tile[+index-columns+1].alt == "⬛") reveal(+index-columns+1);                // up & right
 
                 }
 
