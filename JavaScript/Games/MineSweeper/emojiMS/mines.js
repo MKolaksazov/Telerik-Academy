@@ -9,7 +9,7 @@ function picture(index)        // This function returns the name of the image of
                         // To be more precise, it returns the last but four letter of the filename of the image.
                         // It would be more elegant if we created a separate array to indicate it, but I chose this clunky way to shorten the code a bit.
         {
-        return tile[index].alt  //.src.substr(tile[index].src.length-5,1);
+        return tile[index].src.substr(tile[index].src.length-5,1);
         }
 
 function init()        // initialize the board
@@ -116,7 +116,7 @@ function click(event)
 
 function reveal(index)        // Uncover the tile
         {
-        if(board[index]!='mine'&&picture(index)=="⬛")        // If it's covered and not a mine:
+        if(board[index]!='mine'&&picture(index)=="x")        // If it's covered and not a mine:
                 revealed++;                 // If it was uncovered, increase the count of revealed tiles.
                 tile[index].src=board[index]+".png";        // Uncover the tile.
                 tile[index].alt=board[index];
@@ -124,7 +124,7 @@ function reveal(index)        // Uncover the tile
                 var y=Math.floor(index/columns);
                 if(board[index]==0)        // If the value of the current tile is zero, check all the neighboring tiles:
                 {
-                if(x>0&&tile[index-1].alt == "⬛")        reveal(index-1);                                        // left
+                if(x>0&&picture(index-1) == "x")        reveal(index-1);                                        // left
 
                 if(x<(columns-1)&&tile[+index+1].alt == "⬛") reveal(+index+1);                                // right
 
