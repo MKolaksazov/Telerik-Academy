@@ -5,6 +5,18 @@ var boxes = document.getElementsByClassName("box");
 var modul = document.querySelector(".modul");
 var start = document.querySelector(".start");
 
+
+var savedScores = JSON.parse(localStorage.getItem('highscore')) || {};
+var scoretable = document.getElementById('scoretable');
+var scores = document.getElementById('score');
+
+function populateTable() {
+  const sc = Object.entries(savedScores);
+  scoretable.innerHTML = sc.map(([k,v]) => {
+    return `<tr><td>${k}</td><td>${v}</tr>`;
+  }).join('');
+}
+
 var table = {
   rowsCols: 21,
   boxes: 21*21
@@ -29,6 +41,7 @@ var snake = {
     snake.canTurn = 0;
     snakeTable.innerHTML = "";
     tableCreation();
+    populateTable();
   }
 };
 
@@ -61,6 +74,18 @@ function stopp() {
   clearInterval(setInt);
   snake.final = snake.score;
   start.querySelector("span").innerHTML = snake.final + " Points !";
+  worstScore = Object.values(savedScores)[savedScores.length - 1] || 0;
+  if (worstScore < snake.final) {
+    const clicker = window.prompt(`Congrats, you've achieved a top score of ${snake.final}! Write your name below`);
+    savedScores[clicker] = snake.final;
+    const entries = Object.entries(savedScores);
+    entries.sort((x, y) => y[1] - x[1]);
+    if (entries.length > 5) {entries[entries.length - 1].pop();}
+    const obj = Object.fromEntries(entries.map(([k, v]) => [k, v]));
+    localStorage.setItem('highscore', JSON.stringify(obj))
+  }
+
+  //scores.innerHTML = 'Highscores: ' + JSON.stringify(savedScores);
   setTimeout(function() {
     start.querySelector("span").innerHTML = "Play Snake";
   }, 1500);
@@ -123,7 +148,7 @@ function hitSnake() {
       // console.log("snake hit");
       stopp();
     }
-  } 
+  }
 }
 
 // checks food contact
@@ -156,7 +181,7 @@ function randomFood() {
     randomX = Math.floor(Math.random() * table.rowsCols);
     randomY = Math.floor(Math.random() * table.rowsCols);
     random = randomX + randomY * table.rowsCols;
-  }  
+  }
   boxes[random].classList.add("food");
   foodPos = [randomX, randomY];
 }
