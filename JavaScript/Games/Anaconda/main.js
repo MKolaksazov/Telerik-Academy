@@ -4,6 +4,7 @@ var snakeTable = document.querySelector(".snakeTable");
 var boxes = document.getElementsByClassName("box");
 var modul = document.querySelector(".modul");
 var start = document.querySelector(".start");
+var reset = document.querySelector("#reset");
 
 
 var savedScores = JSON.parse(localStorage.getItem('highscore')) || {'aaa':0,'bbb':0,'ccc':0,'ddd':0,'eee':0};
@@ -15,6 +16,12 @@ function populateTable() {
   scoretable.innerHTML = sc.map(([k,v]) => {
     return `<tr><td>${k}</td><td>${v}</tr>`;
   }).join('');
+}
+
+function resetHiScore() {
+  savedScores = {'aaa':0,'bbb':0,'ccc':0,'ddd':0,'eee':0};
+  localStorage.setItem('highscore', JSON.stringify(savedScores));
+  populateTable();
 }
 
 var table = {
@@ -49,6 +56,7 @@ var snake = {
 snake.init();
 
 start.addEventListener("click", startSnake);
+reset.addEventListener("click", resetHiScore);
 
 document.addEventListener("keydown", function(e) {
   if (e.keyCode === 13 && snake.time === 0) {
@@ -81,12 +89,12 @@ function stopp() {
     savedScores[clicker] = snake.final;
     const entries = Object.entries(savedScores);
     entries.sort((x, y) => y[1] - x[1]);
-    console.log(JSON.stringify(entries));
+    //console.log(JSON.stringify(entries));
     if (entries.length > 5) {entries.pop();}
-    console.log(JSON.stringify(entries));
+    //console.log(JSON.stringify(entries));
     savedScores = Object.fromEntries(entries.map(([k, v]) => [k, v]));
-    console.log(JSON.stringify(savedScores));
-    localStorage.setItem('highscore', JSON.stringify(savedScores))
+    //console.log(JSON.stringify(savedScores));
+    localStorage.setItem('highscore', JSON.stringify(savedScores));
   }
 
   //scores.innerHTML = 'Highscores: ' + JSON.stringify(savedScores);
