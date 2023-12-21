@@ -6,7 +6,7 @@ var modul = document.querySelector(".modul");
 var start = document.querySelector(".start");
 
 
-var savedScores = {'aaa':0,'bbb':0,'ccc':0,'ddd':0,'eee':0};//JSON.parse(localStorage.getItem('highscore')) || {};
+var savedScores = JSON.parse(localStorage.getItem('highscore')) || {'aaa':0,'bbb':0,'ccc':0,'ddd':0,'eee':0};
 var scoretable = document.getElementById('scoretable');
 var scores = document.getElementById('score');
 
