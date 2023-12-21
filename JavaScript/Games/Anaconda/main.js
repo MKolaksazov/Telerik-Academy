@@ -14,7 +14,7 @@ var scores = document.getElementById('score');
 function populateTable() {
   const sc = Object.entries(savedScores);
   scoretable.innerHTML = sc.map(([k,v]) => {
-    return `<tr><td>${k}</td><td>${v}</tr>`;
+    return `<tr><td class='ellipsis'>${k}</td><td>${v}</tr>`;
   }).join('');
 }
 
