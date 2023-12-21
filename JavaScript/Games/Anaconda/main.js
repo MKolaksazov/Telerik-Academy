@@ -6,7 +6,7 @@ var modul = document.querySelector(".modul");
 var start = document.querySelector(".start");
 
 
-var savedScores = JSON.parse(localStorage.getItem('highscore')) || {};
+var savedScores = {'aaa':0,'bbb':0,'ccc':0,'ddd':0,'eee':0};//JSON.parse(localStorage.getItem('highscore')) || {};
 var scoretable = document.getElementById('scoretable');
 var scores = document.getElementById('score');
 
@@ -58,6 +58,7 @@ document.addEventListener("keydown", function(e) {
 
 // start game
 function startSnake() {
+  //populateTable();
   modul.classList.add("hidden");
   // clearInterval(checkPageInterval);
   snake.time = 1;
@@ -80,9 +81,12 @@ function stopp() {
     savedScores[clicker] = snake.final;
     const entries = Object.entries(savedScores);
     entries.sort((x, y) => y[1] - x[1]);
-    if (entries.length > 5) {entries[entries.length - 1].pop();}
-    const obj = Object.fromEntries(entries.map(([k, v]) => [k, v]));
-    localStorage.setItem('highscore', JSON.stringify(obj))
+    console.log(JSON.stringify(entries));
+    if (entries.length > 5) {entries.pop();}
+    console.log(JSON.stringify(entries));
+    savedScores = Object.fromEntries(entries.map(([k, v]) => [k, v]));
+    console.log(JSON.stringify(savedScores));
+    localStorage.setItem('highscore', JSON.stringify(savedScores))
   }
 
   //scores.innerHTML = 'Highscores: ' + JSON.stringify(savedScores);
