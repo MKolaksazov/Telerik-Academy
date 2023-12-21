@@ -1,5 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
 
+
 * {
   margin: 0;
   padding: 0;
@@ -129,6 +130,28 @@ header {
   cursor: pointer;
 }
 .start span:hover {
+  background: #16a085;
+  color: white;
+}
+
+#reset {
+  background: rgba(256,256,256,1);
+  padding: 4px 0px;
+  box-shadow: 0 0 rgba(0,0,0,0.3);
+  border-radius: 2px;
+}
+
+#reset span {
+  color: #16a085;
+  border: 1px solid;
+  border-radius: 2px;
+  padding: 5px 10px;
+  font-size: 20px;
+  font-family: 'Press Start 2P';
+  cursor: pointer;
+}
+
+#reset span:hover {
   background: #16a085;
   color: white;
 }
