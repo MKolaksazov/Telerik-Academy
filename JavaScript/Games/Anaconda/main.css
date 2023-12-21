@@ -171,3 +171,10 @@ footer a:hover {
   color: white;
   text-decoration: underline;
 }
+
+.ellipsis {
+    max-width: 80px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+}
