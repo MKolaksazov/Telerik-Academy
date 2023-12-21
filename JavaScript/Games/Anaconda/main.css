@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
 * {
   margin: 0;
   padding: 0;
@@ -10,7 +12,7 @@ body {
   justify-content: space-between;
   align-items: center;
   min-height: 100vh;
-  font-family: arial;
+  font-family: 'Press Start 2P';
   background: #2ecc71;
   background-image: linear-gradient(to top left, #2980b9, #16a085, #2ecc71);
   position: relative;
