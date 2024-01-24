@@ -32,7 +32,7 @@ integrity='sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00
    </head>
    <body>
       <h1>Sodium Phosphate Buffer Calculator</h1>
-      <form id="bufferForm" class="form-group">
+      <form id="bufferForm" class="container mt-4">
          <label for="pH">Desired pH:</label>
          <input class="form-control" type="number" id="pH" name="pH" min="1" max="14" step="0.1" value="7.4" required>
          <label for="molarity">Desired Molarity [mM]:</label>
@@ -41,7 +41,7 @@ integrity='sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00
          <input class="form-control" type="number" id="finalVolume" name="finalVolume" min="0" value="1000" required>
          <label for="temperature">Preparation Temperature [<sup>o</sup>C]:</label>
          <input class="form-control" type="number" id="temperature" name="temperature" min="0" step="1" required>
-         <button calss="btn btn-primary btn-block" type="button" onclick="calculateBuffer();">Calculate Buffer Composition</button>
+         <button class="btn btn-primary btn-block" type="button" onclick="calculateBuffer();">Calculate Buffer Composition</button>
       </form>
       <div id="bufferResult"></div>
       <script>
