@@ -33,14 +33,30 @@ integrity='sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00
    <body>
       <h1 class="container mt-4">Sodium Phosphate Buffer Calculator</h1>
       <form id="bufferForm" class="container mt-4">
-         <label for="pH">Desired pH:</label>
+	      	<div class="input-group mb-3" style="width: 25%;">
+  			<span class="input-group-text" id="basic-addon1">Desired pH:</span>
+  			<input class="form-control" type="number" id="pH" name="pH" min="1" max="14" step="0.1" value="7.4" required>
+		</div>
+	      	<div class="input-group mb-3" style="width: 25%;">
+  			<span class="input-group-text" id="basic-addon1">Desired Molarity [mM]:</span>
+  			<input class="form-control" type="number" id="molarity" name="molarity" min="0" step="1" value="100" required>
+		</div>
+	      	<div class="input-group mb-3" style="width: 25%;">
+  			<span class="input-group-text" id="basic-addon1">Final Volume [mL]:</span>
+  			<input class="form-control" type="number" id="finalVolume" name="finalVolume" min="0" value="1000" required>
+		</div>
+	      	<div class="input-group mb-3" style="width: 25%;">
+  			<span class="input-group-text" id="basic-addon1">Preparation Temperature [<sup>o</sup>C]:</span>
+  			<input class="form-control" type="number" id="temperature" name="temperature" min="0" step="1" required>
+		</div>
+         <!--label for="pH">Desired pH:</label>
          <input class="f" type="number" id="pH" name="pH" min="1" max="14" step="0.1" value="7.4" required>
          <label for="molarity">Desired Molarity [mM]:</label>
          <input class="f" type="number" id="molarity" name="molarity" min="0" step="1" value="100" required>
          <label for="finalVolume">Final Volume [mL]:</label>
          <input class="f" type="number" id="finalVolume" name="finalVolume" min="0" value="1000" required>
          <label for="temperature">Preparation Temperature [<sup>o</sup>C]:</label>
-         <input class="f" type="number" id="temperature" name="temperature" min="0" step="1" required>
+         <input class="f" type="number" id="temperature" name="temperature" min="0" step="1" required-->
          <button class="btn btn-primary btn-block" type="button" onclick="calculateBuffer();">Calculate Buffer Composition</button>
       </form>
       <div class="container mt-4" id="bufferResult"></div>
