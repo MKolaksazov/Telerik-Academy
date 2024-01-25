@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+?<!DOCTYPE html>
 <html lang="en">
    <head>
       <meta charset="UTF-8">
@@ -8,20 +8,24 @@
 integrity='sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/' crossorigin='anonymus'>
 	<link rel='stylesheet' href="https://bootswatch.com/4/yeti/bootstrap.min.css">
       <style>
-         .form {
+         .contaner {
          padding: 5px 0px 5px 0px;
          display: flex;
          }
-         .input-group-mb-3 {
+         .input-group-mb-3 { display: block;
+	 width: 25%;
          margin: 15px 0px 15px 0px;
-         flex: 0 3 auto;
+	 padding: 1px;
+         flex: 0 0 auto;
          }
+	.form-control { margin-top: -1px; }
+	.btn { width: 100%; }
    </style>
    </head>
    <body>
       <h1 class="container mt-4">Sodium Phosphate Buffer Calculator</h1>
       <form id="bufferForm" class="container mt-4">
-	<div class="form">
+      <div class="contaner">
 	      	<div class="input-group-mb-3">
   			<span class="input-group-text" id="basic-addon1">Desired pH:</span>
   			<input class="form-control" type="number" id="pH" name="pH" min="1" max="14" step="0.1" value="7.4" required>
@@ -38,7 +42,8 @@ integrity='sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00
   			<span class="input-group-text" id="basic-addon1">Preparation Temperature [<sup>o</sup>C]:</span>
   			<input class="form-control" type="number" id="temperature" name="temperature" min="0" step="1" value="20" required>
 		</div>
-           </div>
+         
+         </div>
          <button class="btn btn-primary btn-block" type="button" onclick="calculateBuffer();">Calculate Buffer Composition</button>
       </form>
       <div class="container mt-4" id="bufferResult"></div>
