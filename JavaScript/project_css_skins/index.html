@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+      <meta charset="UTF-8">
+      <title>Sodium Phosphate Buffer Calculator</title>
+      
+<link rel='http://use.fontawesome.com/releases/v5.6.3/css/all.css' 
+integrity='sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/' crossorigin='anonymus'>
+	<link rel='stylesheet' href="https://bootswatch.com/4/yeti/bootstrap.min.css">
+	<link rel='stylesheet' href="glitch_button.css">
+	<link rel='stylesheet' href="glitch_screen.css">
+	<link rel='stylesheet' href="style.css">
+	<link rel='stylesheet' href="aaanimated.css">
+	<link rel='stylesheet' href="neon.css">
+	<link rel='stylesheet' href="blanking.css">
+
+   </head>
+
+   <body>
+<div class="container">
+
+<h1 class="container mt-4" id="neonText">Sodium Phosphate Buffer Calculator</h1>
+
+      <form id="bufferForm" class="container mt-4">
+          <div class="contaner">
+	
+	      	<div class="input-group-mb-3">
+  			<span class="input-group-text" id="basic-addon1">Desired pH:</span>
+  			<input class="form-control" type="text" id="pH" name="pH" min="1" max="14" step="0.1" value="7.4" required>
+		</div>
+	      	<div class="input-group-mb-3">
+  			<span class="input-group-text" id="basic-addon1">Desired Molarity [mM]:</span>
+  			<input class="form-control" type="text" id="molarity" name="molarity" min="0" step="1" value="100" required>
+		</div>
+	      	<div class="input-group-mb-3">
+  			<span class="input-group-text" id="basic-addon1">Final Volume [mL]:</span>
+  			<input class="form-control" type="text" id="finalVolume" name="finalVolume" min="0" value="1000" required>
+		</div>
+	      	<div class="input-group-mb-3">
+  			<span class="input-group-text" id="basic-addon1">Preparation Temperature [<sup>o</sup>C]:</span>
+  			<input class="form-control" type="text" id="temperature" name="temperature" min="0" step="1" value="20" required>
+		</div>
+         
+       	    </div>
+
+<button class="cybr-btn" type="button" onclick="calculateBuffer();">
+  Calculate Buffer Composition<span>_</span>
+  <span class="cybr-btn__glitch">Glitchssss_</span>
+  <span class="cybr-btn__tag">T20<sup>o</sup></span>
+</button>
+
+<div class="co">
+  <div class="stack" style="--stacks: 3;">
+    <span style="--index: 0;" id="bufferResult"></span>
+    <span style="--index: 1;" id="bufferResult"></span>
+    <span style="--index: 2;" id="bufferResult"></span>
+  </div>
+</div>
+
+</form>
+</div>
+
+
+      <script src="calculation.js">
+      </script>
+   </body>
+</html>
