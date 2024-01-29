@@ -1,0 +1,11 @@
+
+    .stack { background-color: #222; font-size: 1.5em; padding: 0em 0.25em; }
+    /* .stack { border: 0px 0 #a1b19d; border-radius: 17px 18px 18px 19px; } */
+    .stack  { background: linear-gradient(to bottom, #222, #222 50%, #2a2a2a 50%, #2a2a2a); background-size: 100% 4px; }
+    #bufferResult { white-space: pre-wrap; word-wrap: break-word; }
+    #bufferResult { text-shadow: 0 0 3px #00ffa5; text-shadow: 0 0 10px #00ffa5; }
+    #buafferResult::after { content: "_"; font-weight: bold; animation: blinking 0.75s step-end infinite; }
+    .stack  { font-weight: bold; animation: blanking 0.01333s step-end infinite; }
+
+@keyframes bliinking { from, to { visibility: hidden; } 50% { visibility: visible; } }
+@keyframes blanking { from, to { visibility: hidden; } 50% { visibility: visible; } }
