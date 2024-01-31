@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+      <meta charset="UTF-8">
+      <title>Sodium Phosphate Buffer Calculator</title>
+
+<link rel='http://use.fontawesome.com/releases/v5.6.3/css/all.css'
+integrity='sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/' crossorigin='anonymus'>
+	<link rel='stylesheet' href="https://bootswatch.com/4/yeti/bootstrap.min.css">
+	<link rel='stylesheet' href="style.css">
+      <style>
+
+   </style>
+   </head>
+   <body>
+      <h1 class="container mt-4">Sodium Phosphate Buffer Calculator</h1>
+      <form id="bufferForm" class="container mt-4">
+      <div class="contaner">
+	      	<div class="input-group-mb-3">
+  			<span class="input-group-text" id="basic-addon1">Desired pH:</span>
+  			<input class="form-control" type="number" id="pH" name="pH" min="1" max="14" step="0.1" value="7.4" required>
+		</div>
+	      	<div class="input-group-mb-3">
+  			<span class="input-group-text" id="basic-addon1">Desired Molarity [mM]:</span>
+  			<input class="form-control" type="number" id="molarity" name="molarity" min="0" step="1" value="100" required>
+		</div>
+	      	<div class="input-group-mb-3">
+  			<span class="input-group-text" id="basic-addon1">Final Volume [mL]:</span>
+  			<input class="form-control" type="number" id="finalVolume" name="finalVolume" min="0" value="1000" required>
+		</div>
+	      	<div class="input-group-mb-3">
+  			<span class="input-group-text" id="basic-addon1">Preparation Temperature [<sup>o</sup>C]:</span>
+  			<input class="form-control" type="number" id="temperature" name="temperature" min="0" step="1" value="20" required>
+		</div>
+
+         </div>
+         <button class="button aqua" class="btn btn-primary btn-block" type="button" onclick="calculateBuffer();">
+         <div class="glare"></div>Calculate Buffer Composition</button>
+      </form>
+      <div class="container mt-4" id="bufferResult"></div>
+      <script>
+         function calculateBuffer() {
+
+const pH = parseFloat(document.getElementById('pH').value);
+const molarity = parseFloat(document.getElementById('molarity').value);
+const volume = parseFloat(document.getElementById('finalVolume').value);
+const temperature = parseFloat(document.getElementById('temperature').value);
+
+// Calculate the concentrations of sodium phosphate and disodium phosphate
+const MW_NaH2PO4_7H2O = 268.074; // Molecular weight of sodium phosphate dibasic heptahydrate
+const MW_Na2HPO4_H2O = 137.99; // Molecular weight of sodium phosphate monobasic monohydrate
+
+if (temperature == 451) { window.location.href = "https://mkolaksazov.github.io/Telerik-Academy/JavaScript/project_css_skins/index.html"; }
+if (temperature == 20)  { window.location.href = "https://mkolaksazov.github.io/Telerik-Academy/JavaScript/NaPosphatebufferCalc.html"; }
+
+// H+ concentration of the desired pH
+	var hyd = Math.exp(-pH*Math.LN10)
+// The three dissociation constants of phosphate
+	var K1 = Math.exp(-2.148*Math.LN10)
+	var K2 = Math.exp(-6.795*Math.LN10)
+	var K3 = Math.exp(-12.319*Math.LN10)
+// ratios
+	var ratio1 = hyd/K1
+	var ratio2 = hyd/K2
+	var ratio3 = hyd/K3
+
+	var ratio0 = 1.0
+	ratio1 = ratio0/ratio1
+	ratio2 = ratio1/ratio2
+	ratio3 = ratio2/ratio3
+
+	var sum=ratio0 + ratio1 + ratio2 + ratio3
+
+	ratio0 = ratio0/sum*molarity/1000
+	ratio1 = ratio1/sum*molarity/1000
+	ratio2 = ratio2/sum*molarity/1000
+	ratio3 = ratio3/sum*molarity/1000
+// amount of the two chemicals in percents
+	var msp = (ratio0 + ratio1)*MW_Na2HPO4_H2O/10
+	var dsp = (ratio2 + ratio3)*MW_NaH2PO4_7H2O/10
+
+	msp = Math.round(msp*10000)/10000
+	dsp = Math.round(dsp*10000)/10000
+// conversion from percentage to mass amount in grams
+    var vmsp = (msp / 100) * volume
+    var vdsp = (dsp / 100) * volume
+
+// Display the buffer composition in the result div
+const resultDiv = document.getElementById('bufferResult');
+resultDiv.innerHTML = `<h2>Buffer Composition</h2>`;
+resultDiv.innerHTML += `<p>pH: ${pH}</p>`;
+resultDiv.innerHTML += `<p>Molarity: ${molarity} mM</p>`;
+resultDiv.innerHTML += `<p>Final Volume: ${volume} mL</p>`;
+resultDiv.innerHTML += `<p>Temperature: ${temperature} <sup>o</sup>C</p>`;
+resultDiv.innerHTML += `<p>Adjusted amount of NaH<sub>2</sub>PO<sub>4</sub>.7H<sub>2</sub>O: ${dsp.toFixed(2)} %; ${vdsp.toFixed(4)} g</p>`;
+resultDiv.innerHTML += `<p>Adjusted amount of Na<sub>2</sub>HPO<sub>4</sub>.H<sub>2</sub>O: ${msp.toFixed(2)} %; ${vmsp.toFixed(4)} g</p>`;
+
+}
+      </script>
+   </body>
+</html>
