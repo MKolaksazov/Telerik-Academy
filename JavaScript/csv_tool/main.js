@@ -1,27 +1,20 @@
-var data = [];
-var dataT = [];
+
+var numericalData = [];
+var paramsData = [];
 var indexCol = [];
 var protocol = 'OJIP';
 // params gives slice points for parameters from 1) OJIP protocol (466, 493) 2) NPQ protocols (754, 824)
 var params = [466, 493, 754, 824];
 var OJIPdata = [8, 465];
 // NPQ slice points depend on the protocol: 1 2 3
-var NPQdata = [504, 983];
-var slicePoints = [];
-var sliceParams = [];
+var NPQdata = [505, 983]; // 504, 983
 
 document.getElementById('protocol').onchange = function() {
     protocol = document.getElementById("protocol").options[this.selectedIndex].text;
 };
 
 function sliceData(array) {
-
 }
-
-
-
-
-
 
   function readSingleFile(evt) {
   var delimiter = document.getElementById('delimiter').value;
@@ -37,7 +30,6 @@ function sliceData(array) {
           info.innerHTML = ("File <mark>" + f.name + "</mark> uploaded! " + " <b>" + f.type + "</b> " + " " + f.size/1000 + " kB");
 
           var lines = contents.split("\n");
-          //var output = [];
           var array = []
           for (var i=0; i<lines.length; i++){
               if (delimiter == 'tab') { array[i] = lines[i].split("\t"); }
@@ -51,39 +43,26 @@ function sliceData(array) {
           else if (protocol == 'NPQ3') { slicePoints = NPQdata; sliceParams = params.slice(2,4);}
           else { alert('Protocol error!'); }
 
-          data = [];
-          data.push([].concat(indexCol.slice(5, 7), indexCol.slice(slicePoints[0],slicePoints[1])));
+          numericalData = [];
+          var tableData = [];
+          tableData.push(indexCol.slice(5, 983));
+          numericalData.push(indexCol.slice(slicePoints[0],slicePoints[1]));
 
           for(var col=0; col<array[7].length; col++) {
             if (array[7][col] == protocol) {
               var column = array.map(x => x[col]);
-              data.push([].concat(column.slice(5, 7), column.slice(slicePoints[0],slicePoints[1])));
 
-              //console.log(data[0]);
+              tableData.push(column.slice(5, 983));
+              numericalData.push(column.slice(slicePoints[0],slicePoints[1]));
+              paramsData.push(column.slice(sliceParams[0], sliceParams[1]));
+
+              //console.log(numericalData);
             }
           }
 
-          dataT = data[0].map((_, colIndex) => data.map(row => row[colIndex]));
-          createTable(dataT);
-/*
-          indexCol = array.map(x => x[0]);
+          var tableDataT = tableData[0].map((_, colIndex) => tableData.map(row => row[colIndex]));
+          makeTable(tableDataT);
 
-          var OJIPdata = [];
-          OJIPdata.push(indexCol);
-
-          for(var col=0; col<array[7].length; col++) {
-            if (array[7][col] == protocol) {
-              var column = array.map(x => x[col]);
-              OJIPdata.push(column);
-
-              data.push(column.slice(start,end));
-              //console.log(column, data[0], data[1]);
-            }
-          }
-
-          var OJIPdataT = OJIPdata[0].map((_, colIndex) => OJIPdata.map(row => row[colIndex]));
-          createTable(OJIPdataT);
-*/
      }
       r.readAsText(f);
     } else {

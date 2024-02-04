@@ -16,6 +16,7 @@ function arr2obj(arr) {
 }
 
 var dataSets = [];
+var labels = [];
 var dataGraph = [];
 var speedCanvas = document.getElementById("myChart");
 
@@ -25,10 +26,11 @@ Chart.defaults.global.defaultFontSize = 12;
 function loopData(indices) {
   dataSets = [];
   indices.forEach((index) => {
-      var inputData = [data[0].slice(3,slicePoints[1]),data[index].slice(3,slicePoints[1])];
-      var JsonObject = JSON.parse(JSON.stringify(inputData));
-      if (protocol == 'OJIP') { var newData = arr2obj(JsonObject); }
-      else { var newData = inputData; }
+
+    var inputData = [numericalData[0],numericalData[index]]; //console.log(inputData);
+    var JsonObject = JSON.parse(JSON.stringify(inputData));
+    if (protocol == 'OJIP') { var newData = arr2obj(JsonObject); }
+    else { var newData = inputData[1]; labels = inputData[0]; }
 
       dataGraph = {
         label: protocol + " " + index,
@@ -45,8 +47,14 @@ function loopData(indices) {
 function makeGraph() {
 
   if (colsSelected.length === 0) { alert('Error! Column(s) not selected!'); }
+  else { loopData(colsSelected); }
 
   if (protocol == 'OJIP') {
+    var speedData = {
+      //labels: ["0s", "10s", "20s", "30s", "40s", "50s", "60s"], NONE!
+      datasets: dataSets
+    };
+
      var scales =  {
       xAxes: [{
           scaleLabel: {
@@ -58,6 +66,7 @@ function makeGraph() {
               min: 20, //minimum tick
               max: 2000000, //maximum tick
               maxTicksLimit: 20,
+
               callback: function (value, index, values) {
                   if (value === 1000000) return "";
                   if (value === 100000) return "1000";
@@ -68,7 +77,9 @@ function makeGraph() {
                   if (value === 1) return "0.01";
                   return null;
               }
+
           },
+
               afterBuildTicks: function (chartObj) { //Build ticks labelling as per your need
                   chartObj.ticks = [];
                   chartObj.ticks.push(100);
@@ -77,6 +88,7 @@ function makeGraph() {
                   chartObj.ticks.push(100000);
                   chartObj.ticks.push(1000000);
               }
+
       }],
       yAxes: [{
           display: true,
@@ -89,39 +101,29 @@ function makeGraph() {
               max: 70000, //maximum tick
           },
       }]
-    }
+    };
   }
-  else { var scales = {
+  else {
+    var speedData = {
+      labels: labels,
+      datasets: dataSets
+    };
+    var scales = {
 
       xAxes: [{
           scaleLabel: {
               display: true,
               labelString: 'time [ms]',
           },
-          //type: 'logarithmic',
+          type: 'linear',
           ticks: {
-              min: 0, //minimum tick
+              min: 200000, //minimum tick
               max: 200000000, //maximum tick
-              maxTicksLimit: 20,
+              //maxTicksLimit: 2000000,
               callback: function (value, index, values) {
-                  if (value === 1000000) return "";
-                  if (value === 100000) return "1000";
-                  if (value === 10000) return "100";
-                  if (value === 1000) return "10";
-                  if (value === 100) return "1";
-                  if (value === 10) return "0.1";
-                  if (value === 1) return "0.01";
-                  return null;
+                  return value / 100000;
               }
           },
-              afterBuildTicks: function (chartObj) { //Build ticks labelling as per your need
-                  chartObj.ticks = [];
-                  chartObj.ticks.push(100);
-                  chartObj.ticks.push(1000);
-                  chartObj.ticks.push(10000);
-                  chartObj.ticks.push(100000);
-                  chartObj.ticks.push(1000000);
-              }
       }],
       yAxes: [{
           display: true,
@@ -131,19 +133,11 @@ function makeGraph() {
           },
           ticks: {
               min: 0, //minimum tick
-              max: 70000, //maximum tick
+              max: 20000, //maximum tick
           },
       }]
 
-  }}
-
-
-  loopData(colsSelected);
-
-var speedData = {
-  //labels: ["0s", "10s", "20s", "30s", "40s", "50s", "60s"], NONE!
-  datasets: dataSets
-};
+  };}
 
 var chartOptions = {
 
@@ -164,6 +158,7 @@ var lineChart = new Chart(speedCanvas, {
   data: speedData,
   options: chartOptions
 });
+
 
 }
 
