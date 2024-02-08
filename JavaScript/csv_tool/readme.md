@@ -12,4 +12,6 @@ https://mkolaksazov.github.io/Telerik-Academy/JavaScript/csv_tool/index.html
 
 6) calculates the OJIP and NPQ parameters and draws graphs
 
+7) implements the graphical library of JavaScript: chart.js
+
 Copyright: M. Kolaksazov, PhD; 2024 (Free to use and copy!)
