@@ -25,28 +25,27 @@ Chart.defaults.global.defaultFontSize = 12;
 //checked(checkboxes);
 function loopData(indices) {
   dataSets = [];
-  indices.forEach((index) => {
+  indices.forEach((index, i) => {
 
-    var inputData = [numericalData[0],numericalData[index]]; //console.log(inputData);
+    var inputData = [numericalData[0],numericalData[index]];
     var JsonObject = JSON.parse(JSON.stringify(inputData));
-    if (protocol == 'OJIP') { var newData = arr2obj(JsonObject); }
-    else { var newData = inputData[1]; labels = inputData[0]; }
+    var newData = arr2obj(JsonObject);
+    const sampleLabel = tbl.children[0].rows[0].childNodes[index].innerText;
 
       dataGraph = {
-        label: protocol + " " + index,
-        data: newData,
+        label: sampleLabel,
+        data: newData, // [12,1231,123,123,123,123,241,323,231,232], //
         lineTension: 0,
         fill: false,
-        borderColor: "hsl("+ (index*1000)/360 +", 100%, 50%)"
+        borderColor: "hsl("+ Math.round(i*(360/indices.length)) +", 100%, 50%)",
       };
 
       dataSets.push(dataGraph);
   });
 }
 
-function makeGraph() {
-
-  if (colsSelected.length === 0) { alert('Error! Column(s) not selected!'); }
+function drawGraph() {
+  if (colsSelected.length === 0) { alert('Error! Column(s) not selected!'); return; }
   else { loopData(colsSelected); }
 
   if (protocol == 'OJIP') {
@@ -68,13 +67,13 @@ function makeGraph() {
               maxTicksLimit: 20,
 
               callback: function (value, index, values) {
-                  if (value === 1000000) return "";
-                  if (value === 100000) return "1000";
-                  if (value === 10000) return "100";
-                  if (value === 1000) return "10";
-                  if (value === 100) return "1";
-                  if (value === 10) return "0.1";
-                  if (value === 1) return "0.01";
+                  if (value === 1000000) return "1000";
+                  if (value === 100000) return "100";
+                  if (value === 10000) return "10";
+                  if (value === 1000) return "1";
+                  if (value === 100) return "0.1";
+                  //if (value === 10) return "0.01";
+                  //if (value === 1) return "0.001";
                   return null;
               }
 
@@ -98,33 +97,47 @@ function makeGraph() {
           },
           ticks: {
               min: 0, //minimum tick
-              max: 70000, //maximum tick
+              //max: 70000, //maximum tick
           },
       }]
     };
   }
   else {
     var speedData = {
-      labels: labels,
+      //labels: labels, // ["0s", "10s", "20s", "30s", "40s", "50s", "60s", "70s", "80s", "80s", "100s"], //
       datasets: dataSets
     };
-    var scales = {
+
+     var scales =  {
 
       xAxes: [{
           scaleLabel: {
               display: true,
-              labelString: 'time [ms]',
+              labelString: 'time [min]',
           },
           type: 'linear',
+          //max:
+          min: 207601,
+
           ticks: {
-              min: 200000, //minimum tick
-              max: 200000000, //maximum tick
-              //maxTicksLimit: 2000000,
+              //min: 207601, //minimum tick
+              //max: 2000000, //maximum tick
+              //maxTicksLimit: 20,
+              //stepsize: 120008201,
               callback: function (value, index, values) {
-                  return value / 100000;
+                return Math.round((value - 1) / 60000000);
               }
           },
+          afterBuildTicks: function (chartObj) { //Build ticks labelling as per your need
+              chartObj.ticks = [];
+              chartObj.ticks.push(207601);
+              chartObj.ticks.push(120008201);
+              chartObj.ticks.push(240520101);
+              chartObj.ticks.push(359220701);
+              chartObj.ticks.push(480913301);
+          },
       }],
+
       yAxes: [{
           display: true,
           scaleLabel: {
@@ -133,7 +146,7 @@ function makeGraph() {
           },
           ticks: {
               min: 0, //minimum tick
-              max: 20000, //maximum tick
+              // max: 20000, //maximum tick
           },
       }]
 

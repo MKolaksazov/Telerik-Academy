@@ -1,20 +1,20 @@
 
+var tableData =[];
+
 var numericalData = [];
 var paramsData = [];
 var indexCol = [];
 var protocol = 'OJIP';
 // params gives slice points for parameters from 1) OJIP protocol (466, 493) 2) NPQ protocols (754, 824)
 var params = [466, 493, 754, 824];
-var OJIPdata = [8, 465];
+var OJIPdata = [8, 465];     // 2001621 : 458
+
 // NPQ slice points depend on the protocol: 1 2 3
 var NPQdata = [505, 983]; // 504, 983
 
 document.getElementById('protocol').onchange = function() {
     protocol = document.getElementById("protocol").options[this.selectedIndex].text;
 };
-
-function sliceData(array) {
-}
 
   function readSingleFile(evt) {
   var delimiter = document.getElementById('delimiter').value;
@@ -36,16 +36,24 @@ function sliceData(array) {
               else { array[i] = lines[i].split(delimiter); }
           }
           indexCol = array.map(x => x[0]);
+          const endOJIP = indexCol.indexOf("2001621");
+          const startNPQ1 = indexCol.indexOf("2443101");
+          const startNPQ2 = indexCol.indexOf("207601");
 
-          if (protocol == 'OJIP') { slicePoints = OJIPdata; sliceParams = params.slice(0,2); }
-          else if (protocol == 'NPQ1') { slicePoints = NPQdata; sliceParams = params.slice(2,4);}
-          else if (protocol == 'NPQ2') { slicePoints = NPQdata; sliceParams = params.slice(2,4);}
-          else if (protocol == 'NPQ3') { slicePoints = NPQdata; sliceParams = params.slice(2,4);}
+          if (protocol == 'OJIP') { slicePoints = [endOJIP-458, endOJIP]; sliceParams = params.slice(0,2); }
+          else if (protocol == 'NPQ1') { slicePoints = [startNPQ1, startNPQ1+159]; sliceParams = params.slice(2,4);}
+          else if (protocol == 'NPQ2') { slicePoints = [startNPQ2, startNPQ2+249]; sliceParams = params.slice(2,4);}
+          else if (protocol == 'NPQ3') { slicePoints = [startNPQ2, startNPQ2+164]; sliceParams = params.slice(2,4);}
           else { alert('Protocol error!'); }
 
           numericalData = [];
-          var tableData = [];
+          tableData = [];
+
+          //console.log(indexCol, indexCol.indexOf("2001621"));
+
           tableData.push(indexCol.slice(5, 983));
+
+          //console.log(tableData, tableData[0].indexOf("2001621"));
           numericalData.push(indexCol.slice(slicePoints[0],slicePoints[1]));
 
           for(var col=0; col<array[7].length; col++) {
@@ -55,8 +63,6 @@ function sliceData(array) {
               tableData.push(column.slice(5, 983));
               numericalData.push(column.slice(slicePoints[0],slicePoints[1]));
               paramsData.push(column.slice(sliceParams[0], sliceParams[1]));
-
-              //console.log(numericalData);
             }
           }
 
@@ -70,6 +76,12 @@ function sliceData(array) {
     }
   }
   document.getElementById('fileinput').addEventListener('change', readSingleFile);
+
+ // document.getElementById('fileinput').addEventListener('click', );
+
+  //document.getElementById('makeGr').addEventListener('click', makeGraph);
+
+
 // ===========================================
   /* When the user clicks on the button,
 toggle between hiding and showing the dropdown content */
@@ -81,11 +93,11 @@ document.querySelector('#protocols:a').addEventListener('click', () => (
     {const selectedValue = document.querySelector('#protocols:a').value;
     console.log(selectedValue);}
 ));
-*/
 
+*/
 // Close the dropdown menu if the user clicks outside of it
 window.onclick = function(event) {
-  if (!event.target.matches('.dropbtn')) {
+  if (!event.target.matches('.dropdn')) {
     var dropdowns = document.getElementsByClassName("dropdown-content");
     var i;
     for (i = 0; i < dropdowns.length; i++) {

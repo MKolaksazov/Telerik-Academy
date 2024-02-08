@@ -28,14 +28,14 @@
       }
 
       function makeAverage() {
-        const table = document.getElementById("table-1");
+        const table = document.getElementById("table-1"); newCol = [];
 
         Array.from(table.rows)
           .forEach(row => {
 
             var averaged = 0;
             for (var selectedIndex=0; selectedIndex<colsSelected.length; selectedIndex++) {
-              var selectedNumber = row.cells[colsSelected[selectedIndex]].textContent;
+              const selectedNumber = row.cells[colsSelected[selectedIndex]].textContent;
               averaged += parseFloat(selectedNumber);
             }
             averaged = averaged / colsSelected.length;
@@ -51,7 +51,8 @@
           });
 
           numericalData.push(newCol.slice(slicePoints[0]-5,slicePoints[1]-5));
-          paramsData.push(newCol.slice(sliceParams[0]-5, sliceParams[1]-5));
+          paramsData.push(newCol.slice(sliceParams[0], sliceParams[1]));
+          tableData.push(newCol);
       }
 
       function makeCheckbox(text, cell, table) {
@@ -84,7 +85,7 @@
       function toggleColumnHighlight(columnIndex, highlight, table) {
         Array.from(table.rows)
           .forEach(row => {
-            row.cells[columnIndex].style.backgroundColor = highlight ? "lightblue" : "";
+            row.cells[columnIndex].style.backgroundColor = highlight ? "lightgreen" : "";
           });
       }
 
