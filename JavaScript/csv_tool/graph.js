@@ -17,7 +17,6 @@ function arr2obj(arr) {
 
 var dataSets = [];
 var labels = [];
-var dataGraph = [];
 var speedCanvas = document.getElementById("myChart");
 
 Chart.defaults.global.defaultFontFamily = "Lato";
@@ -27,12 +26,13 @@ function loopData(indices) {
   dataSets = [];
   indices.forEach((index, i) => {
 
-    var inputData = [numericalData[0],numericalData[index]];
+    var inputData = [tableData[0].slice(slicePoints[0],slicePoints[1]),tableData[index].slice(slicePoints[0],slicePoints[1])];
+
     var JsonObject = JSON.parse(JSON.stringify(inputData));
     var newData = arr2obj(JsonObject);
     const sampleLabel = tbl.children[0].rows[0].childNodes[index].innerText;
 
-      dataGraph = {
+      const dataSet = {
         label: sampleLabel,
         data: newData, // [12,1231,123,123,123,123,241,323,231,232], //
         lineTension: 0,
@@ -40,11 +40,12 @@ function loopData(indices) {
         borderColor: "hsl("+ Math.round(i*(360/indices.length)) +", 100%, 50%)",
       };
 
-      dataSets.push(dataGraph);
+      dataSets.push(dataSet);
   });
 }
 
 function drawGraph() {
+  document.getElementById('myChart').style.height = '500px';
   if (colsSelected.length === 0) { alert('Error! Column(s) not selected!'); return; }
   else { loopData(colsSelected); }
 
@@ -156,9 +157,9 @@ var chartOptions = {
 
   legend: {
     display: true,
-    position: 'top',
+    position: 'right',
     labels: {
-      boxWidth: 80,
+      boxWidth: 40,
       fontColor: 'black'
     }
   },

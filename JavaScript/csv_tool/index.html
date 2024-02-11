@@ -17,7 +17,7 @@
 
             <body>
             <div class="container mt-4">
-              <form ><h1>Tool for extracting fluorescent experimental data</h1>
+              <!--form --><h1>Tool for extracting fluorescent experimental data</h1>
                 <div class="contaner" style="display:flex;">
                   <div class="input-group-mb-3">
                     <span class="input-group-text" id="basic-addon1">delimiter: </span>
@@ -38,8 +38,8 @@
 
                     <!--div class="input-group-mb-3"-->
                     <div class="dropdown">
-                      <div class=" " style="float: left; width: 100%; margin: 2px; "><i class=""></i>
-                        <button class="" id="openmenu"  style="" > menu </button>
+                      <div class=" " style="float: left; width: 100%; margin: 2px; "><div class="glare"></div>
+                        <div class="button aqua" id="openmenu"  style="" > menu </div>
                       </div>
                       <div class="dropdown-content">
                         <div class="input-group-mb-3 menu" style="width: 101%; height: 101%; display: block; ">
@@ -47,12 +47,12 @@
                             <div style="width: 101%; height: 101%; " class="form-control">
                               <div id="info" style="width: 75%; margin: 0px; ">select file</div>
 
-                              <div class="buttons-container" ><i class="glare"></i>
+                              <div class="buttons-container" ><div class="glare"></div>
                                 <label for="fileinput" class="button aqua">  upload </label>
                                 <input id="fileinput" type="file"/>
                               </div>
 
-                              <div class="buttons-container" ><i class="glare"></i>
+                              <div class="buttons-container" ><div class="glare"></div>
                                 <button class="button aqua" id="makeGr" onclick="drawGraph();" style=""> draw graph </button>
                               </div>
 
@@ -65,7 +65,7 @@
 
                               <input class=" " type="text" id="label" name="label" value="T. aestivum" required>
 
-                                <div class="buttons-container" ><i class="glare"></i>
+                                <div class="buttons-container" ><div class="glare"></div>
                                   <button class="button aqua" id="makeAvg" onclick="makeAverage();" style=""> average </button>
                                 </div>
 
@@ -78,15 +78,14 @@
 
                                 <input class=" " type="text" id="parameter" name="param" value="Phi_Po" required>
 
-                                  <div class=" " style="float: right; width: 12%; margin: 2px; "><i class="glare"></i>
+                                  <div class=" " style="float: right; width: 12%; margin: 2px; "><div class="glare"></div>
                                     <button class="button aqua" id="drawParams" onclick="drawParameters();" style=""> draw graph </button>
                                   </div>
 
                                 </div>
                               </div>
-                            </div>
-                            <!--a href="#">Link 2</a>
-                            <a href="#">Link 3</a-->
+                              </div> <!--  input menu -->
+
                           </div> <!-- dropdown-content  -->
                         </div> <!-- dropdown  -->
 
@@ -94,12 +93,12 @@
                         <input class="form-control" type="number" id="sample" name="sample" value="1" required-->
                         <!--/div-->
 </div>
-                      </form>
+                      <!--/form-->
 
 
 
-                      <div>
-                        <canvas id="myChart" style="width:100%; max-width:1000px"></canvas></div>
+
+                        <canvas id="myChart" style="width:100%; max-width:1000px"></canvas>
 
                       <div id="tbl"></div>
                     </div>

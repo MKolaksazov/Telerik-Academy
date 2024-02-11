@@ -1,24 +1,8 @@
-/*
-// ! a function to convert 2d array to json array with the object format: { x: ..., y: ... }
-// initialize function
-function arr2obj(arr) {
-  // make object
-    let obj = [{}];
-  // loop through array
-      for (var n=0; n<arr[0].length; n++) {
-        let x = arr[0][n];
-        let y = arr[1][n];
-        // push new item into object
-        obj.push({x:x, y:y});
-      }
-      // return object
-    return obj;
-}
-*/
+
 var parameter = '';
 
 function loopDataParams(indices) {
-  dataSets = []; labels = []; var newData = []; parameter = document.getElementById("parameter").value;
+  dataSets = []; var dataSet = {}; labels = []; var newData = []; parameter = document.getElementById("parameter").value;
 
     if ((parameter == 'QY') || (parameter == 'Qp') || (parameter == 'NPQ') || (parameter == 'Fm')) {
       indices.forEach((index, i) => {
@@ -27,13 +11,13 @@ function loopDataParams(indices) {
         const indexD1 = indexCol.indexOf(parameter + '_D1') - 5;
         const extParams = [].concat(tableData[index].slice(indexL1, indexL1 + 10), tableData[index].slice(indexD1, indexD1 + 7));
 
-        dataGraph = {
+        dataSet = {
           label: labels[i],
           data: extParams,
           lineTension: 0,
           fill: false,
           borderColor: "hsl("+ Math.round(i*(360/indices.length)) +", 100%, 50%)",
-        };dataSets.push(dataGraph);
+        };dataSets.push(dataSet);
       });
     }
 
@@ -43,17 +27,18 @@ function loopDataParams(indices) {
         newData.push(tbl.children[0].rows[indexParam].childNodes[index].innerText);
         labels.push(tbl.children[0].rows[0].childNodes[index].innerText);
 
-          dataGraph = {
+          dataSet = {
             label: parameter,
             data: newData,
             border: true,
             borderColor: "hsl("+ Math.round(i*(360/indices.length)) +", 100%, 50%)",
           };
-      }); dataSets.push(dataGraph);
+      }); dataSets.push(dataSet);
     }
 }
 
 function drawParameters() {
+  document.getElementById('myChart').style.height = '500px';
   if (colsSelected.length === 0) { alert('Error! Column(s) not selected!'); return; }
   else { loopDataParams(colsSelected); }
 
@@ -120,9 +105,9 @@ function drawParameters() {
 
       legend: {
         display: true,
-        position: 'top',
+        position: 'right',
         labels: {
-          boxWidth: 80,
+          boxWidth: 40,
           fontColor: 'black'
         }
       },

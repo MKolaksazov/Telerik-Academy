@@ -50,8 +50,8 @@
             row.appendChild(cell);
           });
 
-          numericalData.push(newCol.slice(slicePoints[0]-5,slicePoints[1]-5));
-          paramsData.push(newCol.slice(sliceParams[0], sliceParams[1]));
+          //numericalData.push(newCol.slice(slicePoints[0]-3,slicePoints[1]-5));
+          //paramsData.push(newCol.slice(sliceParams[0], sliceParams[1]));
           tableData.push(newCol);
       }
 
@@ -69,14 +69,14 @@
               else { colsSelected.push(columnIndex); }
 
               // Check if the column contains only numbers
-              const isNumberColumn = Array.from(table.rows).slice(slicePoints[0],slicePoints[1])
-                .every(row => !isNaN(row.cells[columnIndex].textContent));
-              if (isNumberColumn) {
+              //const isNumberColumn = Array.from(table.rows).slice(slicePoints[0],slicePoints[1])
+              //  .every(row => !isNaN(row.cells[columnIndex].textContent));
+              //if (isNumberColumn) {
                 toggleColumnHighlight(columnIndex, checkbox.checked, table);
-              } else {
-                alert("This column doesn't contain only numbers.");
-              checkbox.checked = false;
-              }
+              //} else {
+              //  alert("This column doesn't contain only numbers.");
+              //checkbox.checked = false;
+              //}
             });
           }
       }
