@@ -29,7 +29,7 @@
   display: none;
   position: absolute; /* absolute */
   background-color: #f1f1f1;
-  width: 400%; /* 100% */
+  width: 200%; /* 100% ; ! 400% when input-menu */
   left: -300%; top: 100%;
 
   /*min-width: 160px;*/
