@@ -7,8 +7,8 @@ function loopDataParams(indices) {
     if ((parameter == 'QY') || (parameter == 'Qp') || (parameter == 'NPQ') || (parameter == 'Fm')) {
       indices.forEach((index, i) => {
         labels.push(tbl.children[0].rows[0].childNodes[index].innerText);
-        const indexL1 = indexCol.indexOf(parameter + '_L1') - 5;
-        const indexD1 = indexCol.indexOf(parameter + '_D1') - 5;
+        const indexL1 = indexCol.indexOf(parameter + '_L1');
+        const indexD1 = indexCol.indexOf(parameter + '_D1');
         const extParams = [].concat(tableData[index].slice(indexL1, indexL1 + 10), tableData[index].slice(indexD1, indexD1 + 7));
 
         dataSet = {
@@ -23,7 +23,7 @@ function loopDataParams(indices) {
 
     else {
       indices.forEach((index, i) => {
-        const indexParam = indexCol.indexOf(parameter) - 5;
+        const indexParam = indexCol.indexOf(parameter);
         newData.push(tbl.children[0].rows[indexParam].childNodes[index].innerText);
         labels.push(tbl.children[0].rows[0].childNodes[index].innerText);
 
