@@ -59,17 +59,20 @@
         var table = document.getElementById('table-1');
         var firstRow = table.rows[0];
         if (colsSelected == '') {
-          firstRow.childNodes.forEach((x) => {
-            if (x.innerText != 'Allindex') {
-              colsSelected.push(x.cellIndex);
-              //var checkbox = x.childNodes[0];
-              toggleColumnHighlight(x.cellIndex, true, table);
+          firstRow.childNodes.forEach((labelCell) => {
+            if (labelCell.innerText != 'Allindex') {
+              colsSelected.push(labelCell.cellIndex);
+              labelCell.childNodes[0].checked = true;
+              toggleColumnHighlight(labelCell.cellIndex, true, table);
           }});
         }
         else {
           colsSelected = [];
-          firstRow.childNodes.forEach((x) => {
-            if (x.innerText != 'Allindex') { toggleColumnHighlight(x.cellIndex, false, table); }});
+          firstRow.childNodes.forEach((labelCell) => {
+            if (labelCell.innerText != 'Allindex') {
+              labelCell.childNodes[0].checked = false;
+              toggleColumnHighlight(labelCell.cellIndex, false, table);
+            }});
         }
       }
 
