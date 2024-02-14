@@ -20,7 +20,7 @@ var labels = [];
 var speedCanvas = document.getElementById("myChart");
 
 Chart.defaults.global.defaultFontFamily = "Lato";
-Chart.defaults.global.defaultFontSize = 12;
+Chart.defaults.global.defaultFontSize = 16;
 //checked(checkboxes);
 function loopData(indices) {
   dataSets = [];

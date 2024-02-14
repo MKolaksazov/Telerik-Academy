@@ -55,6 +55,24 @@
           tableData.push(newCol);
       }
 
+      function selectAll() {
+        var table = document.getElementById('table-1');
+        var firstRow = table.rows[0];
+        if (colsSelected == '') {
+          firstRow.childNodes.forEach((x) => {
+            if (x.innerText != 'Allindex') {
+              colsSelected.push(x.cellIndex);
+              //var checkbox = x.childNodes[0];
+              toggleColumnHighlight(x.cellIndex, true, table);
+          }});
+        }
+        else {
+          colsSelected = [];
+          firstRow.childNodes.forEach((x) => {
+            if (x.innerText != 'Allindex') { toggleColumnHighlight(x.cellIndex, false, table); }});
+        }
+      }
+
       function makeCheckbox(text, cell, table) {
           if (text != 'index') {
             var checkbox = document.createElement("input");
@@ -78,6 +96,12 @@
               //checkbox.checked = false;
               //}
             });
+          }
+          else {
+            var bAll = document.createElement('button');
+            bAll.setAttribute('onclick', 'selectAll();');
+            bAll.innerHTML = 'All';
+            cell.appendChild(bAll);
           }
       }
 
