@@ -104,6 +104,7 @@
             var bAll = document.createElement('button');
             bAll.setAttribute('onclick', 'selectAll();');
             bAll.innerHTML = 'All';
+            bAll.style.margin = '5px';
             cell.appendChild(bAll);
           }
       }

@@ -1,10 +1,10 @@
 
-var parameter = '';
+var parameter = ''; var displayLegend = false; var colors = ['blue', 'orange', 'cyan', 'red', 'olive', 'yellow', 'green', 'grey', 'purple'];
 
 function loopDataParams(indices) {
   dataSets = []; var dataSet = {}; labels = []; var newData = []; parameter = document.getElementById("parameter").value;
 
-    if ((parameter == 'QY') || (parameter == 'Qp') || (parameter == 'NPQ') || (parameter == 'Fm')) {
+    if ((protocol != 'OJIP') && ((parameter == 'QY') || (parameter == 'Qp') || (parameter == 'NPQ') || (parameter == 'Fm'))) {
       indices.forEach((index, i) => {
         labels.push(tbl.children[0].rows[0].childNodes[index].innerText);
         const indexL1 = indexCol.indexOf(parameter + '_L1');
@@ -16,9 +16,28 @@ function loopDataParams(indices) {
           data: extParams,
           lineTension: 0,
           fill: false,
-          borderColor: "hsl("+ Math.round(i*(360/indices.length)) +", 100%, 50%)",
+          borderColor: colors[i],// "hsl("+ colors[i] +", 100%, 50%)",
         };dataSets.push(dataSet);
       });
+    }
+
+    else if (parameter == 'Phi_Ro') {
+      const fiI = indexCol.indexOf('Fi'); const fmI = fiI+1;
+        indices.forEach((index, i) => {
+          var fm = parseFloat(tbl.children[0].rows[fmI].childNodes[index].innerText);
+          var fi = parseFloat(tbl.children[0].rows[fiI].childNodes[index].innerText);
+          var PhiRo = (fm - fi) / fm;
+
+          newData.push(PhiRo);
+          labels.push(tbl.children[0].rows[0].childNodes[index].innerText);
+
+          dataSet = {
+            label: parameter, // none
+            data: newData,
+            fill: true,
+            backgroundColor: colors,
+          };
+      }); dataSets.push(dataSet);
     }
 
     else {
@@ -28,10 +47,9 @@ function loopDataParams(indices) {
         labels.push(tbl.children[0].rows[0].childNodes[index].innerText);
 
           dataSet = {
-            label: parameter,
+            label: parameter, // none
             data: newData,
-            border: true,
-            borderColor: "hsl("+ Math.round(i*(360/indices.length)) +", 100%, 50%)",
+            backgroundColor: colors,
           };
       }); dataSets.push(dataSet);
     }
@@ -49,23 +67,7 @@ function drawParameters() {
       datasets: dataSets
     };
 
-     var scales =  {
-      xAxes: [{
-          scaleLabel: {
-              display: true,
-          },
-      }],
-      yAxes: [{
-          display: true,
-          scaleLabel: {
-              display: true,
-              labelString: "[a.u.]"
-          },
-          ticks: {
-              min: 0,
-          },
-      }]
-    };
+    displayLegend = false;
   }
   else { // spider diagram : OJIP; line graphs : NPQ
     if ((parameter == 'QY') || (parameter == 'Qp') || (parameter == 'NPQ') || (parameter == 'Fm')) {
@@ -79,32 +81,33 @@ function drawParameters() {
         datasets: dataSets
       };
 
-      var scales =  {
-        xAxes: [{
-            scaleLabel: {
-                display: true,
-            },
-        }],
-
-        yAxes: [{
-            display: true,
-            scaleLabel: {
-                display: true,
-                labelString: "[a.u.]"
-            },
-            ticks: {
-                min: 0,
-            },
-        }]
-
-      };
+      displayLegend = true;
     }
   }
+
+    var scales =  {
+      xAxes: [{
+          scaleLabel: {
+              display: true,
+          },
+      }],
+
+      yAxes: [{
+          display: true,
+          scaleLabel: {
+              display: true,
+              labelString: "[a.u.]"
+          },
+          ticks: {
+              min: 0,
+          },
+      }]
+    };
 
     var chartOptions = {
 
       legend: {
-        display: true,
+        display: displayLegend,
         position: 'right',
         labels: {
           boxWidth: 40,
@@ -120,7 +123,6 @@ function drawParameters() {
       data: speedData,
       options: chartOptions
     });
-
 
 }
 
