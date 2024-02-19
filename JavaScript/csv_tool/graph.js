@@ -37,7 +37,7 @@ function loopData(indices) {
         data: newData, // [12,1231,123,123,123,123,241,323,231,232], //
         lineTension: 0,
         fill: false,
-        borderColor: "hsl("+ Math.round(i*(360/indices.length)) +", 100%, 50%)",
+        borderColor: colors[i], // "hsl("+ Math.round(i*(360/indices.length)) +", 100%, 50%)",
       };
 
       dataSets.push(dataSet);

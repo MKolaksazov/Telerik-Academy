@@ -1,5 +1,23 @@
 
-var parameter = ''; var displayLegend = false; var colors = ['blue', 'orange', 'cyan', 'red', 'olive', 'yellow', 'green', 'grey', 'purple'];
+var parameter = ''; var displayLegend = false;
+
+var colors = ['blue', 'orange', 'dodgerblue', 'red', 'olive', 'yellow', 'green', 'grey', 'purple',
+              'aqua', 'brown', 'chartreuse', 'darkblue', 'darkorange', 'darkviolet', 'darkgreen', 'lime', 'darkcyan',
+              'khaki', 'navy', 'maroon', 'pink', 'teal', 'tan', 'turquoise', 'tomato', 'greenyellow',
+              'blue', 'orange', 'cyan', 'red', 'olive', 'yellow', 'green', 'grey', 'purple',
+              'aqua', 'brown', 'chartreuse', 'darkblue', 'darkorange', 'darkviolet', 'darkgreen', 'lime', 'darkcyan',
+              'khaki', 'navy', 'maroon', 'pink', 'teal', 'tan', 'turquoise', 'tomato', 'greenyellow',
+             ];
+
+/*
+var colors = ['#00f', '#f00', '#0f0', '#008', '#800', '#080', '#f0f', '#088', '#880', '#808', '#80f', '#f80', '#8f0', '#ff0', '#0ff', '#888',
+              '#0f8', '#08f', '#88f', '#8f8', '#f8f',
+              '#00f', '#f00', '#0f0', '#008', '#800', '#080', '#f0f', '#088', '#880', '#808', '#80f', '#f80', '#8f0', '#ff0', '#0ff', '#888',
+              '#0f8', '#08f', '#88f', '#8f8', '#f8f',
+              '#00f', '#f00', '#0f0', '#008', '#800', '#080', '#f0f', '#088', '#880', '#808', '#80f', '#f80', '#8f0', '#ff0', '#0ff', '#888',
+              '#0f8', '#08f', '#88f', '#8f8', '#f8f',
+             ];
+             */
 
 function loopDataParams(indices) {
   dataSets = []; var dataSet = {}; labels = []; var newData = []; parameter = document.getElementById("parameter").value;
@@ -22,7 +40,7 @@ function loopDataParams(indices) {
     }
 
     else if (parameter == 'Phi_Ro') {
-      const fiI = indexCol.indexOf('Fi'); const fmI = fiI+1;
+      const fiI = indexCol.indexOf('Fi'); const fmI = indexCol.indexOf('Fm'); // const fmI = fiI+1;
         indices.forEach((index, i) => {
           var fm = parseFloat(tbl.children[0].rows[fmI].childNodes[index].innerText);
           var fi = parseFloat(tbl.children[0].rows[fiI].childNodes[index].innerText);
