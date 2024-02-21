@@ -1,14 +1,11 @@
 
 var tableData =[];
 var numericalData = [];
-//var paramsData = [];
 var indexCol = [];
 var protocol = 'OJIP';
-// params gives slice points for parameters from 1) OJIP protocol (466, 493) 2) NPQ protocols (754, 824)
-//var params = [466, 493, 754, 824];
-//var OJIPdata = [8, 465];     // 2001621 : 458
-// NPQ slice points depend on the protocol: 1 2 3
-//var NPQdata = [505, 983]; // 504, 983
+// params gives slice points for parameters from 1) OJIP protocol (466, 493) 2) NPQ protocols (754, 824) // var params = [466, 493, 754, 824];
+//var OJIPdata = [8, 465]; // 2001621 : 458
+//var NPQdata = [505, 983]; // 504, 983 // NPQ slice points depend on the protocol: 1 2 3
 var slicePoints = [];
 
 document.getElementById('protocol').onchange = function() {
@@ -18,6 +15,15 @@ document.getElementById('protocol').onchange = function() {
   function readSingleFile(evt) {
   var delimiter = document.getElementById('delimiter').value;
   var separator = document.getElementById('decimal').value;
+
+  if (separator == 'knob') { // change CSS style of the buttons
+    var knob = document.getElementsByClassName("aqua");
+
+    for(var i = (knob.length - 1); i >= 0; i--) {
+      if (knob[i].className == "button aqua") { knob[i].className = "input-group-text aqua"; }
+      else { knob[i].className = "button aqua"; }
+    }
+  }
 
     var f = evt.target.files[0];
     if (f) {
@@ -29,7 +35,7 @@ document.getElementById('protocol').onchange = function() {
           info.innerHTML = ("File <mark>" + f.name + "</mark> uploaded! " + " <b>" + f.type + "</b> " + " " + f.size/1000 + " kB");
 
           var lines = contents.split("\n");
-          var array = []
+          var array = [];
           for (var i=0; i<lines.length; i++){
               if (delimiter == 'tab') { array[i] = lines[i].split("\t"); }
               else { array[i] = lines[i].split(delimiter); }
