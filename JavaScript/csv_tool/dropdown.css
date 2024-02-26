@@ -30,9 +30,9 @@
   display: none;
   position: absolute; /* absolute */
   background-color: #f1f1f1;
-  width: 400%; /* 100% */
-  left: -300%; top: 100%;
-
+  /*width: 400%;  100% left: -300%; */
+  left: -304%; width: 397%;
+  top: 100%;
   /*min-width: 160px;*/
   box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
   z-index: 1;
@@ -57,5 +57,4 @@
 .menu {  width: inherit; }
 #info { float:left; margin-right: 15px; }
 .buttons-container { float: right; width: 12%; margin: 2px; }
-.dropdown-content { left: -304%; width: 397%; }
 #openmenu, .dropdown { width: 100%; }
