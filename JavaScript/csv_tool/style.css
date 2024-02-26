@@ -4,7 +4,7 @@
 .input-group-mb-3 { display: flex; width: 25%;  margin: 1px 1px 1px 0px; flex: 0 0 auto; box-shadow: 2px 3px 4px -2px #333; border-radius: 1px 1px 5px 5px; }
 .input-group-text, .aqua { width: 75%; border-radius: 1px 1px 1px 5px; background-color: lightgreen;
   /* background-image: linear-gradient(#4dc47f,#b5ffd4); */ }
-.aqua:hover{ background: linear-gradient(#073,#0fa); }
+.aqua:hover{ background-image: linear-gradient(#4dc47f,#b5ffd4); }
 .form-control { width: 26%; height: auto; margin-left: -1px; border-radius: 1px 1px 5px 1px; }
 .btn { width: 100%; border-radius: 5px 5px 5px 5px; }
 .browse {display: none;}
@@ -21,3 +21,4 @@
 #myChart {
   height: 0px;
 }
+

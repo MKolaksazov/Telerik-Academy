@@ -1,3 +1,4 @@
+
 .dropbtn, #openmenu {
   /* background-color: #04AA6D;
   color: white;
@@ -56,4 +57,5 @@
 .menu {  width: inherit; }
 #info { float:left; margin-right: 15px; }
 .buttons-container { float: right; width: 12%; margin: 2px; }
-
+.dropdown-content { left: -304%; width: 397%; }
+#openmenu, .dropdown { width: 100%; }
