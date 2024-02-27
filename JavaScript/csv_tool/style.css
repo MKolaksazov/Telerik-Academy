@@ -8,17 +8,5 @@
 .form-control { width: 26%; height: auto; margin-left: -1px; border-radius: 1px 1px 5px 1px; }
 .btn { width: 100%; border-radius: 5px 5px 5px 5px; }
 .browse {display: none;}
-/* Dropdown Button
-.dropbtn {
-  background-color: #3498DB;
-  color: white;
-  padding: 16px;
-  font-size: 16px;
-  border: none;
-  cursor: pointer;
-}
-*/
-#myChart {
-  height: 0px;
-}
+#myChart { height: 0px; }
 

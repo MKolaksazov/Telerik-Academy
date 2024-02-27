@@ -116,8 +116,7 @@ function drawGraph() {
               display: true,
               labelString: 'time [min]',
           },
-          type: 'linear',
-          //max:
+          type: 'linear', //max:
           min: 207601,
 
           ticks: {
