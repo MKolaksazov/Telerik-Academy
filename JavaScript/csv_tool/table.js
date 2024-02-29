@@ -50,8 +50,6 @@
             row.appendChild(cell);
           });
 
-          //numericalData.push(newCol.slice(slicePoints[0]-3,slicePoints[1]-5));
-          //paramsData.push(newCol.slice(sliceParams[0], sliceParams[1]));
           tableData.push(newCol);
           selectAll();
       }

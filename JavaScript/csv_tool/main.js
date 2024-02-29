@@ -1,6 +1,5 @@
 
 var tableData =[];
-var numericalData = [];
 var indexCol = [];
 var protocol = 'OJIP';
 // params gives slice points for parameters from 1) OJIP protocol (466, 493) 2) NPQ protocols (754, 824) // var params = [466, 493, 754, 824];
@@ -52,22 +51,18 @@ document.getElementById('protocol').onchange = function() {
           else if (protocol == 'NPQ3') { slicePoints = [startNPQ2, startNPQ2+164]; } // sliceParams = params.slice(2,4);}
           else { alert('Protocol error!'); }
 
-          numericalData = []; tableData = [];
+          tableData = [];
           tableData.push(indexCol);
-          //numericalData.push(indexCol.slice(slicePoints[0]+2,slicePoints[1]));
 
           for(var col=0; col<array[7].length; col++) {
             if (array[7][col] == protocol) {
               var column = array.map(x => x[col]);
-
               tableData.push(column.slice(5, 983));
-              //numericalData.push(column.slice(slicePoints[0]+2,slicePoints[1]));
-              //paramsData.push(column.slice(sliceParams[0], sliceParams[1]));
             }
           }
 
-          var tableDataT = tableData[0].map((_, colIndex) => tableData.map(row => row[colIndex]));
-          makeTable(tableDataT);
+          //var tableDataT = tableData[0].map((_, colIndex) => tableData.map(row => row[colIndex]));
+          makeTable(transpose(tableData));
      }
       r.readAsText(f);
     } else {
@@ -77,3 +72,38 @@ document.getElementById('protocol').onchange = function() {
   document.getElementById('fileinput').addEventListener('change', readSingleFile);
 
 // ===========================================
+
+function transpose(arrayData) {
+  return arrayData[0].map((_, colIndex) => arrayData.map(row => row[colIndex]));
+}
+
+/** Convert a 2D array into a CSV string
+ */
+function arrayToCsv(data){
+  return data.map(row =>
+    row
+    .map(String)  // convert every value to String
+    .map(v => v.replaceAll('"', '""'))  // escape double quotes
+    .map(v => `"${v}"`)  // quote it
+    .join('\t')  // tab (comma)-separated
+  ).join('\r\n');  // rows starting on new lines
+}
+
+
+/** Download contents as a file
+ * Source: https://stackoverflow.com/questions/14964035/how-to-export-javascript-array-info-to-csv-on-client-side
+ */
+function downloadBlob(content=tableData, filename='export.csv', contentType='text/csv;charset=utf-8;') {
+  var csv = arrayToCsv(transpose(content));
+  // Create a blob
+  var blob = new Blob([csv], { type: contentType });
+  var url = URL.createObjectURL(blob);
+
+  // Create a link to download it
+  var pom = document.createElement('a');
+  pom.href = url;
+  pom.setAttribute('download', filename);
+  pom.click();
+}
+
+
