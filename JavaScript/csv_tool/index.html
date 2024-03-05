@@ -41,9 +41,9 @@
                         <!--button class="btn btn-secondary btn-lg" type="button"> Draw </button-->
                         <div class="buttons-container btn  btn-secondary btn-sm input-group-text aqua" style="width: auto; margin: 0px;">
                         <!--div class="glare"></div-->
-                              <div class="" id="makeGr" onclick="drawGraph();" style="color: white;"> draw </div>
+                              <div class="" id="makeGr" onclick="drawGraph();" style="color: white;"> draw file </div>
                         </div>
-                        <button type="button" class="btn btn-sm btn-secondary dropdown-toggle dropdown-toggle-split input-group-text aqua" data-bs-toggle="dropdown" aria-expanded="false"> file   </button>
+                        <button type="button" class="btn btn-sm btn-secondary dropdown-toggle dropdown-toggle-split input-group-text aqua" data-bs-toggle="dropdown" aria-expanded="false"> </button>
                         <ul class="dropdown-menu dropdown-content">
                           <div class="dropdown-contenta">
                             <div class="input-group-mb-3 menu" >
@@ -71,31 +71,16 @@
 
                         <div class="btn-group">
                         <!--button class="btn btn-secondary btn-lg" type="button"> Draw </button-->
-                        <div class="buttons-container btn btn-secondary btn-sm input-group-text aqua" style="width: auto; margin: 0px;">
-                        <!--div class="glare"></div-->
-                              <span class="" id="drawParams" onclick="drawParameters();" style=""> draw </span>
-                        </div>
-                        <button type="button" class="btn btn-sm btn-secondary dropdown-toggle dropdown-toggle-split input-group-text aqua" data-bs-toggle="dropdown" aria-expanded="false">
-                          <span class="visually-hidden"> params </span>
-                        </button>
-                        <ul class="dropdown-menu dropdown-content">
-                          <div class="dropdown-contenta" >
-                            <div class="input-group-mb-3 menu" >
-                              <div style="width: 101%; height: 101%; " class="form-control">
-
-                                <div id="info" >select a parameter: (Fm; NPQ; Qp; QY)</div>
-                                <input class=" " type="text" id="parameter" name="param" value="Phi_Po" required>
-
-                                <!--div class="buttons-container" style="float: right; width: auto; margin: 2px; "><!-div class="glare"></div->
-                                  <button class="input-group-text aqua" id="drawParams" onclick="drawParameters();" style="width: auto;"> draw graph </button>
-                                </div-->
-
-                              </div>
-                            </div>
+                          <div class="buttons-container btn btn-secondary btn-sm input-group-text aqua" style="width: auto; margin: 0px;">
+                          <!--div class="glare"></div-->
+                                <span class="" id="drawParams" onclick="drawParameters();" style=""> draw param </span>
                           </div>
+                          <!--div style="height: 101%; width: auto;" -->
+                          <select id="parameters" name="param" class="btn btn-sm btn-secondary dropdown-toggle dropdown-toggle-split input-group-text aqua" style="height: 101%; ">
+                              <option disable>Select protocol</option>
+                          </select>
 
-                        </ul>
-                      </div>
+                        </div>
 
                         <div class="dropdown">
                         <button class="btn btn-secondary dropdown-toggle input-group-text aqua" type="button" data-bs-toggle="dropdown" aria-expanded="false">

@@ -2,6 +2,7 @@
 var tableData =[];
 var indexCol = [];
 var protocol = 'OJIP';
+// var optionsArr = [];
 // params gives slice points for parameters from 1) OJIP protocol (466, 493) 2) NPQ protocols (754, 824) // var params = [466, 493, 754, 824];
 //var OJIPdata = [8, 465]; // 2001621 : 458
 //var NPQdata = [505, 983]; // 504, 983 // NPQ slice points depend on the protocol: 1 2 3
@@ -9,6 +10,33 @@ var slicePoints = [];
 
 document.getElementById('protocol').onchange = function() {
     protocol = document.getElementById("protocol").options[this.selectedIndex].text;
+
+  // optionsArray
+  if (protocol == "OJIP") {
+    var optionsArr = ["Fo", "Fm", "Phi_Po", "Phi_Eo", "Phi_Ro", "Phi_Do", "Pi_Abs", "ABS/RC", "TRo/RC", "ETo/RC", "DIo/RC"];
+  }
+  else {
+    var optionsArr = ["Rfd", "Fm", "NPQ", "Qp", "QY"];
+  }
+  const selectEl = document.getElementById("parameters");
+  // reset the array every time
+  while (selectEl.firstChild) {
+      selectEl.firstChild.remove()
+  }
+  /*
+  - Loop over optionsArr
+  - Create new option element & attach text
+  - Append above created option element to select element
+  */
+  for (optionText of optionsArr) {
+    const optionEl = document.createElement("option");
+    optionEl.innerText = optionText;
+    selectEl.appendChild(optionEl);
+  }
+};
+
+document.getElementById('parameters').onchange = function() {
+    parameter = document.getElementById("parameters").options[this.selectedIndex].text; console.log(parameter);
 };
 
   function readSingleFile(evt) {
@@ -45,10 +73,10 @@ document.getElementById('protocol').onchange = function() {
           const startNPQ1 = indexCol.indexOf("2443101");
           const startNPQ2 = indexCol.indexOf("207601");
 
-          if (protocol == 'OJIP') { slicePoints = [startOJIP, startOJIP+457]; } // sliceParams = params.slice(0,2); }
-          else if (protocol == 'NPQ1') { slicePoints = [startNPQ1, startNPQ1+159]; } // sliceParams = params.slice(2,4);}
-          else if (protocol == 'NPQ2') { slicePoints = [startNPQ2, startNPQ2+249]; } // sliceParams = params.slice(2,4);}
-          else if (protocol == 'NPQ3') { slicePoints = [startNPQ2, startNPQ2+164]; } // sliceParams = params.slice(2,4);}
+          if (protocol == 'OJIP') { slicePoints = [startOJIP, startOJIP+457]; }
+          else if (protocol == 'NPQ1') { slicePoints = [startNPQ1, startNPQ1+159]; }
+          else if (protocol == 'NPQ2') { slicePoints = [startNPQ2, startNPQ2+249]; }
+          else if (protocol == 'NPQ3') { slicePoints = [startNPQ2, startNPQ2+164]; }
           else { alert('Protocol error!'); }
 
           tableData = [];
@@ -106,4 +134,25 @@ function downloadBlob(content=tableData, filename='export.csv', contentType='tex
   pom.click();
 }
 
+/*
+// function for loading dropdown list with array values
+(function() {
+
+  // Get select element
+  const selectEl = document.getElementById("parameters");
+
+  // array for options are in the function for selection of protocol
+
+  //- Loop over optionsArr
+  //- Create new option element & attach text
+  //- Append above created option element to select element
+
+  for (optionText of optionsArr) {
+    const optionEl = document.createElement("option");
+    optionEl.innerText = optionText;
+    selectEl.appendChild(optionEl);
+  }
+})();
+
+*/
 

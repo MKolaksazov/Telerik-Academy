@@ -20,7 +20,7 @@ var colors = ['#00f', '#f00', '#0f0', '#008', '#800', '#080', '#f0f', '#088', '#
              */
 
 function loopDataParams(indices) {
-  dataSets = []; var dataSet = {}; labels = []; var newData = []; parameter = document.getElementById("parameter").value;
+  dataSets = []; var dataSet = {}; labels = []; var newData = []; //parameter = document.getElementById("parameter").value;
 
     if ((protocol != 'OJIP') && ((parameter == 'QY') || (parameter == 'Qp') || (parameter == 'NPQ') || (parameter == 'Fm'))) {
       indices.forEach((index, i) => {
@@ -72,8 +72,9 @@ function loopDataParams(indices) {
       }); dataSets.push(dataSet);
     }
 }
-
+//document.getElementById('drawParams').onclick(parameter = document.getElementById('drawParams').innerHTML);
 function drawParameters() {
+  //parameter = document.getElementById('drawParams').innerHTML;
   document.getElementById('myChart').style.height = '500px';
   if (colsSelected.length === 0) { alert('Error! Column(s) not selected!'); return; }
   else { loopDataParams(colsSelected); }
