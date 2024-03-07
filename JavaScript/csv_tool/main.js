@@ -41,9 +41,8 @@ document.getElementById('parameters').onchange = function() {
 
   function readSingleFile(evt) {
   var delimiter = document.getElementById('delimiter').value;
-  var separator = document.getElementById('decimal').value;
 
-  if (separator == 'knob') { // change CSS style of the buttons
+  if (delimiter == 'knob') { // change CSS style of the buttons
     var knob = document.getElementsByClassName("aqua");
 
     for(var i = (knob.length - 1); i >= 0; i--) {
@@ -85,10 +84,15 @@ document.getElementById('parameters').onchange = function() {
           for(var col=0; col<array[7].length; col++) {
             if (array[7][col] == protocol) {
               var column = array.map(x => x[col]);
+              //console.log(column[0].replace(",", "."));
+              for (var x=0; x<column.length; x++) {
+                column[x] = String(column[x]).replace(",", ".");
+              }
+
               tableData.push(column.slice(5, 983));
             }
           }
-
+          //var tableData1 = tableData.replace(/,/g, '.')
           //var tableDataT = tableData[0].map((_, colIndex) => tableData.map(row => row[colIndex]));
           makeTable(transpose(tableData));
      }
@@ -133,26 +137,4 @@ function downloadBlob(content=tableData, filename='export.csv', contentType='tex
   pom.setAttribute('download', filename);
   pom.click();
 }
-
-/*
-// function for loading dropdown list with array values
-(function() {
-
-  // Get select element
-  const selectEl = document.getElementById("parameters");
-
-  // array for options are in the function for selection of protocol
-
-  //- Loop over optionsArr
-  //- Create new option element & attach text
-  //- Append above created option element to select element
-
-  for (optionText of optionsArr) {
-    const optionEl = document.createElement("option");
-    optionEl.innerText = optionText;
-    selectEl.appendChild(optionEl);
-  }
-})();
-
-*/
 

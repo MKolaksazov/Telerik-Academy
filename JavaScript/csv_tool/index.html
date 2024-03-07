@@ -23,10 +23,10 @@
                     <span class="input-group-text" id="basic-addon1">delimiter: </span>
                     <input class="form-control" type="text" id="delimiter" name="delimiter" value="tab" required>
                     </div>
-                    <div class="input-group-mb-3">
+                    <!--div class="input-group-mb-3">
                       <span class="input-group-text" id="basic-addon1">decimal separator:</span>
                       <input class="form-control" type="text" id="decimal" name="decimal" value="," required>
-                      </div>
+                      </div-->
                       <div class="input-group-mb-3"><span class="input-group-text" id="basic-addon1">selected protocol:</span>
                         <select id="protocol" name="protocol" class="form-control" style="height: 101%; ">
                           <option selected="selected">OJIP</option>
@@ -41,9 +41,18 @@
                         <!--button class="btn btn-secondary btn-lg" type="button"> Draw </button-->
                         <div class="buttons-container btn  btn-secondary btn-sm input-group-text aqua" style="width: auto; margin: 0px;">
                         <!--div class="glare"></div-->
-                              <div class="" id="makeGr" onclick="drawGraph();" style="color: white;"> draw file </div>
+                              <div class="" id="makeGr" onclick="drawGraph();" style="color: white;"> draw
+
+
+                              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-graph-up" viewBox="0 0 16 16">
+  <path fill-rule="evenodd" d="M0 0h1v15h15v1H0zm14.817 3.113a.5.5 0 0 1 .07.704l-4.5 5.5a.5.5 0 0 1-.74.037L7.06 6.767l-3.656 5.027a.5.5 0 0 1-.808-.588l4-5.5a.5.5 0 0 1 .758-.06l2.609 2.61 4.15-5.073a.5.5 0 0 1 .704-.07"/>
+</svg></div>
                         </div>
-                        <button type="button" class="btn btn-sm btn-secondary dropdown-toggle dropdown-toggle-split input-group-text aqua" data-bs-toggle="dropdown" aria-expanded="false"> </button>
+                        <button type="button" class="btn btn-sm btn-secondary input-group-text aqua" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16">
+  <path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"/>
+</svg> </button>
+
                         <ul class="dropdown-menu dropdown-content">
                           <div class="dropdown-contenta">
                             <div class="input-group-mb-3 menu" >
@@ -73,18 +82,29 @@
                         <!--button class="btn btn-secondary btn-lg" type="button"> Draw </button-->
                           <div class="buttons-container btn btn-secondary btn-sm input-group-text aqua" style="width: auto; margin: 0px;">
                           <!--div class="glare"></div-->
-                                <span class="" id="drawParams" onclick="drawParameters();" style=""> draw param </span>
+                                <span class="" id="drawParams" onclick="drawParameters();" style="">
+                                draw
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bar-chart-line" viewBox="0 0 16 16">
+  <path d="M11 2a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v12h.5a.5.5 0 0 1 0 1H.5a.5.5 0 0 1 0-1H1v-3a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v3h1V7a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v7h1zm1 12h2V2h-2zm-3 0V7H7v7zm-5 0v-3H2v3z"/>
+</svg> </span>
                           </div>
-                          <!--div style="height: 101%; width: auto;" -->
-                          <select id="parameters" name="param" class="btn btn-sm btn-secondary dropdown-toggle dropdown-toggle-split input-group-text aqua" style="height: 101%; ">
+                          <div style="height: 101%; width: 101%;" >
+                          <select id="parameters" name="param" class="btn btn-sm btn-secondary dropdown-toggle dropdown-toggle-split input-group-text aqua" style="height: 101%; appearance: none; ">
+
+<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down" viewBox="0 0 16 16">
+  <path fill-rule="evenodd" d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708"/>
+</svg>
                               <option disable>Select protocol</option>
                           </select>
-
+</div>
                         </div>
 
                         <div class="dropdown">
-                        <button class="btn btn-secondary dropdown-toggle input-group-text aqua" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                           selected
+                        <button class="btn btn-secondary dropdown-toggle input-group-text aqua" type="button"  data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="width: auto; margin: 0px;">
+                           rename
+                           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bar-chart-steps" viewBox="0 0 16 16">
+  <path d="M.5 0a.5.5 0 0 1 .5.5v15a.5.5 0 0 1-1 0V.5A.5.5 0 0 1 .5 0M2 1.5a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-4a.5.5 0 0 1-.5-.5zm2 4a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-7a.5.5 0 0 1-.5-.5zm2 4a.5.5 0 0 1 .5-.5h6a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-6a.5.5 0 0 1-.5-.5zm2 4a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-7a.5.5 0 0 1-.5-.5z"/><i class="bi bi-bar-chart-steps"></i>
+</svg>
                         </button>
 
                         <ul class="dropdown-menu dropdown-content">
@@ -93,7 +113,7 @@
                               <div style="width: 101%; height: 101%; " class="form-control">
                                 <div id="info" >rename labels of selected experimental variants with:</div>
                                 <input class=" " type="text" id="label" name="label" value="T. aestivum" required>
-                                <div class="buttons-container" style="float: right; width: auto; margin: 2px; "><!--div class="glare"></div-->
+                                <div class="buttons-container" style="float: right; width: auto; margin: 2px; ">
                                   <button class="input-group-text aqua" id="makeAvg" onclick="makeAverage();" style="width: auto;"> average </button>
                                 </div>
                               </div>
@@ -103,95 +123,8 @@
                       </div>
 
 
-                    <!--div class="input-group-mb-3"-->
-                    <!--div class="dropdown">
-                      <div class=" " style="float: left; width: 100%; margin: 2px; "><div class="glare"></div>
-                        <div class="input-group-text aqua" id="openmenu"  style="" > upload Ξ </div>
-                      </div>
 
-                      <div class="dropdown-content">
-                        <div class="input-group-mb-3 menu" style="width: 101%; height: 101%; display: block; ">
-                          <div class="input-group-mb-3 menu" >
-                            <div style="width: 101%; height: 101%; " class="form-control">
-                              <div id="info" style="width: 75%; margin: 0px; ">select file</div>
-
-                              <div class="buttons-container" ><div class="glare"></div>
-                                <label for="fileinput" class="input-group-text aqua">  upload </label>
-                                <input id="fileinput" type="file"/>
-                              </div>
-
-                              <div class="buttons-container" ><div class="glare"></div>
-                                <button class="input-group-text aqua" id="makeGr" onclick="drawGraph();" style=""> draw graph </button>
-                              </div>
-
-                            </div>
-                          </div>
-
-                              </div> <!-  input menu ->
-                          </div> <!- dropdown-content  ->
-
-                      <div class=" " style="float: left; width: 100%; margin: 2px; "><div class="glare"></div>
-                        <div class="input-group-text aqua" id="openmenu"  style="" > average Ξ </div>
-                      </div>
-
-                      <div class=" " style="float: left; width: 100%; margin: 2px; "><div class="glare"></div>
-                        <div class="input-group-text aqua" id="openmenu"  style="" > params Ξ </div>
-                      </div>
-                      <div class="dropdown-content">
-                        <div class="input-group-mb-3 menu" style="width: 101%; height: 101%; display: block; ">
-                          <div class="input-group-mb-3 menu" >
-                            <div style="width: 101%; height: 101%; " class="form-control">
-                              <div id="info" style="width: 75%; margin: 0px; ">select file</div>
-
-                              <div class="buttons-container" ><div class="glare"></div>
-                                <label for="fileinput" class="input-group-text aqua">  upload </label>
-                                <input id="fileinput" type="file"/>
-                              </div>
-
-                              <div class="buttons-container" ><div class="glare"></div>
-                                <button class="input-group-text aqua" id="makeGr" onclick="drawGraph();" style=""> draw graph </button>
-                              </div>
-
-                            </div>
-                          </div>
-
-                          <div class="input-group-mb-3 menu" >
-                            <div style="width: 101%; height: 101%; " class="form-control">
-                              <div id="info" >rename labels of experimental variants with:</div>
-
-                              <input class=" " type="text" id="label" name="label" value="T. aestivum" required>
-
-                                <div class="buttons-container" ><div class="glare"></div>
-                                  <button class="input-group-text aqua" id="makeAvg" onclick="makeAverage();" style=""> average </button>
-                                </div>
-
-                              </div>
-                            </div>
-
-                            <div class="input-group-mb-3 menu" >
-                              <div style="width: 101%; height: 101%; " class="form-control">
-                                <div id="info" >select a parameter: (Fm; NPQ; Qp; QY)</div>
-
-                                <input class=" " type="text" id="parameter" name="param" value="Phi_Po" required>
-
-                                  <div class=" " style="float: right; width: 12%; margin: 2px; "><div class="glare"></div>
-                                    <button class="input-group-text aqua" id="drawParams" onclick="drawParameters();" style=""> draw graph </button>
-                                  </div>
-
-                                </div>
-                              </div>
-                              </div> <!-  input menu ->
-
-                          </div> <!- dropdown-content  ->
-                        </div--> <!-- dropdown  -->
-
-                        <!--span class="input-group-text" id="basic-addon1">select sample variant:</span>
-                        <input class="form-control" type="number" id="sample" name="sample" value="1" required-->
-                        <!--/div-->
 </div>
-                      <!--/form-->
-
-
 
 
                         <canvas id="myChart" style="width:100%; max-width:1000px"></canvas>
