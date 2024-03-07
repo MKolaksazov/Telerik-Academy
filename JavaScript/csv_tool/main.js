@@ -84,16 +84,14 @@ document.getElementById('parameters').onchange = function() {
           for(var col=0; col<array[7].length; col++) {
             if (array[7][col] == protocol) {
               var column = array.map(x => x[col]);
-              //console.log(column[0].replace(",", "."));
+              // change the decimal separator from ',' to '.' (if available)
               for (var x=0; x<column.length; x++) {
                 column[x] = String(column[x]).replace(",", ".");
               }
-
               tableData.push(column.slice(5, 983));
             }
           }
-          //var tableData1 = tableData.replace(/,/g, '.')
-          //var tableDataT = tableData[0].map((_, colIndex) => tableData.map(row => row[colIndex]));
+
           makeTable(transpose(tableData));
      }
       r.readAsText(f);
