@@ -25,6 +25,8 @@ input[type="file"] {
 }
 
 .aqua{
+  width: auto; /* !!! */
+
   background-color: rgba(60, 199, 152, 0.8);
   background-image: -webkit-gradient(linear, 0% 0%, 0% 90%, from(rgba(28, 156, 92, 0.8)), to(rgba(107, 255, 181, .9)));
   border-top-color: #8cc2b0;

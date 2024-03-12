@@ -26,4 +26,4 @@
 #menu { position: absolute; }
 .menu {  width: inherit; }
 #info { float:left; margin-right: 15px; }
-.buttons-container { float: right; width: 12%; margin: 2px; }
+.buttons-container { float: right; width: auto; margin: 2px; }

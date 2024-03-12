@@ -10,3 +10,16 @@
 .browse {display: none;}
 #myChart { height: 0px; }
 
+.btn-group { margin: 1px; }
+.down-arrow { border: solid black;
+      border-width: 0 1px 1px 0;
+      display: inline-block;
+      padding: 4px;
+      margin: 6px;
+      transition: transform 0.3s;
+      transform: rotate(45deg); }
+
+.form-control-hidden { width: 101%; height: 101%; }
+#parameters { border: none; background: rgba(0, 0, 0, 0); appearance: none; }
+
+select, #protocol, #parameters { height: auto; }
