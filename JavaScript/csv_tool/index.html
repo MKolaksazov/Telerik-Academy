@@ -43,12 +43,12 @@
                           <path fill-rule="evenodd" d="M0 0h1v15h15v1H0zm14.817 3.113a.5.5 0 0 1 .07.704l-4.5 5.5a.5.5 0 0 1-.74.037L7.06 6.767l-3.656 5.027a.5.5 0 0 1-.808-.588l4-5.5a.5.5 0 0 1 .758-.06l2.609 2.61 4.15-5.073a.5.5 0 0 1 .704-.07"/>
                           </svg></div>
                     </div>
-                    <button type="button" class="form-control aqua" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="margin-left: -2px;  ">
+                    <button type="button" class="form-control aqua" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="margin-left: -2px;  ">file
 
                       <div class="down-arrow" ></div>
                     </button>
 
-                    <ul class="dropdown-menu dropdown-content">
+                    <ul class="dropdown-menu dropdown-menu-end dropdown-content">
                       <div class="dropdown-contenta">
                         <div class="input-group-mb-3 menu" >
                           <div  class="form-control form-control-hidden">
@@ -83,16 +83,16 @@
                     </div>
                     <div class="form-control aqua">
                       <select id="parameters" name="param"  >
-                        <option disable>Select protocol</option>
+                        <option disable>select protocol</option>
                       </select>
                       <div class="down-arrow" ></div>
 
                     </div>
                   </div>
 
-                  <div class="btn-group dropdown">
+                  <div class="btn-group">
                     <button class="btn btn-secondary text-dark aqua" type="button"  data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style=" border-radius: 1px 1px 5px 5px; ">
-                      rename
+                      rename & average
                       <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bar-chart-steps" viewBox="0 0 16 16">
                         <path d="M.5 0a.5.5 0 0 1 .5.5v15a.5.5 0 0 1-1 0V.5A.5.5 0 0 1 .5 0M2 1.5a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-4a.5.5 0 0 1-.5-.5zm2 4a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-7a.5.5 0 0 1-.5-.5zm2 4a.5.5 0 0 1 .5-.5h6a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-6a.5.5 0 0 1-.5-.5zm2 4a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-7a.5.5 0 0 1-.5-.5z"/><i class="bi bi-bar-chart-steps"></i>
                       </svg>
@@ -104,8 +104,8 @@
                       <div class="dropdown-contenta">
                         <div class="input-group-mb-3 menu" >
                           <div  class="form-control form-control-hidden">
-                            <div id="info" >rename labels of selected experimental variants with:</div>
-                            <input class=" " type="text" id="label" name="label" value="T. aestivum" required>
+                            <div id="info" >rename labels of selected experimental samples with:</div>
+                            <input class=" " type="text" id="label" name="label" value="T. aestivum" required> and calculate their average
                               <div class="buttons-container" >
                                 <button class="input-group-text aqua" id="makeAvg" onclick="makeAverage();" > average </button>
                               </div>
