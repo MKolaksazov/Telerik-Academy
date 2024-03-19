@@ -31,8 +31,13 @@ function addReagent() {
         </div>
         <div class="col-sm-1">
           <p></p></br>
-          <button class="btn btn-danger btn-sm delete" >remove</button>
+          <button class="btn btn-danger btn-sm delete" onclick="removeRow('`+idName+`');">remove</button>
         </div>`;
 
   i += 1;
+}
+
+function removeRow(idEl) {
+  var currentRow = document.getElementById(idEl);
+  currentRow.remove();
 }
