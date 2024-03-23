@@ -18,7 +18,7 @@ function addReagent() {
     var indexMr = chemicals.indexOf(newRow.children[0].children[1].value);
     if (density[indexMr] != 0) {
       newRow.children[1].children[1].value = molarity[indexMr]/density[indexMr];
-      newRow.children[1].children[0].innerHTML = 'V<sub>r</sub> [cm<sup>3</sup>/mol]';
+      newRow.children[1].children[0].innerHTML = 'V<sub>r</sub> [dm<sup>3</sup>/mol]';
       newRow.children[3].children[0].innerHTML = 'mL';
     }
     else {
