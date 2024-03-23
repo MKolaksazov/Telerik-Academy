@@ -1,4 +1,4 @@
-
+﻿
 var chemicals = [
   "ammonium molybdate tetrahydrate ((NH₄)₆Mo₇O₂₄.4H₂O)",
   "potassium phosphate dibasic (K₂HPO₄)",
@@ -12,7 +12,7 @@ var chemicals = [
   "NH₄+",
   "NaOH"];
 var molarity = [1235.86, 174, 136, 98.079, 312.33, 162.2, 82.03, 36.46];
-var density = [0,0,0,1830,0,0,0,0.81];
+var density = [0,0,0,1830,0,0,0,810];
 var pKa = [
   [3.7, 4.33],
   [12.32],
