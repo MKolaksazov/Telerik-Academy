@@ -15,14 +15,14 @@ function addReagent() {
   }
   newRow.children[4].children[2].setAttribute('onclick', 'removeRow("'+idName+'");');
   newRow.children[0].children[1].onchange = function() {
-    var indexMr = chemicals.indexOf(newRow.children[0].children[1].value);
-    if (density[indexMr] != 0) {
-      newRow.children[1].children[1].value = molarity[indexMr]/density[indexMr];
+    var indexElem = checkIndex(newRow);
+    if (chemicals[indexElem][1].density != 0) {
+      newRow.children[1].children[1].value = chemicals[indexElem][1].molar_mass/chemicals[indexElem][1].density;
       newRow.children[1].children[0].innerHTML = 'V<sub>r</sub> [dm<sup>3</sup>/mol]';
       newRow.children[3].children[0].innerHTML = 'mL';
     }
     else {
-      newRow.children[1].children[1].value = molarity[indexMr];
+      newRow.children[1].children[1].value = chemicals[indexElem][1].molar_mass ; 
     }
   }
 
@@ -35,6 +35,12 @@ function removeRow(idRow) {
   currentRow.remove();
 }
 
+function checkIndex(elem) { // get the index of the current chemical
+    var indexElem = 0;
+    chemicals.forEach((x, i) => { if (elem.children[0].children[1].value == x[0]) { indexElem = i; } });
+    return indexElem;
+}
+
 function calculateReagent() {
   var contain = document.getElementById('cont');
   var vol = document.getElementById('volume');
@@ -44,13 +50,13 @@ function calculateReagent() {
   var sumPH = 1e-7;
   for(var i = 0; i < contain.children.length; i++) {
     // index of the chemical in the database
-    var indexMr = chemicals.indexOf(contain.children[i].children[0].children[1].value);
+    var indexElem = checkIndex(contain.children[i]); 
     var Mr = contain.children[i].children[1].children[1].value;
     var mM = contain.children[i].children[2].children[1].value;
     // caclucate mass of chemical in mg
     var calculated = Mr * (mM * 0.001) * (volume);
     // calculate pH of the current chemical solution
-    var currentPH = calculatePH(mM, indexMr);
+    var currentPH = calculatePH(mM, indexElem);
     sumPH = calculateSumPH(currentPH, sumPH);
     var pH = sumPH < 0 ? 14 : 0;
     // calculate the final pH of every chemical
@@ -65,7 +71,7 @@ function populateOptions(chemicalsId) {
   var list = document.getElementById(chemicalsId);
   chemicals.forEach(function(item){
      var option = document.createElement('option');
-     option.value = item;
+     option.value = item[0];
      list.appendChild(option);
   });
 }
@@ -74,7 +80,7 @@ function calculatePH(mM, i) {
   var s = 0;
   var m1 = mM / 1000;
   var x = 0;
-  pKa[i].forEach((pKa, i) => { // calculating pH given the dissociation constant(s)
+  chemicals[i][1].pKa.forEach((pKa, i) => { // calculating pH given the dissociation constant(s)
     var Ka = Math.pow(10, -pKa);
     var m2 = s;
     var a = 1;
@@ -84,7 +90,7 @@ function calculatePH(mM, i) {
     m1 = pKa == 0 ? m1 : x;
     s += m1;
   });
-  return base[i] ? 14-(-Math.log10(s)) : -Math.log10(s);
+  return chemicals[i][1].base ? 14-(-Math.log10(s)) : -Math.log10(s);
 }
 
 function calculateSumPH(currentPH, sumPH) { // summing the molarity of H+ (OH-)

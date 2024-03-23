@@ -1,27 +1,11 @@
-﻿
-var chemicals = [
-  "ammonium molybdate tetrahydrate ((NH₄)₆Mo₇O₂₄.4H₂O)",
-  "potassium phosphate dibasic (K₂HPO₄)",
-  "potassium phosphate monobasic (KH₂PO₄)",
-  "H₂SO₄",
-  "TPTZ",
-  "FeCl₃",
-  "CH₃COONa",
-  "HCl",
-  "H₃PO₄",
-  "NH₄+",
-  "NaOH"];
-var molarity = [1235.86, 174, 136, 98.079, 312.33, 162.2, 82.03, 36.46];
-var density = [0,0,0,1830,0,0,0,810];
-var pKa = [
-  [3.7, 4.33],
-  [12.32],
-  [7.21,12.32],
-  [0,1.99],[0],[0],[4.756],[0],[2.16,7.21,12.32],[4.75],
-  [0]
-];
-var base = [0,0,0,0,0,0,0,0,0,true,true];
+﻿const targetUrl = 'https://mkolaksazov.github.io/Telerik-Academy/JavaScript/reagent_calc/variables.json';
 
+var result = [];
+fetch(targetUrl).then((response) => response.json()).then((json) => {  
+	for(var i in json) { result.push([i, json[i]]); }
+});
+
+var chemicals = result;
 
 // ======================================================================
 var classID = 0;

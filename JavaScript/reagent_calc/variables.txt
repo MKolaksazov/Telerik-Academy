@@ -1,0 +1,25 @@
+﻿
+var chemicals1 = [
+  "ammonium molybdate tetrahydrate ((NH₄)₆Mo₇O₂₄.4H₂O)",
+  "potassium phosphate dibasic (K₂HPO₄)",
+  "potassium phosphate monobasic (KH₂PO₄)",
+  "H₂SO₄",
+  "TPTZ",
+  "FeCl₃.6H₂O",
+  "CH₃COONa.3H₂O",
+  "CH₃COOH",
+  "HCl",
+  "H₃PO₄",
+  "NH₄+",
+  "NaOH"];
+var molarity1 = [1235.86, 174, 136, 98.079, 312.33, 270.295, 136.08, 60.0, 36.46];
+var density1 = [0,0,0,1830,0,0,0,1049,810];
+var pKa1 = [
+  [4.33],
+  [12.32],
+  [7.21,12.32],
+  [0,1.99],[0],[2.46],[9.421],[4.76],[0],[2.16,7.21,12.32],[4.75],
+  [0]
+];
+var base1 = [0,0,0,0,0,false,true,false,false,false,true,true];
+
