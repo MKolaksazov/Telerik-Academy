@@ -2,14 +2,14 @@
   "ammonium molybdate tetrahydrate ((NH₄)₆Mo₇O₂₄.4H₂O)": [1235.86, 0, [4.33], false],
   "potassium phosphate dibasic (K₂HPO₄)": [174, 0, [12.32], false],
   "potassium phosphate monobasic (KH₂PO₄)": [136, 0, [7.21, 12.32], false],
-  "H₂SO₄",
-  "TPTZ",
-  "FeCl₃.6H₂O",
-  "CH₃COONa.3H₂O",
-  "CH₃COOH",
-  "HCl",
-  "H₃PO₄",
-  "NH₄+",
-  "NaOH"
+  "H₂SO₄": [],
+  "TPTZ": [],
+  "FeCl₃.6H₂O": [],
+  "CH₃COONa.3H₂O": [],
+  "CH₃COOH": [],
+  "HCl": [],
+  "H₃PO₄": [],
+  "NH₄+": [],
+  "NaOH": []
 }
   
