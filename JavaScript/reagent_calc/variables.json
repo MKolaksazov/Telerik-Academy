@@ -5,8 +5,18 @@
     "pKa": [4.33],
     "base": false
   },
-  "potassium phosphate dibasic (K₂HPO₄)": [174, 0, [12.32], false],
-  "potassium phosphate monobasic (KH₂PO₄)": [136, 0, [7.21, 12.32], false],
+  "potassium phosphate dibasic (K₂HPO₄)": {
+    "molar_mass": 174,
+    "density": 0,
+    "pKa": [12.32],
+    "base": false
+  },
+  "potassium phosphate monobasic (KH₂PO₄)": {
+    "molar_mass": 136,
+    "density": 0,
+    "pKa": [7.21,12.32],
+    "base": false
+  },
   "H₂SO₄": [],
   "TPTZ": [],
   "FeCl₃.6H₂O": [],
