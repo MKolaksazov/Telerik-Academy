@@ -8,14 +8,14 @@
   "potassium phosphate dibasic (K₂HPO₄)": {
     "molar_mass": 174.18,
     "density": 0,
-    "pKa": [12.4],
-    "base": false
+    "pKa": [6.8],
+    "base": true
   },
   "potassium phosphate monobasic (KH₂PO₄)": {
     "molar_mass": 136,
     "density": 0,
-    "pKa": [7.2],
-    "base": false
+    "pKa": [11.9],
+    "base": true
   },
   "H₂SO₄": {
     "molar_mass": 98.079,
