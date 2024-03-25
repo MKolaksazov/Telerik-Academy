@@ -47,7 +47,7 @@ function calculateReagent() {
   var nSamp = document.getElementById('nSamples').value;
   var mLReag = document.getElementById('mLReagent').value;
   var volume = nSamp * mLReag;
-  var sumPH = 1e-7;
+  var sumPH = -1e-7;
   for(var i = 0; i < contain.children.length; i++) {
     // index of the chemical in the database
     var indexElem = checkIndex(contain.children[i]); 
