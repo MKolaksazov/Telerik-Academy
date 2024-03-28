@@ -18,11 +18,11 @@
 .down-arrow { border: solid black;
       border-width: 0 1px 1px 0;
       display: inline-block;
-      padding: 2px;
+      padding: 3px;
       margin: 2px;
       transition: transform 0.3s;
       transform: rotate(45deg); }
 
-#parameters { border: none; background: rgba(0, 0, 0, 0); /* appearance: none; */ }
+#parameters { /* border: 1px black; background: rgba(ff, 0, 0, 0); appearance: none; */ }
 select, #protocol, #parameters { height: auto; cursor: pointer; }
 .btn, #parameters, .aqua { font-family: "DejaVu Sans Light", "Oxanium"; font-weight: 200; color: black; font-size: 14px; cursor: pointer; }
