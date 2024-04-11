@@ -102,6 +102,15 @@ function drawParameters() {
 
       displayLegend = true;
     }
+    if (parameter == 'Rfd') {
+      var type = 'bar';
+      var speedData = {
+        labels: labels, //labels: ["0s", "10s", "20s", "30s", "40s", "50s", "60s"], NONE!
+        datasets: dataSets
+      };
+
+      displayLegend = false;
+    }
   }
 
     var scales =  {
