@@ -70,6 +70,48 @@
     "density": 0,
     "pKa": [0],
     "base": true
+  },
+  "Hydroxylamine hydrochloride (NH₂OH.HCl)": {
+    "molar_mass": 69.49,
+    "density": 0,
+    "pKa": [0],
+    "base": false
+  },
+  "magnesium chloride (MgCl₂•6H₂O)": {
+    "molar_mass": 203.3,
+    "density": 0,
+    "pKa": [0],
+    "base": false
+  },
+  "magnesium sulphate (MgSO₂•7H₂O)": {
+    "molar_mass": 246.48,
+    "density": 0,
+    "pKa": [0],
+    "base": false
+  },
+  "TRIS hydrochloride (C4Н11NO3•HCl)": {
+    "molar_mass": 157.6,
+    "density": 0,
+    "pKa": [0],
+    "base": false
+  },
+  "dithiotreitol (HSCH2CH(OH)CH(OH)CH2SH)": {
+    "molar_mass": 154.25,
+    "density": 0,
+    "pKa": [0],
+    "base": false
+  },
+  "adenosine triphosphate (ATP)": {
+    "molar_mass": 551.14,
+    "density": 0,
+    "pKa": [0],
+    "base": false
+  },
+  "L-glutamate (NaOOCCH2CH2CH(NH2)COOH · H2O)": {
+    "molar_mass": 187.13,
+    "density": 0,
+    "pKa": [0],
+    "base": false
   }
 }
   
