@@ -112,6 +112,12 @@
     "density": 0,
     "pKa": [0],
     "base": false
+  },
+  "acetonitrile (CH3CN)": {
+    "molar_mass": 41.05,
+    "density": 0,
+    "pKa": [0],
+    "base": false
   }
 }
   
