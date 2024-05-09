@@ -18,10 +18,11 @@
     "base": false
   },
   "H₂SO₄": {
-    "molar_mass": 98.079,
+    "molar_mass": 100.04,
     "density": 1830,
     "pKa": [0, 1.99],
-    "base": false
+    "base": false,
+    "comment": "the molar mass 100.04 = 98.079 * 1.02 (concentrated is of 98%)"
   },
   "TPTZ": {
     "molar_mass": 312.33,
@@ -48,23 +49,25 @@
     "base": false
   },
   "HCl": {
-    "molar_mass": 98.442,  
-    "density": 810,
+    "molar_mass": 101.3588,  
+    "density": 1180,
     "pKa": [0],
     "base": false,
-    "comment": "the molar mass 98.442 = 36.46 * 2.70 (concentrated is of 37%)"
+    "comment": "the molar mass 101.3588 = 36.46 * 2.78 (concentrated is of 36%)"
   },
   "H₃PO₄": {
-    "molar_mass": 97.994,
+    "molar_mass": 115.287,
     "density": 1684.50,
     "pKa": [2.16, 7.21, 12.32],
-    "base": false
+    "base": false,
+    "comment": "the molar mass 115.287 = 97.994 * 1.176 (concentrated is of 85%)"
   },
   "NH₄+": {
-    "molar_mass": 18.039,
-    "density": 0,
+    "molar_mass": 52.54,
+    "density": 880,
     "pKa": [4.75],
-    "base": true
+    "base": true,
+    "comment": "the molar mass 52.54 = 18.039 * 2.857 (concentrated is of 35%)"
   },
   "NaOH": {
     "molar_mass": 39.9971,
