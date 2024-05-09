@@ -48,10 +48,11 @@
     "base": false
   },
   "HCl": {
-    "molar_mass": 36.46,
+    "molar_mass": 98.442,  
     "density": 810,
     "pKa": [0],
-    "base": false
+    "base": false,
+    "comment": "the molar mass 98.442 = 36.46 * 2.70 (concentrated is of 37%)"
   },
   "H₃PO₄": {
     "molar_mass": 97.994,
