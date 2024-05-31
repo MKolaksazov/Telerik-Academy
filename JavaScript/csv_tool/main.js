@@ -114,7 +114,7 @@ function arrayToCsv(data){
     row
     .map(String)  // convert every value to String
     .map(v => v.replaceAll('"', '""'))  // escape double quotes
-    .map(v => `"${v}"`)  // quote it
+    .map(v => `${v}`)  // quote it
     .join('\t')  // tab (comma)-separated
   ).join('\r\n');  // rows starting on new lines
 }
@@ -123,8 +123,18 @@ function arrayToCsv(data){
 /** Download contents as a file
  * Source: https://stackoverflow.com/questions/14964035/how-to-export-javascript-array-info-to-csv-on-client-side
  */
-function downloadBlob(content=tableData, filename='export.csv', contentType='text/csv;charset=utf-8;') {
-  var csv = arrayToCsv(transpose(content));
+
+var fname = document.getElementById('export').value;
+
+function downloadBlob(content=tableData, filename=`${fname}.csv`, contentType='text/csv;charset=utf-8;') {
+
+  content = transpose(tableData);
+
+  var times = 5; while(times--) {
+    content.unshift([ " " ]);
+  }
+
+  var csv = arrayToCsv(content);
   // Create a blob
   var blob = new Blob([csv], { type: contentType });
   var url = URL.createObjectURL(blob);

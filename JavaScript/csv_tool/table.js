@@ -41,6 +41,7 @@
             averaged = averaged / colsSelected.length;
             const label = document.getElementById('label').value;
             if (row.rowIndex == 0) { newCol.push(label); }
+            else if (row.rowIndex == 2) { newCol.push(protocol); }
             else { newCol.push(averaged); }
             var cell = document.createElement('td');
 
