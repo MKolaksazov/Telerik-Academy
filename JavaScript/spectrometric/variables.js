@@ -11,11 +11,10 @@ fetch(targetUrl)
 
 var cont = document.getElementById("cont");
 const average = array => array.reduce((a, b) => a + b) / array.length;
-var calibration = [];
-var dilutions = [];
+//var calibration = [];
+//var dilutions = [];
 var methods = [];
 var labels = [];
-//var calculated = [];
 
 var titleUnits = document.getElementById('unitsList')
 .children[document.getElementById('unitsList').selectedIndex].innerHTML
