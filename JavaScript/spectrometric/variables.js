@@ -17,6 +17,9 @@ var methods = [];
 var labels = [];
 //var calculated = [];
 
+var titleUnits = document.getElementById('unitsList')
+.children[document.getElementById('unitsList').selectedIndex].innerHTML
+
 var speedCanvas = document.getElementById("myChart");
 var ctx = document.getElementById("myChart").getContext("2d");
 document.getElementById('myChart').style.height = '500px';

@@ -96,6 +96,7 @@ function calculate() {
 }
 
 function drawBar(calculated) {
+    if (!calculated) { alert('Error! Unavailable data!'); return; }
 
   var data = {
       labels: labels,
@@ -124,7 +125,11 @@ function drawBar(calculated) {
       options: {
           barValueSpacing: 20,
           scales: {
-              yAxes: [{
+            yAxes: [{
+                  scaleLabel: {
+                    display: true,
+                    labelString: titleUnits
+                  },
                   ticks: {
                       min: 0,
                   }
@@ -143,26 +148,26 @@ function setValues(a, b, epsylon) {
 function arr2obj(arr) {
     let obj = [{}];
       for (var n=0; n<arr.length; n++) {
-        let x = arr[n][0];
-        let y = arr[n][1];
+        let x = arr[n][1];
+        let y = arr[n][2];
         obj.push({x:x, y:y});
       }
     return obj;
 }
 
 function calculateRegression() {
-    var regression = [];
+
     var a = [];
     var b = [];
     for (i = 0; i<dilutions.length-1; i++) {
-      a.push((dilutions[i+1][1] - dilutions[i][1])
-        / (dilutions[i+1][0] - dilutions[i][0]));
-      b.push(dilutions[i][1] - (a[i] * dilutions[i][0]));
+      a.push((dilutions[i+1][2] - dilutions[i][2])
+        / (dilutions[i+1][1] - dilutions[i][1]));
+      b.push(dilutions[i][2] - (a[i] * dilutions[i][1]));
     }
 
-    for (j = 0; j<dilutions.length; j++) {
-      yeval = a[j] * dilutions[j][0] + b[j];
-      regression.push({ x: dilutions[j][0], y: yeval});
+    regression = [{ x: 0, y: b }];
+    for (i = 0; i<dilutions.length; i++) {
+      regression.push({ x: dilutions[i][1], y: a * dilutions[i][1] + b});
     }
 
     return [average(a), average(b), regression];
@@ -173,10 +178,18 @@ function drawLine() {
 
   if (dilutions.length === 0) { alert('Error! Unavailable data!'); return; }
   //else { loopData(dilutions); }
-
-  var [a, b, regression] = calculateRegression();
+  try {
+    var [a, b, regression] = calculateRegression();
+  }
+  catch {
+    alert("Error! At least two points must be uploaded to set a calibration curve.");
+  }
 
   setValues(a, b, a*1000);
+
+
+
+
   /*
   console.log(a, b, regression);
   var json = {
@@ -219,8 +232,31 @@ function drawLine() {
         type: 'line'
       }],
     },
-    options: {}
-  });
+    options: {
+
+        scales: {
+          xAxes: [{
+                scaleLabel: {
+                  display: true,
+                  labelString: titleUnits
+                },
+                ticks: {
+                    min: 0,
+                }
+            }],
+
+        yAxes: [{
+              scaleLabel: {
+                display: true,
+                labelString: 'OD'
+              },
+              ticks: {
+                  min: 0,
+              }
+          }]
+        },
+      }
+    });
 
 }
 

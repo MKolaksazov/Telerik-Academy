@@ -24,6 +24,13 @@
         <input id="b" type="number" class="form-control col-sm req" placeholder="" aria-label="Last name" value="0">
         <label for="exampleInputEmail1" class="input-group-text col-sm">ext coefficient [M<sup>-1</sup>]</label>
         <input id="epsylon" type="number" class="form-control col-sm" placeholder="" aria-label="Last name">
+        <label id="units" for="unitsList" class="input-group-text col-sm" placeholder="" aria-label="samples">
+        <select id="unitsList" class="col-sm">
+          <option>[ mg / L ]</option>
+          <option>[ mg / g ]</option>
+          <option>[ mM / L ]</option>
+          <option>[ mM / g ]</option>
+        </select>
         <button type="submit" class="btn btn-outline-secondary col-sm" onclick="barGraph();">calculate</button>
         <button type="submit" class="btn btn-outline-secondary col-sm" onclick="drawCalibration();">calibration</button>
       </div>
