@@ -36,7 +36,7 @@ document.getElementById('protocol').onchange = function() {
 };
 
 document.getElementById('parameters').onchange = function() {
-    parameter = document.getElementById("parameters").options[this.selectedIndex].text; console.log(parameter);
+    parameter = document.getElementById("parameters").options[this.selectedIndex].text;
 };
 
   function readSingleFile(evt) {
@@ -124,11 +124,12 @@ function arrayToCsv(data){
  * Source: https://stackoverflow.com/questions/14964035/how-to-export-javascript-array-info-to-csv-on-client-side
  */
 
-var fname = document.getElementById('export').value;
+function downloadBlob(content=tableData, filename=`export.csv`, contentType='text/csv;charset=utf-8;') {
+  var fname = document.getElementById('export').value;
+  filename=`${fname}.csv`;
 
-function downloadBlob(content=tableData, filename=`${fname}.csv`, contentType='text/csv;charset=utf-8;') {
-
-  content = transpose(tableData);
+  if (colsSelected.length > 0) { content = insertSelected(colsSelected); }
+  content = transpose(content);
 
   var times = 5; while(times--) {
     content.unshift([ " " ]);
@@ -144,5 +145,14 @@ function downloadBlob(content=tableData, filename=`${fname}.csv`, contentType='t
   pom.href = url;
   pom.setAttribute('download', filename);
   pom.click();
+}
+
+function insertSelected(indices) {
+  dataSets = [tableData[0]];
+
+  indices.forEach((index, i) => {
+    dataSets.push(tableData[index]);
+  }); //console.log(dataSets);
+  return dataSets;
 }
 
