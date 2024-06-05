@@ -17,7 +17,7 @@ function arr2obj(arr) {
 
 var dataSets = [];
 var labels = [];
-var speedCanvas = document.getElementById("myChart");
+//var speedCanvas = document.getElementById("myChart");
 
 Chart.defaults.global.defaultFontFamily = "Lato, sans-serif";
 Chart.defaults.global.defaultFontSize = 16;
@@ -44,8 +44,23 @@ function loopData(indices) {
   });
 }
 
+function removeFlicker() {
+  // Checks if the element canvas exists otherwise removes it to avoid flickering (overlapping) of graphs
+  if (document.getElementById('myChart') !== undefined && document.getElementById('myChart') !== null) {
+    document.getElementById('myChart').remove(); }
+  var canvasContainer = document.getElementById('canvasContainer');
+  var speedCanvas = document.createElement('canvas');
+  speedCanvas.setAttribute('id', 'myChart');
+  speedCanvas.style.height = '500px';
+  canvasContainer.appendChild(speedCanvas);
+
+  return speedCanvas;
+}
+
+
 function drawGraph() {
-  document.getElementById('myChart').style.height = '500px';
+  var speedCanvas = removeFlicker();
+
   if (colsSelected.length === 0) { alert('Error! Column(s) not selected!'); return; }
   else { loopData(colsSelected); }
 

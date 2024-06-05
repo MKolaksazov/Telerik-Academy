@@ -74,8 +74,8 @@ function loopDataParams(indices) {
 }
 //document.getElementById('drawParams').onclick(parameter = document.getElementById('drawParams').innerHTML);
 function drawParameters() {
-  //parameter = document.getElementById('drawParams').innerHTML;
-  document.getElementById('myChart').style.height = '500px';
+  var speedCanvas = removeFlicker();
+
   if (colsSelected.length === 0) { alert('Error! Column(s) not selected!'); return; }
   else { loopDataParams(colsSelected); }
 

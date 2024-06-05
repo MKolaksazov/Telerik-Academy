@@ -116,7 +116,7 @@ function arrayToCsv(data){
     .map(v => v.replaceAll('"', '""'))  // escape double quotes
     .map(v => `${v}`)  // quote it
     .join('\t')  // tab (comma)-separated
-  ).join('\t \n');  // rows starting on new lines
+  ).join('\t\n');  // rows starting on new lines
 }
 
 
