@@ -1,15 +1,23 @@
 
 var tableData =[];
 var indexCol = [];
-var protocol = 'OJIP';
-// var optionsArr = [];
+//var protocol = 'OJIP';
+
 // params gives slice points for parameters from 1) OJIP protocol (466, 493) 2) NPQ protocols (754, 824) // var params = [466, 493, 754, 824];
 //var OJIPdata = [8, 465]; // 2001621 : 458
 //var NPQdata = [505, 983]; // 504, 983 // NPQ slice points depend on the protocol: 1 2 3
 var slicePoints = [];
 
-document.getElementById('protocol').onchange = function() {
-    protocol = document.getElementById("protocol").options[this.selectedIndex].text;
+function setProtocol(options) {
+  var protocol = options[options.selectedIndex].text;
+  document.getElementById('makeAvg').setAttribute('onclick', `makeAverave('${protocol}')`);
+  document.getElementById('makeGr').setAttribute('onclick', `drawGraph('${protocol}')`);
+  document.getElementById('drawParams').setAttribute('onclick', `drawParameters('${protocol}')`);
+  return protocol;
+}
+
+document.getElementById('protocol').onchange = function(protocol = 'OJIP') {
+  var protocol = setProtocol(this);
 
   // optionsArray
   if (protocol == "OJIP") {
@@ -36,7 +44,7 @@ document.getElementById('protocol').onchange = function() {
 };
 
 document.getElementById('parameters').onchange = function() {
-    parameter = document.getElementById("parameters").options[this.selectedIndex].text;
+    return document.getElementById("parameters").options[this.selectedIndex].text;
 };
 
   function readSingleFile(evt) {
@@ -71,6 +79,8 @@ document.getElementById('parameters').onchange = function() {
           const startOJIP = indexCol.indexOf("21");
           const startNPQ1 = indexCol.indexOf("2443101");
           const startNPQ2 = indexCol.indexOf("207601");
+
+          var protocol = setProtocol(document.getElementById('protocol'));
 
           if (protocol == 'OJIP') { slicePoints = [startOJIP, startOJIP+457]; }
           else if (protocol == 'NPQ1') { slicePoints = [startNPQ1, startNPQ1+159]; }

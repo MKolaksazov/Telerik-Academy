@@ -27,7 +27,7 @@
         tbl.appendChild(table);
       }
 
-      function makeAverage() {
+      function makeAverage(protocol) {
         const table = document.getElementById("table-1"); newCol = [];
 
         Array.from(table.rows)

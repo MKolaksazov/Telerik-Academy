@@ -1,6 +1,3 @@
-
-var parameter = ''; var displayLegend = false;
-
 var colors = ['blue', 'orange', 'dodgerblue', 'red', 'olive', 'yellow', 'green', 'grey', 'purple',
               'aqua', 'brown', 'chartreuse', 'darkblue', 'darkorange', 'darkviolet', 'darkgreen', 'lime', 'darkcyan',
               'khaki', 'navy', 'maroon', 'pink', 'teal', 'tan', 'turquoise', 'tomato', 'greenyellow',
@@ -19,7 +16,7 @@ var colors = ['#00f', '#f00', '#0f0', '#008', '#800', '#080', '#f0f', '#088', '#
              ];
              */
 
-function loopDataParams(indices) {
+function loopDataParams(indices, parameter) {
   dataSets = []; var dataSet = {}; labels = []; var newData = []; //parameter = document.getElementById("parameter").value;
 
     if ((protocol != 'OJIP') && ((parameter == 'QY') || (parameter == 'Qp') || (parameter == 'NPQ') || (parameter == 'Fm'))) {
@@ -73,11 +70,14 @@ function loopDataParams(indices) {
     }
 }
 //document.getElementById('drawParams').onclick(parameter = document.getElementById('drawParams').innerHTML);
-function drawParameters() {
+function drawParameters(protocol) {
   var speedCanvas = removeFlicker();
+  var options = document.getElementById("parameters");
+  var parameter = options[options.selectedIndex].text;
+  var displayLegend = false;
 
   if (colsSelected.length === 0) { alert('Error! Column(s) not selected!'); return; }
-  else { loopDataParams(colsSelected); }
+  else { loopDataParams(colsSelected, parameter); }
 
   if (protocol == 'OJIP') { // spider diagram : OJIP; line graphs : NPQ
     var type = 'bar';
@@ -89,6 +89,7 @@ function drawParameters() {
     displayLegend = false;
   }
   else { // spider diagram : OJIP; line graphs : NPQ
+    console.log(parameter);
     if ((parameter == 'QY') || (parameter == 'Qp') || (parameter == 'NPQ') || (parameter == 'Fm')) {
       var type = 'line';
       var indexL1 = indexCol.indexOf(parameter + '_L1');
@@ -111,6 +112,7 @@ function drawParameters() {
 
       displayLegend = false;
     }
+    //else { alert('Parameter error!'); }
   }
 
     var scales =  {

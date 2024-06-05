@@ -1,4 +1,3 @@
-
 // ! a function to convert 2d array to json array with the object format: { x: ..., y: ... }
 // initialize function
 function arr2obj(arr) {
@@ -58,7 +57,7 @@ function removeFlicker() {
 }
 
 
-function drawGraph() {
+function drawGraph(protocol) {
   var speedCanvas = removeFlicker();
 
   if (colsSelected.length === 0) { alert('Error! Column(s) not selected!'); return; }
