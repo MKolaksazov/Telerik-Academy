@@ -10,7 +10,7 @@ var slicePoints = [];
 
 function setProtocol(options) {
   var protocol = options[options.selectedIndex].text;
-  document.getElementById('makeAvg').setAttribute('onclick', `makeAverave('${protocol}')`);
+  document.getElementById('makeAvg').setAttribute('onclick', `makeAverage('${protocol}')`);
   document.getElementById('makeGr').setAttribute('onclick', `drawGraph('${protocol}')`);
   document.getElementById('drawParams').setAttribute('onclick', `drawParameters('${protocol}')`);
   return protocol;

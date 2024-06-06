@@ -89,7 +89,7 @@ function drawParameters(protocol) {
     displayLegend = false;
   }
   else { // spider diagram : OJIP; line graphs : NPQ
-    console.log(parameter);
+
     if ((parameter == 'QY') || (parameter == 'Qp') || (parameter == 'NPQ') || (parameter == 'Fm')) {
       var type = 'line';
       var indexL1 = indexCol.indexOf(parameter + '_L1');
