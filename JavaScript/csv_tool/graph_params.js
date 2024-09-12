@@ -1,4 +1,11 @@
-var colors = ['blue', 'orange', 'dodgerblue', 'red', 'olive', 'yellow', 'green', 'grey', 'purple',
+var colors = [
+
+//'blue', 'orange','blue', 'orange','blue', 'orange','blue', 'orange','blue', 'orange','blue', 'orange','blue', 'orange','blue', 'orange',
+
+
+'navy', 'maroon', 'teal', 'tomato', 'blue', 'orange', 'dodgerblue', 'red', 'turquoise', 'pink', 'cyan', 'tan',
+
+'olive', 'yellow', 'green', 'grey', 'purple',
               'aqua', 'brown', 'chartreuse', 'darkblue', 'darkorange', 'darkviolet', 'darkgreen', 'lime', 'darkcyan',
               'khaki', 'navy', 'maroon', 'pink', 'teal', 'tan', 'turquoise', 'tomato', 'greenyellow',
               'blue', 'orange', 'cyan', 'red', 'olive', 'yellow', 'green', 'grey', 'purple',
