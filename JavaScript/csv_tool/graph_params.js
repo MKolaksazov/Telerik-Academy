@@ -76,12 +76,54 @@ function loopDataParams(indices, parameter) {
       }); dataSets.push(dataSet);
     }
 }
+
+
+/*
+function closeButton() {
+  var closeButton = document.createElement("button");
+  closeButton.setAttribute("id", "closeButton");
+  closeButton.setAttribute("onclick", `close()`);
+  closeButton.innerText = "X";
+  closeButton.setAttribute("style", "width: 21px; height: 21px; background: red; color: white; position: absolute; top: 0px; right: 0px;");
+  document.getElementById("canvasContainer").appendChild(closeButton);
+}
+*/
+function closeButton() {
+  // Create the close button element
+  const closeButton = document.createElement("button");
+  closeButton.textContent = "X";
+  closeButton.classList.add("close-button"); // Add a class for styling
+  closeButton.style.cssText = "position: absolute; top: 0; right: 0; background-color: red; color: white; border: none; padding: 5px; cursor: pointer;";
+
+  // Attach the close button to the canvas container
+  const canvasContainer = document.getElementById("canvasContainer");
+  canvasContainer.appendChild(closeButton);
+
+  // Add a click event listener to the close button
+  closeButton.addEventListener("click", () => {
+    clearCanvasContainer();
+  });
+}
+
+function clearCanvasContainer() {
+  // Remove all child elements from the canvas container
+  const canvasContainer = document.getElementById("canvasContainer");
+  while (canvasContainer.firstChild) {
+    canvasContainer.removeChild(canvasContainer.firstChild);
+  }
+}
+
+
+
+
 //document.getElementById('drawParams').onclick(parameter = document.getElementById('drawParams').innerHTML);
 function drawParameters(protocol) {
   var speedCanvas = removeFlicker();
   var options = document.getElementById("parameters");
   var parameter = options[options.selectedIndex].text;
   var displayLegend = false;
+
+  closeButton();
 
   if (colsSelected.length === 0) { alert('Error! Column(s) not selected!'); return; }
   else { loopDataParams(colsSelected, parameter); }
