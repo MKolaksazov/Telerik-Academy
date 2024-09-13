@@ -27,5 +27,6 @@
 select, #protocol, #parameters { height: auto; cursor: pointer; }
 .btn, #parameters, .aqua { font-family: "DejaVu Sans Light", "Oxanium"; font-weight: 200; color: black; font-size: 14px; cursor: pointer; }
 
-#tbl { position: relative; top: 100px; }
+#tbl, #canvasContainer { position: relative; top: 100px; }
+#canvasContainer { width:100%; max-width:1000px; }
 

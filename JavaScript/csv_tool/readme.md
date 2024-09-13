@@ -1,4 +1,4 @@
-# App for extracting ang analyzing chlorophyll fluorescence experimental data from CSV files.
+# Tool for extracting ang analyzing chlorophyll fluorescence experimental data from CSV files.
 
 https://mkolaksazov.github.io/Telerik-Academy/JavaScript/csv_tool/index.html
 

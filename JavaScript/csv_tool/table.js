@@ -79,12 +79,18 @@
       function makeCheckbox(text, cell, table) {
           if (text != 'index') {
             var checkbox = document.createElement("input");
+            var colorPick = document.createElement("input");
             checkbox.setAttribute("type", "checkbox");
+            colorPick.setAttribute("type", "color");
             cell.appendChild(checkbox);
             cell.appendChild(document.createElement("br"));
+            cell.appendChild(colorPick);
+            cell.appendChild(document.createElement("br"));
+
             // add functionality
             checkbox.addEventListener("change", () => {
               columnIndex = checkbox.parentNode.cellIndex;
+
               if (colsSelected.includes(columnIndex))
               { colsSelected = colsSelected.filter(e => e != columnIndex); } // remove element if in array
               else { colsSelected.push(columnIndex); }
@@ -98,6 +104,10 @@
               //  alert("This column doesn't contain only numbers.");
               //checkbox.checked = false;
               //}
+            });
+
+            colorPick.addEventListener("change", () => {
+              colors[colsSelected.indexOf(colorPick.parentNode.cellIndex)] = colorPick.value;
             });
           }
           else {
