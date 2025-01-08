@@ -123,7 +123,7 @@
             inputText.addEventListener("change", () => {
               var colIndex = inputText.parentNode.cellIndex;
               tableData[colIndex][0] = inputText.value;
-              console.log(colIndex, text, inputText.value);
+              //console.log(colIndex, text, inputText.value);
             });
           }
           else {
