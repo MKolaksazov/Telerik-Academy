@@ -16,8 +16,7 @@
             var cell = document.createElement('td');
 
             if (rowData[0] == 'index') makeCheckbox(cellData, cell, table);
-
-            cell.appendChild(document.createTextNode(cellData));
+            else cell.appendChild(document.createTextNode(cellData));
             row.appendChild(cell);
           });
           tableBody.appendChild(row);
@@ -80,11 +79,21 @@
           if (text != 'index') {
             var checkbox = document.createElement("input");
             var colorPick = document.createElement("input");
+            var inputText = document.createElement("input");
             checkbox.setAttribute("type", "checkbox");
             colorPick.setAttribute("type", "color");
+            colorPick.setAttribute("value", "#ffffff");
+            inputText.setAttribute("type", "text");
+            inputText.setAttribute("value", text);
+            //inputText.setAttribute("size", '30');
+            cell.appendChild(document.createTextNode("select column "));
             cell.appendChild(checkbox);
             cell.appendChild(document.createElement("br"));
+            cell.appendChild(document.createTextNode("select color "));
             cell.appendChild(colorPick);
+            cell.appendChild(document.createElement("br"));
+            cell.appendChild(document.createTextNode("sample name (change) "));
+            cell.appendChild(inputText);
             cell.appendChild(document.createElement("br"));
 
             // add functionality
@@ -109,11 +118,17 @@
             colorPick.addEventListener("change", () => {
               colors[colsSelected.indexOf(colorPick.parentNode.cellIndex)] = colorPick.value;
             });
+            
+            inputText.addEventListener("change", () => {
+              var colIndex = inputText.parentNode.cellIndex;
+              tableData[colIndex][0] = inputText.value;
+              console.log(colIndex, text, inputText.value);
+            });
           }
           else {
             var bAll = document.createElement('button');
             bAll.setAttribute('onclick', 'selectAll();');
-            bAll.innerHTML = 'All';
+            bAll.innerHTML = 'select / deselect All';
             bAll.style.margin = '5px';
             cell.appendChild(bAll);
           }
