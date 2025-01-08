@@ -29,7 +29,7 @@ function loopData(indices) {
 
     var JsonObject = JSON.parse(JSON.stringify(inputData));
     var newData = arr2obj(JsonObject);
-    const sampleLabel = tbl.children[0].rows[0].childNodes[index].innerText;
+    const sampleLabel = tbl.children[0].rows[0].childNodes[index].getElementsByClassName("sampleLabel")[0].value;
 
       const dataSet = {
         label: sampleLabel,

@@ -28,7 +28,7 @@ function loopDataParams(indices, parameter) {
 
     if ((protocol != 'OJIP') && ((parameter == 'QY') || (parameter == 'Qp') || (parameter == 'NPQ') || (parameter == 'Fm'))) {
       indices.forEach((index, i) => {
-        labels.push(tbl.children[0].rows[0].childNodes[index].innerText);
+        labels.push(tbl.children[0].rows[0].childNodes[index].getElementsByClassName("sampleLabel")[0].value);
         const indexL1 = indexCol.indexOf(parameter + '_L1');
         const indexD1 = indexCol.indexOf(parameter + '_D1');
         const extParams = [].concat(tableData[index].slice(indexL1, indexL1 + 10), tableData[index].slice(indexD1, indexD1 + 7));
@@ -51,7 +51,7 @@ function loopDataParams(indices, parameter) {
           var PhiRo = (fm - fi) / fm;
 
           newData.push(PhiRo);
-          labels.push(tbl.children[0].rows[0].childNodes[index].innerText);
+          labels.push(tbl.children[0].rows[0].childNodes[index].getElementsByClassName("sampleLabel")[0].value);
 
           dataSet = {
             label: parameter, // none
@@ -66,7 +66,7 @@ function loopDataParams(indices, parameter) {
       indices.forEach((index, i) => {
         const indexParam = indexCol.indexOf(parameter);
         newData.push(tbl.children[0].rows[indexParam].childNodes[index].innerText);
-        labels.push(tbl.children[0].rows[0].childNodes[index].innerText);
+        labels.push(tbl.children[0].rows[0].childNodes[index].getElementsByClassName("sampleLabel")[0].value);
 
           dataSet = {
             label: parameter, // none

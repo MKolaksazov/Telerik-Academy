@@ -84,6 +84,7 @@
             colorPick.setAttribute("type", "color");
             colorPick.setAttribute("value", "#ffffff");
             inputText.setAttribute("type", "text");
+            inputText.setAttribute("class", "sampleLabel");
             inputText.setAttribute("value", text);
             //inputText.setAttribute("size", '30');
             cell.appendChild(document.createTextNode("select column "));
