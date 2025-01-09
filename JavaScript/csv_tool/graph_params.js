@@ -31,8 +31,9 @@ function loopDataParams(indices, parameter) {
         labels.push(tbl.children[0].rows[0].childNodes[index].getElementsByClassName("sampleLabel")[0].value);
         const indexL1 = indexCol.indexOf(parameter + '_L1');
         const indexD1 = indexCol.indexOf(parameter + '_D1');
-        const extParams = [].concat(tableData[index].slice(indexL1, indexL1 + 10), tableData[index].slice(indexD1, indexD1 + 7));
-
+        const extParams = [].concat(tableData[index].slice(indexL1, indexL1 + 5 + (protocol.value=="NPQ2" ? 5 : 0 )), 
+        tableData[index].slice(indexD1, indexD1 + 3 + (protocol.value=="NPQ2" ? 4 : 0 )));
+        
         dataSet = {
           label: labels[i],
           data: extParams,
@@ -143,7 +144,7 @@ function drawParameters(protocol) {
       var type = 'line';
       var indexL1 = indexCol.indexOf(parameter + '_L1');
       var indexD1 = indexCol.indexOf(parameter + '_D1');
-      var labelsNPQ = [].concat(indexCol.slice(indexL1, indexL1 + 10), indexCol.slice(indexD1, indexD1 + 7));
+      var labelsNPQ = [].concat(indexCol.slice(indexL1, indexL1 + 5 + (protocol=="NPQ2" ? 5 : 0 )), indexCol.slice(indexD1, indexD1 + 3 + (protocol=="NPQ2" ? 4 : 0 )));
 
       var speedData = {
         labels: labelsNPQ, // ["0s", "10s", "20s", "30s", "40s", "50s", "60s", "70s", "80s", "80s", "100s"], //
