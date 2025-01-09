@@ -83,9 +83,9 @@ document.getElementById('parameters').onchange = function() {
           var protocol = setProtocol(document.getElementById('protocol'));
 
           if (protocol == 'OJIP') { slicePoints = [startOJIP, startOJIP+457]; }
-          else if (protocol == 'NPQ1') { slicePoints = [startNPQ1, startNPQ1+159]; }
-          else if (protocol == 'NPQ2') { slicePoints = [startNPQ2, startNPQ2+249]; }
-          else if (protocol == 'NPQ3') { slicePoints = [startNPQ2, startNPQ2+164]; }
+          else if (protocol == 'NPQ1') { slicePoints = [startNPQ1, 159+startNPQ1]; }
+          else if (protocol == 'NPQ2') { slicePoints = [startNPQ2, 249+startNPQ2]; }
+          else if (protocol == 'NPQ3') { slicePoints = [startNPQ2, "282312701"]; }   // startNPQ2+164]; }
           else { alert('Protocol error!'); }
 
           tableData = [];
