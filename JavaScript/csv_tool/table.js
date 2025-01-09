@@ -58,18 +58,18 @@
         var table = document.getElementById('table-1');
         var firstRow = table.rows[0];
         if (colsSelected == '') {
-          firstRow.childNodes.forEach((labelCell) => {
-            if (labelCell.innerText != 'Allindex') {
-              colsSelected.push(labelCell.cellIndex);
-              labelCell.childNodes[0].checked = true;
+          firstRow.childNodes.forEach((labelCell) => { 
+            if (labelCell.innerText != 'select / deselect All') { 
+              colsSelected.push(labelCell.cellIndex); 
+              labelCell.childNodes[1].checked = true; 
               toggleColumnHighlight(labelCell.cellIndex, true, table);
           }});
         }
         else {
           colsSelected = [];
           firstRow.childNodes.forEach((labelCell) => {
-            if (labelCell.innerText != 'Allindex') {
-              labelCell.childNodes[0].checked = false;
+            if (labelCell.innerText != 'select / deselect All') {
+              labelCell.childNodes[1].checked = false;
               toggleColumnHighlight(labelCell.cellIndex, false, table);
             }});
         }
@@ -104,7 +104,6 @@
               if (colsSelected.includes(columnIndex))
               { colsSelected = colsSelected.filter(e => e != columnIndex); } // remove element if in array
               else { colsSelected.push(columnIndex); }
-
               // Check if the column contains only numbers
               //const isNumberColumn = Array.from(table.rows).slice(slicePoints[0],slicePoints[1])
               //  .every(row => !isNaN(row.cells[columnIndex].textContent));
