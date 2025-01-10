@@ -63,6 +63,7 @@
                             </li></br>
                             <li>
                             </br>save selected as the file: <input class=" " type="text" id="export" name="label" value="export" required>.csv
+                             </br></br> please, enter the password: <input class=" " type="text" id="pwd" name="label" value="" required="">
                               <div class="buttons-container " ><!--div class="glare"></div-->
                                 <button id="fileinput_s" class="input-group-text aqua"  onclick="downloadBlob();">  save </button>
                                 <!--input id="fileinput_s" type="button"/-->
@@ -128,17 +129,19 @@
                 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>
                 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js" integrity="sha384-cuYeSxntonz0PPNlHhBs68uyIAVpIIOZZ5JqeqvYYIcEL727kskC66kF92t6Xl2V" crossorigin="anonymous"></script>
 
+              <footer class="mt-auto" id="f-text" style="text-align: center; background: #eee;"></hr>
+              <p> To make use of the downloaded CSV files you should first have the encryption file, which can be found <a id="href" href="targetUrl">here</a> </p>
+                <p>M. Kolaksazov, PhD; 2024 <a href="mailto:hege@example.com">m.kolaksazov@gmail.com</a></p>
+              </footer>
+
                 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
                 <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.0.0/crypto-js.min.js"></script>
                 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
                 <script src="main.js"></script>
+                <script src="encryption.js"></script>
                 <script src="table.js"></script>
                 <script src="graph.js"></script>
                 <script src="graph_params.js"></script>
 
-              <footer class="mt-auto" id="f-text" style="text-align: center; background: #eee;"></hr>
-              <p> To make use of the downloaded CSV files you should first have the encryption file, which can be found <a href="">here</a> </p>
-                <p>M. Kolaksazov, PhD; 2024 <a href="mailto:hege@example.com">m.kolaksazov@gmail.com</a></p>
-              </footer>
               </body>
             </html>

@@ -8,27 +8,6 @@ var indexCol = [];
 //var NPQdata = [505, 983]; // 504, 983 // NPQ slice points depend on the protocol: 1 2 3
 var slicePoints = [];
 
-// https://github.com/MKolaksazov/PhD-Dissertation-Thesis/blob/master/README.md
-
-﻿const targetUrl = 'https://mkolaksazov.github.io/Telerik-Academy/JavaScript/csv_tool/key.md';
-
-// Place the 'generateSecretKey' function in your project
-//import CryptoJS, { AES } from 'crypto-js';
-
-const keyLength = 32; // 32 bytes = 256 bits (AES-256)
-const buffer = new Uint8Array(keyLength);
-self.crypto.getRandomValues(buffer);
-
-function generateSecretKey() {
-    return Array.from(buffer, (byte) => byte.toString(16).padStart(2, '0')).join('');
-}
-
-const secretKey = generateSecretKey();
-
-async function getSampleText() {
-  return (await fetch(targetUrl).then(x=>x.text()));
-}
-
 function setProtocol(options) {
   var protocol = options[options.selectedIndex].text;
   document.getElementById('makeAvg').setAttribute('onclick', `makeAverage('${protocol}')`);
@@ -133,80 +112,6 @@ document.getElementById('parameters').onchange = function() {
 
 // ===========================================
 
-function transpose(arrayData) {
-  return arrayData[0].map((_, colIndex) => arrayData.map(row => row[colIndex]));
-}
-
-/** Convert a 2D array into a CSV string
- */
-function arrayToCsv(data){
-  return data.map(row =>
-    row
-    .map(String)  // convert every value to String
-    .map(v => v.replaceAll('"', '""'))  // escape double quotes
-    .map(v => `${v}`)  // quote it
-    .join('\t')  // tab (comma)-separated
-  ).join('\t\n');  // rows starting on new lines
-}
 
 
-/** Download contents as a file
- * Source: https://stackoverflow.com/questions/14964035/how-to-export-javascript-array-info-to-csv-on-client-side
- */
-
-function downloadBlob(content=tableData, filename=`export.csv`, contentType='text/csv;charset=utf-8;') {
-  var fname = document.getElementById('export').value;
-  filename=`${fname}.csv`;
-
-  if (colsSelected.length > 0) { content = insertSelected(colsSelected); }
-  content = transpose(content);
-
-  var times = 5; while(times--) {
-    content.unshift([ " " ]);
-  }
-
-  var csv = arrayToCsv(content);
-  //var key = "";
-  //getSampleText().then(result=> { key = result; console.log(key)});
-  var encrypted = CryptoJS.AES.encrypt(csv, secretKey);
-  csv = "encrypted: " + encrypted; 
-
-  // Create a blob
-  var blob = new Blob([csv], { type: contentType });
-  var url = URL.createObjectURL(blob);
-
-  // Create a link to download it
-  var pom = document.createElement('a');
-  pom.href = url;
-  pom.setAttribute('download', filename);
-  pom.click();
-}
-
-function insertSelected(indices) {
-  dataSets = [tableData[0]];
-
-  indices.forEach((index, i) => {
-    dataSets.push(tableData[index]);
-  }); //console.log(dataSets);
-  return dataSets;
-}
-
-
-/*
-*
-*
-  ** Code, used for decrypting of the CSV file:
-
-  var csv = arrayToCsv(content);
-  var encrypted = CryptoJS.AES.encrypt(csv, key);
-  //equivalent to CryptoJS.AES.encrypt(CryptoJS.enc.Utf8.parse(message), key);
-  var decrypted = CryptoJS.AES.decrypt(encrypted, key);
-  csv = "enc: " + encrypted; // + "dec: " + decrypted.toString(CryptoJS.enc.Utf8);
-
-
-
-*
-*
-*
-*/
 
