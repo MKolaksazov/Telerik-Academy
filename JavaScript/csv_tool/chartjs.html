@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html>
+<script src="https://unpkg.com/chart.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-datalabels/2.0.0/chartjs-plugin-datalabels.js"></script>
+<script src="https://unpkg.com/@sgratzl/chartjs-chart-boxplot@3.6.0/build/index.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/jstat@latest/dist/jstat.min.js"></script>
+
+<input type="file" id="file_input" accept=".csv">
+<button id="process_csv">Process CSV</button>
+<button id="drawBP">Draw</button>
+
+<div id="container">
+  <canvas id="canvas"></canvas>
+</div>
+
+<script>
+        var csvData = '';
+        var delimiter = 'tab';
+        var tableData =[];
+        var indexCol = [];
+        var slicePoints = [];
+        var parameter = 'Phi_Po';
+
+    document.getElementById("process_csv").addEventListener("click", function() {
+        const fileInput = document.getElementById("file_input");
+        if (fileInput.files.length === 0) {
+            alert("Select a CSV file.");
+            return;
+        }
+        const file = fileInput.files[0];
+
+        const reader = new FileReader();
+        reader.onload = function(event) {
+            csvData = event.target.result;
+            splitCSV(event.target.result);
+            //console.log(csvData);  // Прочети CSV данните
+            // Тук можеш да използваш D3.js или друга библиотека за обработка на данните
+        };
+        reader.readAsText(file);
+        
+        //console.log('csv: ', csvData);
+        
+        function splitCSV() {
+
+          var lines = csvData.split("\n");
+          var array = [];
+          //console.log(lines);
+          for (let i=0; i<lines.length; i++){
+              if (delimiter == 'tab') { array[i] = lines[i].split("\t"); }
+              else { array[i] = lines[i].split(delimiter); }
+          }
+          indexCol = array.map(x => x[0]);
+          indexCol = indexCol.slice(5, 983);
+          const startOJIP = indexCol.indexOf("21");
+          const startNPQ1 = indexCol.indexOf("2443101");
+          const startNPQ2 = indexCol.indexOf("207601");
+
+          var protocol = 'OJIP';//setProtocol(document.getElementById('protocol'));
+
+          if (protocol == 'OJIP') { slicePoints = [startOJIP, startOJIP+457]; }
+          else if (protocol == 'NPQ1') { slicePoints = [startNPQ1, 159+startNPQ1]; }
+          else if (protocol == 'NPQ2') { slicePoints = [startNPQ2, 249+startNPQ2]; }
+          else if (protocol == 'NPQ3') { slicePoints = [startNPQ2, "282312701"]; }   // startNPQ2+164]; }
+          else { alert('Protocol error!'); }
+
+          tableData = [];
+          tableData.push(indexCol);
+
+          for(var col=0; col<array[7].length; col++) {
+            if (array[7][col] == protocol) {
+              var column = array.map(x => x[col]);
+              // change the decimal separator from ',' to '.' (if available)
+              for (var x=0; x<column.length; x++) {
+                column[x] = String(column[x]).replace(",", ".");
+              }
+              tableData.push(column.slice(5, 983));
+            }
+          }
+        }
+      });
+
+//Chart.register(ChartDataLabels)
+function statistics() {
+    // Примерни данни
+    var data = extractData(tableData);
+    var bpData = [];
+    var labels = [];
+
+    // Анализ с JStat - изчисляване на квартилите
+    // Изчисляване на Q1 (25%), медианата и Q3 (75%)
+
+    data.forEach((key) => {
+      var groupStats = jStat(key.value);
+      var groupQuantiles = groupStats.quantiles([0.25, 0.5, 0.75]);
+      var dict = { min: Math.min(...key.value), q1: groupQuantiles[0], median: groupQuantiles[1], q3: groupQuantiles[2], max: Math.max(...key.value) };
+
+      bpData.push(dict);
+      labels.push(key.key);
+    });
+
+    // Създаване на Boxplot с Chart.js
+    //const ctx = document.getElementById('boxplot').getContext('2d');
+    return {
+        labels: labels,
+        datasets: [{
+            label: 'Boxplot',
+            data: bpData,
+            backgroundColor: 'rgba(0,123,255,0.2)',
+            borderColor: 'rgba(0,123,255,1)',
+            borderWidth: 1
+        }]
+    };
+}
+
+document.getElementById('drawBP').onclick = () => {
+
+  var boxplotData = statistics();
+  const ctx = document.getElementById("canvas").getContext("2d");
+  window.myBar = new Chart(ctx, {
+    type: 'boxplot',
+    data: boxplotData,
+    options: {
+      scales: {
+        y: {
+          grace: '5%'
+        }
+      },
+      responsive: true,
+      plugins: {
+        datalabels: {
+          formatter: (val, ctx) => (`${ctx.dataset.x} ${ctx.dataset.y} ${ctx.dataset.z}`),
+          align: 'end',
+          offset: (ctx) => {
+            const center = ctx.chart.scales.y.getPixelForValue(ctx.chart.getDatasetMeta(ctx.datasetIndex)._parsed[ctx.dataIndex].mean);
+            const max = ctx.chart.scales.y.getPixelForValue(ctx.chart.getDatasetMeta(ctx.datasetIndex)._parsed[ctx.dataIndex].max);
+            return center - max;
+          }
+        }
+      }
+    }
+  });
+
+};
+
+function transpose(arrayData) {
+  return arrayData[0].map((_, colIndex) => arrayData.map(row => row[colIndex]));
+}
+
+function extractData(tableData) {
+
+  var dict = []; // Create an empty array
+  var iParam = tableData[0].indexOf(parameter);
+  var transposed = transpose(tableData);
+
+  for (var row=1; row<tableData.length; row++) {
+
+    if (duplicate != tableData[row][0]) {
+
+      var arrayParams = [];
+
+      transposed[0].forEach((label, i) => {
+          if (label == tableData[row][0]) { arrayParams.push(transposed[iParam][i]); }
+        });
+
+      dict.push({
+        key:   tableData[row][0],
+        value: arrayParams
+      });
+    }
+
+    var duplicate = tableData[row][0];
+
+    }
+
+    return dict;
+}
+</script>
+
+</body>
+</html>
+
+
+
