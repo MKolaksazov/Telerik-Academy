@@ -8,11 +8,13 @@
 <input type="file" id="file_input" accept=".csv">
 <span>Въведи параметър: </span>
 <input type="text" id="param_input" >
+<span>Въведи бр. цветни групи: </span>
+<input type="text" id="colors_input" >
 <button id="process_csv">Да</button>
 <button id="drawBP">Графика</button>
 
 <div id="container">
-  <canvas id="canvas" style="max-height: 200%;"></canvas>
+  <canvas id="canvas" style="max-height: 220%;"></canvas>
 </div>
 
 <script>
@@ -22,7 +24,6 @@
         var indexCol = [];
         var slicePoints = [];
         var parameter = 'Phi_Po';
-
 /*
     function removeFlicker() {
       // Checks if the element canvas exists otherwise removes it to avoid flickering (overlapping) of graphs
@@ -105,17 +106,22 @@ function statistics() {
     var data = extractData(tableData);
     var bpData = [];
     var labels = [];
-
+    var backgroundColors = [];
+var i = 0;
     // Анализ с JStat - изчисляване на квартилите
     // Изчисляване на Q1 (25%), медианата и Q3 (75%)
 
-    data.forEach((key) => {
+    data.forEach((key) => { 
       var groupStats = jStat(key.value);
       var groupQuantiles = groupStats.quantiles([0.25, 0.5, 0.75]);
       var dict = { min: Math.min(...key.value), q1: groupQuantiles[0], median: groupQuantiles[1], q3: groupQuantiles[2], max: Math.max(...key.value) };
 
       bpData.push(dict);
       labels.push(key.key);
+      for (var j = 0; j<document.getElementById("colors_input").value; j++) {
+        backgroundColors.push(colors[i]);
+      }
+      i += 1;
     });
 
     // Създаване на Boxplot с Chart.js
@@ -123,9 +129,9 @@ function statistics() {
     return {
         labels: labels,
         datasets: [{
-            label: 'Boxplot',
+            //label: '',
             data: bpData,
-            backgroundColor: 'rgba(0,123,255,0.2)',
+            backgroundColor: backgroundColors,
             borderColor: 'rgba(0,123,255,1)',
             borderWidth: 1
         }]
@@ -147,6 +153,9 @@ document.getElementById('drawBP').onclick = () => {
       },
       responsive: true,
       plugins: {
+        legend: {
+          display: false
+        },
         datalabels: {
           formatter: (val, ctx) => (`${ctx.dataset.x} ${ctx.dataset.y} ${ctx.dataset.z}`),
           align: 'end',
@@ -195,6 +204,6 @@ function extractData(tableData) {
     return dict;
 }
 </script>
-
+                <script src="graph_params.js"></script>
 </body>
 </html>
