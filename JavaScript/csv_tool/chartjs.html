@@ -6,11 +6,13 @@
     <script src="https://cdn.jsdelivr.net/npm/jstat@latest/dist/jstat.min.js"></script>
 
 <input type="file" id="file_input" accept=".csv">
-<button id="process_csv">Process CSV</button>
-<button id="drawBP">Draw</button>
+<span>Въведи параметър: </span>
+<input type="text" id="param_input" >
+<button id="process_csv">Да</button>
+<button id="drawBP">Графика</button>
 
 <div id="container">
-  <canvas id="canvas"></canvas>
+  <canvas id="canvas" style="max-height: 200%;"></canvas>
 </div>
 
 <script>
@@ -21,7 +23,25 @@
         var slicePoints = [];
         var parameter = 'Phi_Po';
 
+/*
+    function removeFlicker() {
+      // Checks if the element canvas exists otherwise removes it to avoid flickering (overlapping) of graphs
+      if (document.getElementById('myChart') !== undefined && document.getElementById('myChart') !== null) {
+        document.getElementById('myChart').remove(); }
+      var canvasContainer = document.getElementById('canvasContainer');
+      var speedCanvas = document.createElement('canvas');
+      speedCanvas.setAttribute('id', 'myChart');
+      speedCanvas.style.height = '500px';
+      canvasContainer.appendChild(speedCanvas);
+
+      return speedCanvas;
+    }
+
+      var speedCanvas = removeFlicker();
+*/
+
     document.getElementById("process_csv").addEventListener("click", function() {
+        parameter = document.getElementById("param_input").value;
         const fileInput = document.getElementById("file_input");
         if (fileInput.files.length === 0) {
             alert("Select a CSV file.");
@@ -115,7 +135,7 @@ function statistics() {
 document.getElementById('drawBP').onclick = () => {
 
   var boxplotData = statistics();
-  const ctx = document.getElementById("canvas").getContext("2d");
+  var ctx = document.getElementById("canvas").getContext("2d");
   window.myBar = new Chart(ctx, {
     type: 'boxplot',
     data: boxplotData,
@@ -178,6 +198,3 @@ function extractData(tableData) {
 
 </body>
 </html>
-
-
-
