@@ -7,9 +7,33 @@
 
 <input type="file" id="file_input" accept=".csv">
 <span>Въведи параметър: </span>
-<input type="text" id="param_input" >
+<!--input type="text" id="param_input" -->
+                  <select id="param_input" name="protocol" class="form-control" >
+                      <option selected="selected">Phi_Po</option>
+                      <option>Phi_Eo</option>
+                      <option>Psi_o</option>
+                      <option>Phi_Ro</option>
+                      <option>Phi_Do</option>
+                      <option>Pi_Abs</option>
+                      <option>ABS/RC</option>
+                      <option>TRo/RC</option>
+                      <option>ETo/RC</option>
+                      <option>DIo/RC</option>
+                      <option>Fo</option>
+                      <option>Fj</option>
+                      <option>Fi</option>
+                      <option>Fm</option>
+                      <option>Area</option>
+                      <option>Mo</option>
+                      <option>Fix Area</option>
+                      <option>HACH Area</option>
+                      <option>Vj</option>
+                      <option>Vi</option>
+                      <option>Bckg</option>
+                      <option>N</option>
+                    </select>
 <span>Въведи бр. цветни групи: </span>
-<input type="text" id="colors_input" >
+<input type="text" id="colors_input" value='1'>
 <button id="process_csv">Да</button>
 <button id="drawBP">Графика</button>
 
@@ -24,22 +48,19 @@
         var indexCol = [];
         var slicePoints = [];
         var parameter = 'Phi_Po';
-/*
+
     function removeFlicker() {
       // Checks if the element canvas exists otherwise removes it to avoid flickering (overlapping) of graphs
-      if (document.getElementById('myChart') !== undefined && document.getElementById('myChart') !== null) {
-        document.getElementById('myChart').remove(); }
-      var canvasContainer = document.getElementById('canvasContainer');
+      if (document.getElementById('canvas') !== undefined && document.getElementById('canvas') !== null) {
+        document.getElementById('canvas').remove(); }
+      var canvasContainer = document.getElementById('container');
       var speedCanvas = document.createElement('canvas');
-      speedCanvas.setAttribute('id', 'myChart');
-      speedCanvas.style.height = '500px';
+      speedCanvas.setAttribute('id', 'canvas');
+      speedCanvas.style.height = '220%';
       canvasContainer.appendChild(speedCanvas);
 
       return speedCanvas;
     }
-
-      var speedCanvas = removeFlicker();
-*/
 
     document.getElementById("process_csv").addEventListener("click", function() {
         parameter = document.getElementById("param_input").value;
@@ -139,9 +160,8 @@ var i = 0;
 }
 
 document.getElementById('drawBP').onclick = () => {
-
+  var ctx = removeFlicker();//document.getElementById("canvas").getContext("2d");
   var boxplotData = statistics();
-  var ctx = document.getElementById("canvas").getContext("2d");
   window.myBar = new Chart(ctx, {
     type: 'boxplot',
     data: boxplotData,
