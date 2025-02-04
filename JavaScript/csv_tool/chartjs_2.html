@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html>
+<script src="https://unpkg.com/chart.js"></script>
+<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-datalabels/2.0.0/chartjs-plugin-datalabels.js"></script>
+<script src="https://unpkg.com/@sgratzl/chartjs-chart-boxplot@3.6.0/build/index.umd.min.js"></script>-->
+    <script src="https://cdn.jsdelivr.net/npm/jstat@latest/dist/jstat.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@sgratzl/chartjs-chart-boxplot"></script>
+
+<input type="file" id="file_input" accept=".csv">
+<span>Въведи параметър: </span>
+<!--input type="text" id="param_input" -->
+                  <select id="param_input" name="protocol" class="form-control" >
+                      <option selected="selected">Phi_Po</option>
+                      <option>Phi_Eo</option>
+                      <option>Psi_o</option>
+                      <option>Phi_Ro</option>
+                      <option>Phi_Do</option>
+                      <option>Pi_Abs</option>
+                      <option>ABS/RC</option>
+                      <option>TRo/RC</option>
+                      <option>ETo/RC</option>
+                      <option>DIo/RC</option>
+                      <option>Fo</option>
+                      <option>Fj</option>
+                      <option>Fi</option>
+                      <option>Fm</option>
+                      <option>Area</option>
+                      <option>Mo</option>
+                      <option>Fix Area</option>
+                      <option>HACH Area</option>
+                      <option>Vj</option>
+                      <option>Vi</option>
+                      <option>Bckg</option>
+                      <option>N</option>
+                    </select>
+<span>Въведи бр. цветни групи: </span>
+<input type="text" id="colors_input" value='1'>
+<button id="process_csv">Да</button>
+<button id="drawBP">Графика</button>
+
+<div id="container">
+  <canvas id="canvas" style="max-height: 220%;"></canvas>
+</div>
+
+<script>
+        var csvData = '';
+        var delimiter = 'tab';
+        var tableData =[];
+        var indexCol = [];
+        var slicePoints = [];
+        var parameter = 'Phi_Po';
+        var data = {};
+
+    function removeFlicker() {
+      // Checks if the element canvas exists otherwise removes it to avoid flickering (overlapping) of graphs
+      if (document.getElementById('canvas') !== undefined && document.getElementById('canvas') !== null) {
+        document.getElementById('canvas').remove(); }
+      var canvasContainer = document.getElementById('container');
+      var speedCanvas = document.createElement('canvas');
+      speedCanvas.setAttribute('id', 'canvas');
+      speedCanvas.style.height = '220%';
+      canvasContainer.appendChild(speedCanvas);
+
+      return speedCanvas;
+    }
+
+    document.getElementById("process_csv").addEventListener("click", function() {
+        parameter = document.getElementById("param_input").value;
+        const fileInput = document.getElementById("file_input");
+        if (fileInput.files.length === 0) {
+            alert("Select a CSV file.");
+            return;
+        }
+        const file = fileInput.files[0];
+
+        const reader = new FileReader();
+        reader.onload = function(event) {
+            csvData = event.target.result;
+            splitCSV(event.target.result);
+            //console.log(csvData);  // Прочети CSV данните
+            // Тук можеш да използваш D3.js или друга библиотека за обработка на данните
+        };
+        reader.readAsText(file);
+        
+        //console.log('csv: ', csvData);
+        
+        function splitCSV() {
+
+          var lines = csvData.split("\n");
+          var array = [];
+          //console.log(lines);
+          for (let i=0; i<lines.length; i++){
+              if (delimiter == 'tab') { array[i] = lines[i].split("\t"); }
+              else { array[i] = lines[i].split(delimiter); }
+          }
+          indexCol = array.map(x => x[0]);
+          indexCol = indexCol.slice(5, 983);
+          const startOJIP = indexCol.indexOf("21");
+          const startNPQ1 = indexCol.indexOf("2443101");
+          const startNPQ2 = indexCol.indexOf("207601");
+
+          var protocol = 'OJIP';//setProtocol(document.getElementById('protocol'));
+
+          if (protocol == 'OJIP') { slicePoints = [startOJIP, startOJIP+457]; }
+          else if (protocol == 'NPQ1') { slicePoints = [startNPQ1, 159+startNPQ1]; }
+          else if (protocol == 'NPQ2') { slicePoints = [startNPQ2, 249+startNPQ2]; }
+          else if (protocol == 'NPQ3') { slicePoints = [startNPQ2, "282312701"]; }   // startNPQ2+164]; }
+          else { alert('Protocol error!'); }
+
+          tableData = [];
+          tableData.push(indexCol);
+
+          for(var col=0; col<array[7].length; col++) {
+            if (array[7][col] == protocol) {
+              var column = array.map(x => x[col]);
+              // change the decimal separator from ',' to '.' (if available)
+              for (var x=0; x<column.length; x++) {
+                column[x] = String(column[x]).replace(",", ".");
+              }
+              tableData.push(column.slice(5, 983));
+            }
+          }
+        }
+      });
+
+//Chart.register(ChartDataLabels)
+function statistics() {
+    // Примерни данни
+    data = extractData(tableData);
+    var bpData = [];
+    var labels = [];
+    var backgroundColors = [];
+    var i = 0;
+    // Анализ с JStat - изчисляване на квартилите
+    // Изчисляване на Q1 (25%), медианата и Q3 (75%)
+console.log(data)
+    data.forEach((key) => { 
+      var groupStats = jStat(key.value);
+      var groupQuantiles = groupStats.quantiles([0.25, 0.5, 0.75]);
+      var dict = { min: Math.min(...key.value), q1: groupQuantiles[0], median: groupQuantiles[1], q3: groupQuantiles[2], max: Math.max(...key.value) };
+
+      bpData.push(dict);
+      labels.push(key.key);
+      for (var j = 0; j<document.getElementById("colors_input").value; j++) {
+        backgroundColors.push(colors[i]);
+      }
+      i += 1;
+    });
+
+    // Създаване на Boxplot с Chart.js
+    //const ctx = document.getElementById('boxplot').getContext('2d');
+    return {
+        labels: labels,
+        datasets: [{
+            //label: '',
+            data: bpData,
+            backgroundColor: backgroundColors,
+            borderColor: 'rgba(0,123,255,1)',
+            borderWidth: 1
+        }]
+    };
+}
+
+/*
+======================================================
+*/
+
+        // 1. Изчисляване на средни стойности, стандартни отклонения и брой наблюдения
+
+        //console.log("Group Statistics:", groupStats);
+
+        // 2. Tukey HSD анализ
+    function tukeyHSD(groupStats, alpha = 0.05) {
+
+      var result = [];
+      var groups = groupStats.map(x => x.group);
+      var t = jStat.tukeyhsd(groupStats.map(x => x.repetitions));
+
+      var count = 0;
+      for (let i = 0; i < groups.length; i++) {
+          for (let j = i + 1; j < groups.length; j++) {
+              const g1 = groups[i];
+              const g2 = groups[j];
+
+              var significant = t[count][1] < alpha;
+              //console.log(significant, t);
+              result.push({ group1: g1, group2: g2, significant  });
+              count += 1
+          }
+      }
+
+
+      return result;
+
+      // var results = [];
+      // const criticalValue = jStat.studentt.inv(1 - alpha / 2, groupStats[0].n - 1);
+      //
+      // for (let i = 0; i < groupStats.length; i++) {
+      //     for (let j = i + 1; j < groupStats.length; j++) {
+      //         const g1 = groupStats[i];
+      //         const g2 = groupStats[j];
+      //
+      //         const meanDifference = Math.abs(g1.mean - g2.mean);
+      //         const pooledSE = Math.sqrt(
+      //             (g1.stdDev ** 2 / g1.n) + (g2.stdDev ** 2 / g2.n)
+      //         );
+      //         const tukeyStat = meanDifference / pooledSE;
+      //
+      //         const significant = tukeyStat > criticalValue;
+      //
+      //         results.push({
+      //             group1: g1.group,
+      //             group2: g2.group,
+      //             meanDifference: meanDifference.toFixed(3),
+      //             tukeyStat: tukeyStat.toFixed(3),
+      //             significant,
+      //         });
+      //     }
+      // }
+      //
+      // return results;
+  }
+
+        
+        //console.log("Tukey HSD Results:", tukeyResults);
+
+        // 3. Групиране на статистически значимите съвкупности
+        
+const arrayColumn = (arr, n) => arr.map(x => x[n]);
+
+function createArray(x, y) {
+  return Array.apply(null, Array(x)).map(e => Array(y));
+}
+
+// Assuming df_ltr is an array of arrays or similar data structure
+function shiftDataFrame(df, cn) {
+  // Create new array for shifted data
+  var newDf = shiftAndJoinColumns(df, cn+1, "F");
+//console.log(newDf);
+  // Set column cn+1 equal to column cn
+  newDf.forEach(row => {
+    row[cn+1] = row[cn];
+  });
+
+  return newDf;
+}
+
+function shiftAndJoinColumns(data, n, BF) {
+  return data.map(row => {
+    var firstPart = row.slice(0, n); // slice a part of row from 0 to n
+    if (BF=='F') {
+    	return firstPart.concat(shiftForward(row.slice(n, row.length)));
+    }
+    if (BF=='B') {
+    	return firstPart.concat(shiftBackward(row.slice(n, row.length)));
+    }
+  });
+}
+
+// Преместване напред (надясно)
+function shiftForward(arr) {
+  arr.unshift(undefined);
+  arr.pop();
+  return arr;
+}
+
+// Преместване назад (наляво)
+function shiftBackward(arr) {
+  arr.shift();
+  arr.push(undefined);
+  return arr;
+}
+
+
+function assignLetters(comparisons) {
+    // Създаваме списък с всички уникални групи
+    const groups = Array.from(
+        new Set(comparisons.flatMap(({ group1, group2 }) => [group1, group2]))
+    );
+console.log(comparisons, "g",groups);
+    const groupLength = groups.length;
+    var count = 0;
+    var emptyArray = createArray(groupLength, groupLength);
+    emptyArray.forEach(x => { x[0] = 1; });
+
+    for (var i=0; i<groupLength; i++) {
+      for (var j=i+1; j<groupLength; j++) {
+console.log(comparisons);
+        if (comparisons[count].significant) {
+
+          for (var cn=0; cn<groupLength; cn++) {
+            //console.log("i", i, "j", j, "cn:", cn, "df_ltr earr: ", emptyArray, emptyArray[i][cn], emptyArray[j][cn]);
+            if (emptyArray[i][cn]==1 && emptyArray[j][cn]==1) {
+console.log(emptyArray);
+              let emptyArray1 = shiftDataFrame(emptyArray, cn);
+console.log(emptyArray1);
+              emptyArray1[i][cn] = 0;
+              emptyArray1[j][cn+1] = 0;
+console.log(emptyArray1);
+
+              for (var cleft=0; cleft<emptyArray.length-1; cleft++) {
+                for (var cright=cleft+1; cright<emptyArray.length; cright++) {
+
+//*
+
+                  if (emptyArray1.some(row => !isNaN(row[cleft])) && emptyArray1.some(row => !isNaN(row[cright]))) {
+                    if (emptyArray1.every(row => row[cleft] >= row[cright])) {
+                      emptyArray1.forEach(x => { x[cright] = 0; });
+                      console.log('i', i, 'j', j, "cr", cright, emptyArray2);
+                      var emptyArray2 = shiftAndJoinColumns(emptyArray1, cright, "B");
+                      //console.log(emptyArray2);
+                      emptyArray1 = emptyArray2
+                    }
+                    if (emptyArray1.every(row => row[cleft] <= row[cright])) {
+                      emptyArray1.forEach(x => { x[cleft] = 0; });
+                      console.log('i', i, 'j', j, "cl", cleft, emptyArray2);
+                      var emptyArray2 = shiftAndJoinColumns(emptyArray1, cleft, "B");
+                      //console.log(emptyArray2);
+                      emptyArray1 = emptyArray2
+                    }
+                  }
+//*/
+                }
+              }
+              emptyArray = emptyArray1
+            }
+          }
+
+
+          }
+
+        count += 1;
+      }
+    }
+/*
+// Сортиране на колоните на df_ltr в низходящ ред
+emptyArray.sort((a, b) => {
+  for (let i = 0; i < a.length; i++) {
+    if (a[i] > b[i]) return -1;
+    if (a[i] < b[i]) return 1;
+  }
+  return 0;
+});
+*/
+
+var lettersArray = emptyArray; //.map(x => x.reverse());
+console.log("after sorting: ", lettersArray);
+/*
+// Задаване на букви на колоните
+for (let cn = 0; cn < lettersArray[0].length; cn++) {
+  for (let i = 0; i < lettersArray.length; i++) {
+    if (lettersArray[i][cn] === 1) {
+      lettersArray[i][cn] = String.fromCharCode(97 + cn);
+    } else if (lettersArray[i][cn] === 0 || isNaN(lettersArray[i][cn])) {
+      lettersArray[i][cn] = '';
+    }
+  }
+}
+*/
+
+//console.log("df_ltr: ", emptyArray);
+//console.log(emptyArray.map(x => x.join('')));
+  return lettersArray.map(x => x.join(''));
+}
+
+
+
+
+function reverseColumns(array) {
+  // Проверка дали масивът е валиден
+  if (!Array.isArray(array) || array.length === 0 || !Array.isArray(array[0])) {
+    return array; // Връщане на оригиналния масив, ако не е валиден
+  }
+
+  // Транспониране на масива
+  const transposed = array[0].map((_, colIndex) => array.map(row => row[colIndex]));
+
+  // Обръщане на колоните
+  const reversedColumns = transposed.map(column => column.reverse());
+
+  // Повторно транспониране, за да се върне оригиналната форма
+  const result = reversedColumns[0].map((_, colIndex) => reversedColumns.map(row => row[colIndex]));
+
+  return result;
+}
+
+
+
+/*
+=====================================================
+*/
+
+
+document.getElementById('drawBP').onclick = () => {
+  var ctx = removeFlicker();//document.getElementById("canvas").getContext("2d");
+  var boxplotData = statistics();
+  //var groups = Object.keys(data);
+  //var groups = data.map(item => item.key);
+  var groupStats = data.map((item, i) => {
+    var values = item.value.map(Number);
+    var group = item.key;
+    return {
+        group,
+        mean: jStat.mean(values),
+        stdDev: jStat.stdev(values, true),
+        n: values.length,
+    };
+  });
+  //console.log(data, "gr", groupStats);
+  var inputTukey = [];
+  data.forEach((i) => inputTukey.push({ group: i.key,  repetitions: i.value.map(Number) }));
+  var tukeyResults = tukeyHSD(inputTukey);
+  //console.log("t",tukeyResults);
+  var letterAssignments = assignLetters(tukeyResults);
+  var samplevar = data.map((item, i) => ({ value: Math.max(...item.value.map(Number)), variant: item.key, letter: letterAssignments[i] }));
+  var tooltips = {};
+  letterAssignments.map((x,i) => tooltips[data[i].key] = x );
+
+  
+  console.log("Letter Assignments:", samplevar);
+  window.myBar = new Chart(ctx, {
+    type: 'boxplot',
+    data: boxplotData,
+    options: {
+    /*
+      scales: {
+        y: {
+          grace: '5%'
+        }
+      },
+      */
+      scales: {
+                    x: {
+                        title: {
+                            display: false,
+                            text: 'Experimental Variants',
+                        },
+                    },
+                    y: {
+                        title: {
+                            display: true,
+                            text: 'Fluorescence [a.u.]',
+                        },
+                    },
+                },
+      responsive: true,
+      plugins: {
+        legend: {
+           display: false,
+        },
+                    tooltip: {
+                        callbacks: {
+                            title: function (context) {
+                                const group = context[0].label;
+                                return `${group} (${tooltips[group]})`;
+                            },
+                        },
+                    },
+                            annotation: {
+                        annotations: samplevar.map((item,i) => ({
+                            type: 'label',
+                            xValue: item.variant, //label,
+                            yValue: item.value * 0.9, // Позиция над боксплота
+                            content: item.letter, // Буквата за статистическата значимост
+                            color: 'black',
+                            font: {
+                                weight: 'bold',
+                                size: 14,
+                            },
+                            textAlign: 'center',
+                            backgroundColor: 'rgba(255, 255, 255, 0.7)', // Лек фон за четимост
+                            borderRadius: 1,
+                        })),
+                    },
+
+/*
+        datalabels: {
+          formatter: (val, ctx) => (`${ctx.dataset.x} ${ctx.dataset.y} ${ctx.dataset.z}`),
+          align: 'end',
+          offset: (ctx) => {
+            const center = ctx.chart.scales.y.getPixelForValue(ctx.chart.getDatasetMeta(ctx.datasetIndex)._parsed[ctx.dataIndex].mean);
+            const max = ctx.chart.scales.y.getPixelForValue(ctx.chart.getDatasetMeta(ctx.datasetIndex)._parsed[ctx.dataIndex].max);
+            return center - max;
+          }
+        }
+*/
+      }
+    }
+    
+    
+    
+
+    
+  });
+
+};
+
+function transpose(arrayData) {
+  return arrayData[0].map((_, colIndex) => arrayData.map(row => row[colIndex]));
+}
+
+function extractData(tableData) {
+
+  var dict = []; // Create an empty array
+  var iParam = tableData[0].indexOf(parameter);
+  var transposed = transpose(tableData);
+
+  for (var row=1; row<tableData.length; row++) {
+
+    if (duplicate != tableData[row][0]) {
+
+        var arrayParams = [];
+
+        transposed[0].forEach((label, i) => {
+            if (label == tableData[row][0]) { arrayParams.push(transposed[iParam][i]); }
+          });
+
+        dict.push({
+          key:   tableData[row][0],
+          value: arrayParams
+        });
+      }
+      var duplicate = tableData[row][0];
+    }
+    return dict;
+}
+</script>
+                <script src="graph_params.js"></script>
+</body>
+</html>
