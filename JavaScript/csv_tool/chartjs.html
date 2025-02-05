@@ -1,13 +1,15 @@
 <!DOCTYPE html>
 <html>
 <script src="https://unpkg.com/chart.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-datalabels/2.0.0/chartjs-plugin-datalabels.js"></script>
-<script src="https://unpkg.com/@sgratzl/chartjs-chart-boxplot@3.6.0/build/index.umd.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/jstat@latest/dist/jstat.min.js"></script>
+<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-datalabels/2.0.0/chartjs-plugin-datalabels.js"></script>
+<script src="https://unpkg.com/@sgratzl/chartjs-chart-boxplot@3.6.0/build/index.umd.min.js"></script>  These versions of chart.js doesn't work    -->
+    <script src="https://cdn.jsdelivr.net/npm/jstat@latest/dist/jstat.js"></script>       <!--jstat.js is the normal version; jstat.min.js is the minimal version-->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@sgratzl/chartjs-chart-boxplot"></script>
 
 <input type="file" id="file_input" accept=".csv">
 <span>Въведи параметър: </span>
-<!--input type="text" id="param_input" -->
                   <select id="param_input" name="protocol" class="form-control" >
                       <option selected="selected">Phi_Po</option>
                       <option>Phi_Eo</option>
@@ -42,140 +44,340 @@
 </div>
 
 <script>
-        var csvData = '';
-        var delimiter = 'tab';
-        var tableData =[];
-        var indexCol = [];
-        var slicePoints = [];
-        var parameter = 'Phi_Po';
 
-    function removeFlicker() {
-      // Checks if the element canvas exists otherwise removes it to avoid flickering (overlapping) of graphs
-      if (document.getElementById('canvas') !== undefined && document.getElementById('canvas') !== null) {
-        document.getElementById('canvas').remove(); }
-      var canvasContainer = document.getElementById('container');
-      var speedCanvas = document.createElement('canvas');
-      speedCanvas.setAttribute('id', 'canvas');
-      speedCanvas.style.height = '220%';
-      canvasContainer.appendChild(speedCanvas);
+var csvData = '';
+var delimiter = 'tab';
+var tableData =[];
+var indexCol = [];
+var slicePoints = [];
+var parameter = 'Phi_Po';
+var data = {};
 
-      return speedCanvas;
+function removeFlicker() {
+  // Checks if the element canvas exists otherwise removes it to avoid flickering (overlapping) of graphs
+  if (document.getElementById('canvas') !== undefined && document.getElementById('canvas') !== null) {
+    document.getElementById('canvas').remove(); }
+  var canvasContainer = document.getElementById('container');
+  var speedCanvas = document.createElement('canvas');
+  speedCanvas.setAttribute('id', 'canvas');
+  speedCanvas.style.height = '220%';
+  canvasContainer.appendChild(speedCanvas);
+
+  return speedCanvas;
+}
+
+document.getElementById("process_csv").addEventListener("click", function() {
+  parameter = document.getElementById("param_input").value;
+  const fileInput = document.getElementById("file_input");
+  if (fileInput.files.length === 0) {
+      alert("Select a CSV file.");
+      return;
+  }
+  const file = fileInput.files[0];
+
+  const reader = new FileReader();
+  reader.onload = function(event) {
+      csvData = event.target.result;
+      splitCSV(event.target.result);
+  };
+  reader.readAsText(file);
+
+  function splitCSV() {
+// make table array out of the CSV
+    var lines = csvData.split("\n");
+    var array = [];
+
+    for (let i=0; i<lines.length; i++){
+        if (delimiter == 'tab') { array[i] = lines[i].split("\t"); }
+        else { array[i] = lines[i].split(delimiter); }
     }
+    indexCol = array.map(x => x[0]);
+    indexCol = indexCol.slice(5, 983);
+    const startOJIP = indexCol.indexOf("21");
+    const startNPQ1 = indexCol.indexOf("2443101");
+    const startNPQ2 = indexCol.indexOf("207601");
+// The offsets of the parameters
+    var protocol = 'OJIP';
 
-    document.getElementById("process_csv").addEventListener("click", function() {
-        parameter = document.getElementById("param_input").value;
-        const fileInput = document.getElementById("file_input");
-        if (fileInput.files.length === 0) {
-            alert("Select a CSV file.");
-            return;
+    if (protocol == 'OJIP') { slicePoints = [startOJIP, startOJIP+457]; }
+    else if (protocol == 'NPQ1') { slicePoints = [startNPQ1, 159+startNPQ1]; }
+    else if (protocol == 'NPQ2') { slicePoints = [startNPQ2, 249+startNPQ2]; }
+    else if (protocol == 'NPQ3') { slicePoints = [startNPQ2, "282312701"]; }   // startNPQ2+164]; }
+    else { alert('Protocol error!'); }
+
+    tableData = [];
+    tableData.push(indexCol);
+
+    for(var col=0; col<array[7].length; col++) {
+      if (array[7][col] == protocol) {
+        var column = array.map(x => x[col]);
+        // change the decimal separator from ',' to '.' (if available)
+        for (var x=0; x<column.length; x++) {
+          column[x] = String(column[x]).replace(",", ".");
         }
-        const file = fileInput.files[0];
+        tableData.push(column.slice(5, 983));
+      }
+    }
+  }
+});
 
-        const reader = new FileReader();
-        reader.onload = function(event) {
-            csvData = event.target.result;
-            splitCSV(event.target.result);
-            //console.log(csvData);  // Прочети CSV данните
-            // Тук можеш да използваш D3.js или друга библиотека за обработка на данните
-        };
-        reader.readAsText(file);
-        
-        //console.log('csv: ', csvData);
-        
-        function splitCSV() {
+/* ======================================================
+ * ======STATISTICAL FUNCTIONS===========================
+ *********************************************************/
 
-          var lines = csvData.split("\n");
-          var array = [];
-          //console.log(lines);
-          for (let i=0; i<lines.length; i++){
-              if (delimiter == 'tab') { array[i] = lines[i].split("\t"); }
-              else { array[i] = lines[i].split(delimiter); }
-          }
-          indexCol = array.map(x => x[0]);
-          indexCol = indexCol.slice(5, 983);
-          const startOJIP = indexCol.indexOf("21");
-          const startNPQ1 = indexCol.indexOf("2443101");
-          const startNPQ2 = indexCol.indexOf("207601");
+// 1. Изчисляване на средни стойности, стандартни отклонения и брой наблюдения
+function statistics() {
+  // Примерни данни
+  //
+  data = extractData(tableData);
+  var bpData = [];
+  var labels = [];
+  var backgroundColors = [];
+  var i = 0;
+  // Анализ с JStat - изчисляване на квартилите
+  // Изчисляване на Q1 (25%), медианата и Q3 (75%)
 
-          var protocol = 'OJIP';//setProtocol(document.getElementById('protocol'));
+  data.forEach((key) => {
+    var groupStats = jStat(key.value);
+    var groupQuantiles = groupStats.quantiles([0.25, 0.5, 0.75]);
+    var dict = { min: Math.min(...key.value), q1: groupQuantiles[0], median: groupQuantiles[1], q3: groupQuantiles[2], max: Math.max(...key.value) };
 
-          if (protocol == 'OJIP') { slicePoints = [startOJIP, startOJIP+457]; }
-          else if (protocol == 'NPQ1') { slicePoints = [startNPQ1, 159+startNPQ1]; }
-          else if (protocol == 'NPQ2') { slicePoints = [startNPQ2, 249+startNPQ2]; }
-          else if (protocol == 'NPQ3') { slicePoints = [startNPQ2, "282312701"]; }   // startNPQ2+164]; }
-          else { alert('Protocol error!'); }
+    bpData.push(dict);
+    labels.push(key.key);
+    for (var j = 0; j<document.getElementById("colors_input").value; j++) {
+      backgroundColors.push(colors[i]);
+    }
+    i += 1;
+  });
 
-          tableData = [];
-          tableData.push(indexCol);
+  // Създаване на Boxplot с Chart.js
+  //const ctx = document.getElementById('boxplot').getContext('2d');
+  return {
+      labels: labels,
+      datasets: [{
+          //label: '',
+          data: bpData,
+          backgroundColor: backgroundColors,
+          borderColor: 'rgba(0,123,255,1)',
+          borderWidth: 1
+      }]
+  };
+}
 
-          for(var col=0; col<array[7].length; col++) {
-            if (array[7][col] == protocol) {
-              var column = array.map(x => x[col]);
-              // change the decimal separator from ',' to '.' (if available)
-              for (var x=0; x<column.length; x++) {
-                column[x] = String(column[x]).replace(",", ".");
+// 2. Tukey HSD анализ
+function tukeyHSD(groupStats, alpha = 0.05) {
+
+  var result = [];
+  var groups = groupStats.map(x => x.group); // extract the groups
+  // the input of jStat.tukeyhsd is 2d array of the experimental variants and their repetitions
+  var t = jStat.tukeyhsd(groupStats.map(x => x.repetitions));
+
+  var count = 0;
+  for (let i = 0; i < groups.length; i++) {
+      for (let j = i + 1; j < groups.length; j++) {
+          const g1 = groups[i];
+          const g2 = groups[j];
+
+          var significant = t[count][1] < alpha;
+          result.push({ group1: g1, group2: g2, significant });
+          count += 1
+      }
+  }
+  return result;
+}
+
+// 3. Групиране на статистически значимите съвкупности
+
+// making a 2D array
+function createArray(x, y) {
+  return Array.apply(null, Array(x)).map(e => Array(y));
+}
+
+// premestwane nadqsno na kolonite ot cn+1 (otdqsno) i kopirane na kolonata s edna nadqsno
+function shiftDataFrame(df, cn) {
+  // Create new array for shifted data at "cn+1" (the column on the right)
+  var newDf = shiftAndJoinColumns(df, cn+1, "F");
+  // Set column cn+1 equal to column cn
+  newDf.forEach(row => {
+    row[cn+1] = row[cn];
+  });
+  return newDf;
+}
+
+// premestwane na kolonite nalqwo "B" backwards i nadqsno "F" forwards i dobawqne na "undefuned" odpred ili otzad
+function shiftAndJoinColumns(data, n, BF) {
+  return data.map(row => {
+    var firstPart = row.slice(0, n); // slice a part of row from 0 to n
+    if (BF=='F') {
+    	return firstPart.concat(shiftForward(row.slice(n, row.length)));
+    }
+    if (BF=='B') {
+    	return firstPart.concat(shiftBackward(row.slice(n, row.length)));
+    }
+  });
+}
+
+// Преместване напред (надясно)
+function shiftForward(arr) {
+  arr.unshift(undefined);
+  arr.pop();
+  return arr;
+}
+
+// Преместване назад (наляво)
+function shiftBackward(arr) {
+  arr.shift();
+  arr.push(undefined);
+  return arr;
+}
+
+// assign letters to each unique groups
+function assignLetters(comparisons) {
+    // Създаваме списък с всички уникални групи
+    const groups = Array.from(
+        new Set(comparisons.flatMap(({ group1, group2 }) => [group1, group2]))
+    );
+
+    const groupLength = groups.length;
+    var count = 0;
+    var emptyArray = createArray(groupLength, groupLength);
+    emptyArray.forEach(x => { x[0] = 1; });
+
+    for (var i=0; i<groupLength; i++) {
+      for (var j=i+1; j<groupLength; j++) {
+        if (comparisons[count].significant) {
+          for (var cn=0; cn<groupLength; cn++) {
+            if (emptyArray[i][cn]==1 && emptyArray[j][cn]==1) {
+              let emptyArray1 = shiftDataFrame(emptyArray, cn);
+              // set to "0" the cell in the right column
+              // and the row, corresponding to the number of the
+              // combinations, accepting the null hypothesis (Ho)
+              emptyArray1[i][cn] = 0;
+              emptyArray1[j][cn+1] = 0;
+
+              for (var cleft=0; cleft<emptyArray.length-1; cleft++) {
+                for (var cright=cleft+1; cright<emptyArray.length; cright++) {
+                // if left and right cols do not have empty cells
+                  if (emptyArray1.some(row => !isNaN(row[cleft])) && emptyArray1.some(row => !isNaN(row[cright]))) {
+                  // if values from the left column are larger than the right column
+                    if (emptyArray1.every(row => row[cleft] >= row[cright])) {
+                      emptyArray1.forEach(x => { x[cright] = 0; });
+                      var emptyArray2 = shiftAndJoinColumns(emptyArray1, cright, "B");
+                      emptyArray1 = emptyArray2
+                    }
+                    if (emptyArray1.every(row => row[cleft] <= row[cright])) {
+                      emptyArray1.forEach(x => { x[cleft] = 0; });
+                      var emptyArray2 = shiftAndJoinColumns(emptyArray1, cleft, "B");
+                      emptyArray1 = emptyArray2
+                    }
+                  }
+                }
               }
-              tableData.push(column.slice(5, 983));
+              emptyArray = emptyArray1
             }
           }
         }
-      });
+      count += 1;
+    }
+  }
 
-//Chart.register(ChartDataLabels)
-function statistics() {
-    // Примерни данни
-    var data = extractData(tableData);
-    var bpData = [];
-    var labels = [];
-    var backgroundColors = [];
-var i = 0;
-    // Анализ с JStat - изчисляване на квартилите
-    // Изчисляване на Q1 (25%), медианата и Q3 (75%)
+  // Сортиране на колоните на "df" в низходящ ред
+  var reversedArray = emptyArray.map(x => x.reverse());
+  // Премахване на undefined и оставяне само на колоните с номерата
+  var lettersArray = reversedArray.map(x => x.filter(value => typeof value === "number"));
 
-    data.forEach((key) => { 
-      var groupStats = jStat(key.value);
-      var groupQuantiles = groupStats.quantiles([0.25, 0.5, 0.75]);
-      var dict = { min: Math.min(...key.value), q1: groupQuantiles[0], median: groupQuantiles[1], q3: groupQuantiles[2], max: Math.max(...key.value) };
-
-      bpData.push(dict);
-      labels.push(key.key);
-      for (var j = 0; j<document.getElementById("colors_input").value; j++) {
-        backgroundColors.push(colors[i]);
+  // Задаване на букви на колоните
+  for (let cn = 0; cn < lettersArray[0].length; cn++) {
+    for (let i = 0; i < lettersArray.length; i++) {
+      if (lettersArray[i][cn] === 1) {
+        lettersArray[i][cn] = String.fromCharCode(97 + cn);
+      } else if (lettersArray[i][cn] === 0 || isNaN(lettersArray[i][cn])) {
+        lettersArray[i][cn] = '';
       }
-      i += 1;
-    });
-
-    // Създаване на Boxplot с Chart.js
-    //const ctx = document.getElementById('boxplot').getContext('2d');
-    return {
-        labels: labels,
-        datasets: [{
-            //label: '',
-            data: bpData,
-            backgroundColor: backgroundColors,
-            borderColor: 'rgba(0,123,255,1)',
-            borderWidth: 1
-        }]
-    };
+    }
+  }
+  // залепване на буквите от всяка колона
+  return lettersArray.map(x => x.join(''));
 }
+
+/* ======================================================
+ * ===========DRAW THE BOXPLOT GRAPH=====================
+ *********************************************************/
 
 document.getElementById('drawBP').onclick = () => {
   var ctx = removeFlicker();//document.getElementById("canvas").getContext("2d");
   var boxplotData = statistics();
+  var groupStats = data.map((item, i) => {
+    var values = item.value.map(Number);
+    var group = item.key;
+    return {
+        group,
+        mean: jStat.mean(values),
+        stdDev: jStat.stdev(values, true),
+        n: values.length,
+    };
+  });
+
+  var inputTukey = [];
+  // масив от речници с имената на вариантите (групите) и техните повторения
+  data.forEach((i) => inputTukey.push({ group: i.key,  repetitions: i.value.map(Number) }));
+  var tukeyResults = tukeyHSD(inputTukey); // сметни Туки ХСД
+  var letterAssignments = assignLetters(tukeyResults); // сметни уникалните букви
+  var samplevar = data.map((item, i) => ({ value: Math.max(...item.value.map(Number)), variant: item.key, letter: letterAssignments[i] }));
+
+  // включване на буквите в етикетите на вариантите
+  var tooltips = {};
+  letterAssignments.map((x,i) => tooltips[data[i].key] = x );
+
   window.myBar = new Chart(ctx, {
     type: 'boxplot',
     data: boxplotData,
     options: {
       scales: {
-        y: {
-          grace: '5%'
-        }
-      },
+                    x: {
+                        title: {
+                            display: false,
+                            text: 'Experimental Variants',
+                        },
+                    },
+                    y: {
+                        title: {
+                            display: true,
+                            text: 'Fluorescence [a.u.]',
+                        },
+                    },
+                },
       responsive: true,
       plugins: {
         legend: {
-          display: false
+           display: false,
         },
+                    tooltip: {
+                        callbacks: {
+                            title: function (context) {
+                                const group = context[0].label;
+                                return `${group} (${tooltips[group]})`;
+                            },
+                        },
+                    },
+                            annotation: {
+                        annotations: samplevar.map((item,i) => ({
+                            type: 'label',
+                            xValue: item.variant, //label,
+                            yValue: item.value * 0.9, // Позиция над боксплота
+                            content: item.letter, // Буквата за статистическата значимост
+                            color: 'black',
+                            font: {
+                                weight: 'bold',
+                                size: 14,
+                            },
+                            textAlign: 'center',
+                            backgroundColor: 'rgba(255, 255, 255, 0.7)', // Лек фон за четимост
+                            borderRadius: 1,
+                        })),
+                    },
+
+/*
         datalabels: {
           formatter: (val, ctx) => (`${ctx.dataset.x} ${ctx.dataset.y} ${ctx.dataset.z}`),
           align: 'end',
@@ -185,16 +387,18 @@ document.getElementById('drawBP').onclick = () => {
             return center - max;
           }
         }
+*/
       }
     }
   });
-
 };
 
+// транспониране на масив
 function transpose(arrayData) {
   return arrayData[0].map((_, colIndex) => arrayData.map(row => row[colIndex]));
 }
 
+// извлечи колоната с параметъра
 function extractData(tableData) {
 
   var dict = []; // Create an empty array
@@ -202,25 +406,23 @@ function extractData(tableData) {
   var transposed = transpose(tableData);
 
   for (var row=1; row<tableData.length; row++) {
-
     if (duplicate != tableData[row][0]) {
 
-      var arrayParams = [];
+        var arrayParams = [];
 
-      transposed[0].forEach((label, i) => {
-          if (label == tableData[row][0]) { arrayParams.push(transposed[iParam][i]); }
+        transposed[0].forEach((label, i) => {
+            if (label == tableData[row][0]) {
+              arrayParams.push(transposed[iParam][i]);
+            }
+          });
+
+        dict.push({
+          key:   tableData[row][0],
+          value: arrayParams
         });
-
-      dict.push({
-        key:   tableData[row][0],
-        value: arrayParams
-      });
+      }
+      var duplicate = tableData[row][0];
     }
-
-    var duplicate = tableData[row][0];
-
-    }
-
     return dict;
 }
 </script>
