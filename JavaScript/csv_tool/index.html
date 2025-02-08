@@ -9,16 +9,28 @@
         <link rel="stylesheet" href="style.css">
           <link rel="stylesheet" href="glass.css">
             <link rel="stylesheet" href="dropdown.css">
+        <link
+            rel="stylesheet"
+            href="https://pyscript.net/snapshots/2024.9.2/core.css"
+        />
 
+<!--                         <script src="https://unpkg.com/chart.js"></script> -->
+                <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-datalabels/2.0.0/chartjs-plugin-datalabels.js"></script>
+                <script src="https://unpkg.com/@sgratzl/chartjs-chart-boxplot@3.6.0/build/index.umd.min.js"></script>  These versions of chart.js doesn't work    -->
+
+   <!--     <script
+            type="module"
+            src="https://pyscript.net/snapshots/2024.9.2/core.js"
+        ></script>-->
               <style>
               </style>
 
             </head>
 
-            <body class="d-flex flex-column min-vh-100">
-            <div class="container mt-4">
+            <body class="d-flex flex-column min-vh-100">   <script>0</script>
+            <div class="containera mt-5">
               <!--form -->
-              <div style="top: 0px; position: fixed; background: white; z-index: 7;" >
+              <div style="top: 0px; left: 5%; position: fixed; background: white; z-index: 7;" >
               <h1>Tool for extracting fluorescent experimental data</h1>
               <div class="contaner" >
                 <div class="input-group-mb-3">
@@ -55,18 +67,18 @@
                         <div class="input-group-mb-3 menu" >
                           <div  class="form-control form-control-hidden">
                             <li><div id="info" >select file</div></li>
-                            <li></br>
+                            <li><!--</br>-->
                               <div class="buttons-container " ><!--div class="glare"></div-->
                                 <label for="fileinput" class="input-group-text aqua" >  upload </label>
                                 <input id="fileinput" type="file"/>
                               </div>
-                            </li></br>
+                            </li><!--</br>-->
+
                             <li>
                             </br>save selected as the file: <input class=" " type="text" id="export" name="label" value="export" required>.csv
                              </br></br> please, enter the password: <input class=" " type="text" id="pwd" name="label" value="" required="">
-                              <div class="buttons-container " ><!--div class="glare"></div-->
+                              <div class="buttons-container " >
                                 <button id="fileinput_s" class="input-group-text aqua"  onclick="downloadBlob();">  save </button>
-                                <!--input id="fileinput_s" type="button"/-->
                               </div>
                             </li>
 
@@ -77,22 +89,42 @@
                   </div>
 
                   <div class="btn-group" >
-                    <!--button class="btn btn-secondary btn-lg" type="button"> Draw </button-->
-                    <div class="input-group-text aqua" >
-                      <!--div class="glare"></div-->
+
+                    <button type="button" class="btn input-group-text form-control aqua" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="margin-left: 0px;  border-radius: 5px 1px 1px 5px; box-shadow: 0px 3px 4px -2px #333; margin-right: -3;">draw boxplot
+
+                      <div class="down-arrow" ></div>
+                    </button>
+
+                     <ul class="dropdown-menu dropdown-menu-end dropdown-content" style="width: max-content;  ">
+                      <div class="dropdown-contenta">
+                        <div class="input-group-mb-3 menu" >
+                          <div  class="form-control form-control-hidden">
+                            <li><div id="info" >select the columns (every repetition of a variant) to be included in the graph in their order, enter the amount of groups you have, hit the 'set' and 'draw' buttons </div></li>
+
+                            <li>
+                            </br>set number of colored groups: <input class=" " type="text" id="colorsInput" name="label" value="1" required>
+                             <!--</br>--><!--</br>--> please, enter the password: <input class=" " type="text" id="pwd" name="label" value="" required="">
+                              <span class="buttons-container " >
+                                <button id="drawBoxPlot" class="input-group-text aqua" >  draw </button>
+                              </span>
+                            </li>
+
+                          </div>
+                        </div>
+                      </div>
+                    </ul>
+
+
+                    <div class="input-group-text aqua" style="border-radius: 1px 1px 1px 1px;">
                       <span class="text-dark" id="drawParams">
                         draw
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bar-chart-line" viewBox="0 0 16 16">
                           <path d="M11 2a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v12h.5a.5.5 0 0 1 0 1H.5a.5.5 0 0 1 0-1H1v-3a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v3h1V7a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v7h1zm1 12h2V2h-2zm-3 0V7H7v7zm-5 0v-3H2v3z"/>
                           </svg> </span>
                     </div>
-                    <!--div ></div-->
-                      <select id="parameters" name="param" class="form-control aqua">
+                      <select id="parameters" name="param" class="form-control aqua" >
                         <option disable>select protocol</option>
                       </select>
-                      <!--div class="down-arrow" ></div-->
-
-
                   </div>
 
                   <div class="btn-group">
@@ -134,7 +166,11 @@
                 <p>M. Kolaksazov, PhD; 2024 <a href="mailto:hege@example.com">m.kolaksazov@gmail.com</a></p>
               </footer>
 
-                <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
+<!--                 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script> -->
+                <script src="https://cdn.jsdelivr.net/npm/jstat@latest/dist/jstat.js"></script>       <!--jstat.js is the normal version; jstat.min.js is the minimal version-->
+                <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+                <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation"></script>
+                <script src="https://cdn.jsdelivr.net/npm/@sgratzl/chartjs-chart-boxplot"></script>
                 <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.0.0/crypto-js.min.js"></script>
                 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
                 <script src="main.js"></script>
@@ -142,6 +178,9 @@
                 <script src="table.js"></script>
                 <script src="graph.js"></script>
                 <script src="graph_params.js"></script>
+                <script src="graph_boxplot.js"></script>
+
+
 
               </body>
             </html>

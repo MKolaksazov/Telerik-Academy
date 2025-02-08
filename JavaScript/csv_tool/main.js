@@ -8,16 +8,24 @@ var indexCol = [];
 //var NPQdata = [505, 983]; // 504, 983 // NPQ slice points depend on the protocol: 1 2 3
 var slicePoints = [];
 
-function setProtocol(options) {
-  var protocol = options[options.selectedIndex].text;
+window.onload = function(){
+  setProtocol();
+}
+
+function getProtocol() {
+  var options = document.getElementById('protocol');
+  var protocol = options[options.options.selectedIndex].text;
   document.getElementById('makeAvg').setAttribute('onclick', `makeAverage('${protocol}')`);
   document.getElementById('makeGr').setAttribute('onclick', `drawGraph('${protocol}')`);
   document.getElementById('drawParams').setAttribute('onclick', `drawParameters('${protocol}')`);
   return protocol;
 }
 
-document.getElementById('protocol').onchange = function(protocol = 'OJIP') {
-  var protocol = setProtocol(this);
+document.getElementById('protocol').addEventListener('change', setProtocol);
+
+//.onchange =
+function setProtocol() {
+  var protocol = getProtocol();
   // optionsArray
   if (protocol == "OJIP") {
     var optionsArr = ["Fo", "Fm", "Phi_Po", "Phi_Eo", "Phi_Ro", "Phi_Do", "Pi_Abs", "ABS/RC", "TRo/RC", "ETo/RC", "DIo/RC"];
@@ -79,7 +87,7 @@ document.getElementById('parameters').onchange = function() {
           const startNPQ1 = indexCol.indexOf("2443101");
           const startNPQ2 = indexCol.indexOf("207601");
 
-          var protocol = setProtocol(document.getElementById('protocol'));
+          var protocol = getProtocol();
 
           if (protocol == 'OJIP') { slicePoints = [startOJIP, startOJIP+457]; }
           else if (protocol == 'NPQ1') { slicePoints = [startNPQ1, 159+startNPQ1]; }

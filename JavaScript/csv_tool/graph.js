@@ -18,8 +18,8 @@ var dataSets = [];
 var labels = [];
 //var speedCanvas = document.getElementById("myChart");
 
-Chart.defaults.global.defaultFontFamily = "Lato, sans-serif";
-Chart.defaults.global.defaultFontSize = 16;
+Chart.defaults.defaultFontFamily = "Lato, sans-serif"; // for version v2 Chart.defaults.global.defaultFontSize = 16;
+Chart.defaults.defaultFontSize = 16;
 //checked(checkboxes);
 function loopData(indices) {
   dataSets = [];
@@ -50,7 +50,8 @@ function removeFlicker() {
   var canvasContainer = document.getElementById('canvasContainer');
   var speedCanvas = document.createElement('canvas');
   speedCanvas.setAttribute('id', 'myChart');
-  speedCanvas.style.height = '500px';
+  // speedCanvas.style.height = '500px';
+  speedCanvas.style.width = 'max-content';
   canvasContainer.appendChild(speedCanvas);
 
   return speedCanvas;
