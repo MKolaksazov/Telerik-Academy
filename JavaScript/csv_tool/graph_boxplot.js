@@ -321,30 +321,6 @@ document.getElementById('drawBoxPlot').onclick = () => {
 
 //++++++++++++++++++++++++++++++++++++++++
 
-function closeButton() {
-  // Create the close button element
-  const closeButton = document.createElement("button");
-  closeButton.textContent = "X";
-  closeButton.classList.add("close-button"); // Add a class for styling
-  closeButton.style.cssText = "position: absolute; top: 0; right: 0; background-color: red; color: white; border: none; padding: 5px; cursor: pointer;";
-
-  // Attach the close button to the canvas container
-  const canvasContainer = document.getElementById("canvasContainer");
-  canvasContainer.appendChild(closeButton);
-
-  // Add a click event listener to the close button
-  closeButton.addEventListener("click", () => {
-    clearCanvasContainer();
-  });
-}
-
-function clearCanvasContainer() {
-  // Remove all child elements from the canvas container
-  const canvasContainer = document.getElementById("canvasContainer");
-  while (canvasContainer.firstChild) {
-    canvasContainer.removeChild(canvasContainer.firstChild);
-  }
-}
 
 
 

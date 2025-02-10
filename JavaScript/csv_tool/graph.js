@@ -67,16 +67,17 @@ function drawGraph(protocol) {
   else { loopData(colsSelected); }
 
   if (protocol == 'OJIP') {
+
     var speedData = {
       //labels: ["0s", "10s", "20s", "30s", "40s", "50s", "60s"], NONE!
       datasets: dataSets
     };
-
+// migrations from chartjs version 2 to version 3 affected the coding of the scales
      var scales =  {
-      xAxes: [{
-          scaleLabel: {
+      x: {
+          title: {
               display: true,
-              labelString: 'time [ms] (log base 10)',
+              text: 'time [ms] (log base 10)',
           },
           type: 'logarithmic',
           ticks: {
@@ -96,28 +97,28 @@ function drawGraph(protocol) {
               }
 
           },
+          //
+          //     afterBuildTicks: function (chartObj) { //Build ticks labelling as per your need
+          //         chartObj.ticks = [];
+          //         chartObj.ticks.push(100);
+          //         chartObj.ticks.push(1000);
+          //         chartObj.ticks.push(10000);
+          //         chartObj.ticks.push(100000);
+          //         chartObj.ticks.push(1000000);
+          //     }
 
-              afterBuildTicks: function (chartObj) { //Build ticks labelling as per your need
-                  chartObj.ticks = [];
-                  chartObj.ticks.push(100);
-                  chartObj.ticks.push(1000);
-                  chartObj.ticks.push(10000);
-                  chartObj.ticks.push(100000);
-                  chartObj.ticks.push(1000000);
-              }
-
-      }],
-      yAxes: [{
+      },
+      y: {
           display: true,
-          scaleLabel: {
+          title: {
               display: true,
-              labelString: "[a.u.]"
+              text: "[a.u.]"
           },
           ticks: {
               min: 0, //minimum tick
               //max: 70000, //maximum tick
           },
-      }]
+      }
     };
   }
   else {
@@ -128,10 +129,10 @@ function drawGraph(protocol) {
 
      var scales =  {
 
-      xAxes: [{
-          scaleLabel: {
+      x: {
+          title: {
               display: true,
-              labelString: 'time [min]',
+              text: 'time [min]',
           },
           type: 'linear', //max:
           min: 207601,
@@ -145,27 +146,27 @@ function drawGraph(protocol) {
                 return Math.round((value - 1) / 60000000);
               }
           },
-          afterBuildTicks: function (chartObj) { //Build ticks labelling as per your need
-              chartObj.ticks = [];
-              chartObj.ticks.push(207601);
-              chartObj.ticks.push(120008201);
-              chartObj.ticks.push(240520101);
-              chartObj.ticks.push(359220701);
-              chartObj.ticks.push(480913301);
-          },
-      }],
+          // afterBuildTicks: function (chartObj) { //Build ticks labelling as per your need
+          //     chartObj.ticks = [];
+          //     chartObj.ticks.push(207601);
+          //     chartObj.ticks.push(120008201);
+          //     chartObj.ticks.push(240520101);
+          //     chartObj.ticks.push(359220701);
+          //     chartObj.ticks.push(480913301);
+          // },
+      },
 
-      yAxes: [{
+      y: {
           display: true,
-          scaleLabel: {
+          title: {
               display: true,
-              labelString: "[a.u.]"
+              text: "[a.u.]"
           },
           ticks: {
               min: 0, //minimum tick
               // max: 20000, //maximum tick
           },
-      }]
+      }
 
   };}
 
