@@ -30,15 +30,15 @@
             <body class="d-flex flex-column min-vh-100">   <script>0</script>
             <div class="containera mt-5">
               <!--form -->
-              <div style="top: 0px; left: 5%; width: inherit; position: fixed; background: white; z-index: 7;" >
-              <h1>Tool for extracting fluorescent experimental data</h1>
+              <div style="top: 0px; left: 5%; position: fixed; background: white; z-index: 7;" >
+              <h1>App for extracting fluorescent experimental data</h1>
               <div class="contaner" >
                 <div class="input-group-mb-3">
                   <span class="input-group-text" id="basic-addon1">delimiter: </span>
                   <input class="form-control" type="text" id="delimiter" name="delimiter" value="tab" required>
                   </div>
 
-                  <div class="input-group-mb-3"><span class="input-group-text" id="basic-addon1">selected protocol:</span>
+                  <div class="input-group-mb-3"><span class="input-group-text" id="basic-addon1">protocol: </span>
                     <select id="protocol" name="protocol" class="form-control" >
                       <option selected="selected">OJIP</option>
                       <option>NPQ1</option>
@@ -49,27 +49,29 @@
 
                   <div class="btn-group" >
                     <!--button class="btn btn-secondary btn-lg" type="button"> Draw </button-->
-                    <div class="input-group-text aqua" >
+                    <button type="button" class="btn input-group-text aqua" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="">file
+
+                      <div class="down-arrow" ></div>
+                    </button>
+
+                    <div class="btn form-control aqua" style="border-radius: 1px 5px 5px 1px; ">
                       <!--div class="glare"></div-->
-                      <div class="text-dark" id="makeGr"> draw
+                      <div class="text-dark" id="makeGr"> draw transient
 
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-graph-up" viewBox="0 0 16 16">
                           <path fill-rule="evenodd" d="M0 0h1v15h15v1H0zm14.817 3.113a.5.5 0 0 1 .07.704l-4.5 5.5a.5.5 0 0 1-.74.037L7.06 6.767l-3.656 5.027a.5.5 0 0 1-.808-.588l4-5.5a.5.5 0 0 1 .758-.06l2.609 2.61 4.15-5.073a.5.5 0 0 1 .704-.07"/>
                           </svg></div>
                     </div>
-                    <button type="button" class="btn form-control aqua" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="margin-left: -2px;  border-radius: 1px 5px 5px 1px;">file
 
-                      <div class="down-arrow" ></div>
-                    </button>
 
                     <ul class="dropdown-menu dropdown-menu-end dropdown-content">
                       <div class="dropdown-contenta">
                         <div class="input-group-mb-3 menu" >
-                          <div  class="form-control form-control-hidden">
+                          <div  class="btn form-control form-control-hidden">
                             <li><div id="info" >select file</div></li>
                             <li><!--</br>-->
                               <div class="buttons-container " ><!--div class="glare"></div-->
-                                <label for="fileinput" class="input-group-text aqua" >  upload </label>
+                                <label for="fileinput" class="btn input-group-text aqua" >  upload </label>
                                 <input id="fileinput" type="file"/>
                               </div>
                             </li><!--</br>-->
@@ -78,7 +80,7 @@
                             </br>save selected as the file: <input class=" " type="text" id="export" name="label" value="export" required>.csv
                              </br></br> please, enter the password: <input class=" " type="text" id="pwd" name="label" value="" required="">
                               <div class="buttons-container " >
-                                <button id="fileinput_s" class="input-group-text aqua"  onclick="downloadBlob();">  save </button>
+                                <button id="fileinput_s" class="btn input-group-text aqua"  onclick="downloadBlob();">  save </button>
                               </div>
                             </li>
 
@@ -90,8 +92,24 @@
 
                   <div class="btn-group" >
 
-                    <button type="button" class="btn input-group-text aqua" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="">draw boxplot
+                    <div btn class="input-group-text aqua" >parameter: </div>
 
+                      <select id="parameters" name="param" class="btn input-group-text aqua" >
+                        <option disable>select protocol</option>
+                      </select>
+
+                    <div class="btn input-group-text center-btn aqua" style="">
+                      <span class="text-dark" id="drawParams">
+                        draw bars
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bar-chart-line" viewBox="0 0 16 16">
+                          <path d="M11 2a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v12h.5a.5.5 0 0 1 0 1H.5a.5.5 0 0 1 0-1H1v-3a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v3h1V7a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v7h1zm1 12h2V2h-2zm-3 0V7H7v7zm-5 0v-3H2v3z"/>
+                          </svg> / linear </span>
+                    </div>
+
+                    <button type="button" class="btn form-control aqua" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="border-radius: 1px 5px 5px 1px; ">draw boxplot
+<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-align-center" viewBox="0 0 16 16">
+  <path d="M8 1a.5.5 0 0 1 .5.5V6h-1V1.5A.5.5 0 0 1 8 1m0 14a.5.5 0 0 1-.5-.5V10h1v4.5a.5.5 0 0 1-.5.5M2 7a1 1 0 0 1 1-1h10a1 1 0 0 1 1 1v2a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1z"/>
+</svg>
                       <div class="down-arrow" ></div>
                     </button>
 
@@ -103,7 +121,7 @@
 
                             <li>
                             </br>set number of colored groups: <input class=" " type="text" id="colorsInput" name="label" value="1" required>
-                             <!--</br>--><!--</br>--> please, enter the password: <input class=" " type="text" id="pwd" name="label" value="" required="">
+                             <!--</br>--><!--</br>--> <!--please, enter the password: <input class=" " type="text" id="pwd" name="label" value="" required="">-->
                               <span class="buttons-container " >
                                 <button id="drawBoxPlot" class="input-group-text aqua" >  draw </button>
                               </span>
@@ -114,17 +132,6 @@
                       </div>
                     </ul>
 
-
-                    <div class="input-group-text center-btn aqua" style="">
-                      <span class="text-dark" id="drawParams">
-                        draw
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bar-chart-line" viewBox="0 0 16 16">
-                          <path d="M11 2a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v12h.5a.5.5 0 0 1 0 1H.5a.5.5 0 0 1 0-1H1v-3a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v3h1V7a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1v7h1zm1 12h2V2h-2zm-3 0V7H7v7zm-5 0v-3H2v3z"/>
-                          </svg> </span>
-                    </div>
-                      <select id="parameters" name="param" class="form-control aqua" >
-                        <option disable>select protocol</option>
-                      </select>
                   </div>
 
                   <div class="btn-group">
@@ -151,6 +158,19 @@
                         </div>
                       </ul>
                     </div>
+
+                  <div class="btn-group" >
+                    <a href="documentation.html" target="_self" >
+                      <button class="btn text-dark form-control aqua" style="height: 101%; border-radius: 5px 5px 5px 5px; " type="button" href="./documentation.html">
+                      documentation & help
+<!--                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-bar-chart-steps" viewBox="0 0 16 16">
+                        <path d="M.5 0a.5.5 0 0 1 .5.5v15a.5.5 0 0 1-1 0V.5A.5.5 0 0 1 .5 0M2 1.5a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-4a.5.5 0 0 1-.5-.5zm2 4a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-7a.5.5 0 0 1-.5-.5zm2 4a.5.5 0 0 1 .5-.5h6a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-6a.5.5 0 0 1-.5-.5zm2 4a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-7a.5.5 0 0 1-.5-.5z"/>
+                        <i class="bi bi-bar-chart-steps"></i>
+                      </svg>-->
+                      </button>
+                    </a>
+                  </div>
+
                   </div>
 </div >
 

@@ -221,35 +221,37 @@ function assignLetters(comparisons) {
  *********************************************************/
 
 document.getElementById('drawBoxPlot').onclick = () => {
-  var ctx = removeFlicker();
-  var options = document.getElementById("parameters");
-  var parameter = options[options.selectedIndex].text;
-  var displayLegend = false;
-
-  closeButton();
-
   if (colsSelected.length === 0) { alert('Error! Column(s) not selected!'); return; }
 
-  // var ctx = removeFlicker();//document.getElementById("canvas").getContext("2d");
+  var options = document.getElementById("parameters");
+  var parameter = options[options.selectedIndex].text;
   var boxplotData = statistics(parameter);
-  var groupStats = data.map((item, i) => {
-    var values = item.value.map(Number);
-    var group = item.key;
-    return {
-        group,
-        mean: jStat.mean(values),
-        stdDev: jStat.stdev(values, true),
-        n: values.length,
-    };
-  });
+  // var groupStats = data.map((item, i) => {
+  //   var values = item.value.map(Number);
+  //   var group = item.key;
+  //   return {
+  //       group,
+  //       mean: jStat.mean(values),
+  //       stdDev: jStat.stdev(values, true),
+  //       n: values.length,
+  //   };
+  // });
 
   var inputTukey = [];
   // масив от речници с имената на вариантите (групите) и техните повторения
   data.forEach((i) => inputTukey.push({ group: i.key,  repetitions: i.value.map(Number) }));
   var tukeyResults = tukeyHSD(inputTukey); // сметни Туки ХСД
-  var letterAssignments = assignLetters(tukeyResults); // сметни уникалните букви
+
+  try {   var letterAssignments = assignLetters(tukeyResults); } // сметни уникалните букви
+  // check if the selected samples are enough, else throw an error message
+  catch(err) { alert('Error! Select at least two repetitions of each variant!', err.message); return; }
+
   var samplevar = data.map((item, i) => ({ value: Math.max(...item.value.map(Number)), variant: item.key, letter: letterAssignments[i] }));
 
+  var ctx = removeFlicker();
+  closeButton();
+
+  var displayLegend = false;
   // включване на буквите в етикетите на вариантите
   var tooltips = {};
   letterAssignments.map((x,i) => tooltips[data[i].key] = x );

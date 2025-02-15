@@ -27,6 +27,7 @@
       }
 
       function makeAverage(protocol) {
+        if (colsSelected.length <= 0) { alert('Error! Column(s) not selected!'); return; }
         const table = document.getElementById("table-1"); newCol = [];
 
         Array.from(table.rows)

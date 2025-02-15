@@ -59,12 +59,12 @@ function removeFlicker() {
 
 
 function drawGraph(protocol) {
+  if (colsSelected.length === 0) { alert('Error! Column(s) not selected!'); return; }   //else {  }
+
   var speedCanvas = removeFlicker();
 
   closeButton();
-
-  if (colsSelected.length === 0) { alert('Error! Column(s) not selected!'); return; }
-  else { loopData(colsSelected); }
+  loopData(colsSelected);
 
   if (protocol == 'OJIP') {
 

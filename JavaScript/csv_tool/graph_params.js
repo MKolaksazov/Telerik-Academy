@@ -119,6 +119,8 @@ function clearCanvasContainer() {
 
 //document.getElementById('drawParams').onclick(parameter = document.getElementById('drawParams').innerHTML);
 function drawParameters(protocol) {
+  if (colsSelected.length === 0) { alert('Error! Column(s) not selected!'); return; }  // else {  }
+
   var speedCanvas = removeFlicker();
   var options = document.getElementById("parameters");
   var parameter = options[options.selectedIndex].text;
@@ -126,8 +128,7 @@ function drawParameters(protocol) {
 
   closeButton();
 
-  if (colsSelected.length === 0) { alert('Error! Column(s) not selected!'); return; }
-  else { loopDataParams(colsSelected, parameter); }
+  loopDataParams(colsSelected, parameter);
 
   if (protocol == 'OJIP') { // spider diagram : OJIP; line graphs : NPQ
     var type = 'bar';
@@ -166,22 +167,22 @@ function drawParameters(protocol) {
   }
 
     var scales =  {
-      xAxes: [{
-          scaleLabel: {
+      x: {
+          title: {
               display: true,
           },
-      }],
+      },
 
-      yAxes: [{
+      y: {
           display: true,
-          scaleLabel: {
+          title: {
               display: true,
               labelString: "[a.u.]"
           },
           ticks: {
               min: 0,
           },
-      }]
+      }
     };
 
     var chartOptions = {

@@ -28,7 +28,30 @@ function setProtocol() {
   var protocol = getProtocol();
   // optionsArray
   if (protocol == "OJIP") {
-    var optionsArr = ["Fo", "Fm", "Phi_Po", "Phi_Eo", "Phi_Ro", "Phi_Do", "Pi_Abs", "ABS/RC", "TRo/RC", "ETo/RC", "DIo/RC"];
+    var optionsArr = [
+    "Phi_Po",
+    "Phi_Eo",
+    "Psi_o",
+    "Phi_Ro",
+    "Phi_Do",
+    "Pi_Abs",
+    "ABS/RC",
+    "TRo/RC",
+    "ETo/RC",
+    "DIo/RC",
+    "Fo",
+    "Fj",
+    "Fi",
+    "Fm",
+    "Area",
+    "Mo",
+    "Fix Area",
+    "HACH Area",
+    "Vj",
+    "Vi",
+    "Bckg",
+    "N",
+    ];
   }
   else {
     var optionsArr = ["Rfd", "Fm", "NPQ", "Qp", "QY"];
