@@ -20,6 +20,8 @@ Copyright: M. Kolaksazov, PhD; 2024 (Free to use and copy!)
 
 #
 
+
+
 ## Documentation
 This app can be used for:
 1. Opening any *.csv and *.txt files, obtained directly from the devices "FluorPen" of the Czech firm PSI (without modification). Works with all protocols: OJIP, NPQ1, 2, 3.
