@@ -1,6 +1,6 @@
 # App for extracting experimental fluorescent data
 
-https://mkolaksazov.github.io/Telerik-Academy/JavaScript/csv_tool/index.html
+https://mkolaksazov.github.io/Telerik-Academy/JavaScript/csv_tool/public/index.html
 
 1) works with any CSV or TXT file, and can change the data and decimal delimiters based on the file type
   
