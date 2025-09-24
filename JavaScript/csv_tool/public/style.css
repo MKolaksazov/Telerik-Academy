@@ -2,10 +2,10 @@
 
 /* bootstrap 5 */
 .contaner { padding: 0px 0px 0px 0px; display: flex; }
-.input-group-mb-3 { display: flex; width: 15%;  margin: 1px 1px 1px 0px; flex: 0 0 auto; box-shadow: 2px 3px 4px -2px #333; border-radius: 1px 1px 5px 5px; }
+.input-group-mb-3 { display: flex; width: fit-content;  margin: 1px 1px 1px 0px; flex: 0 0 auto; box-shadow: 2px 3px 4px -2px #333; border-radius: 1px 1px 5px 5px; }
 .aqua:hover{ background-image: linear-gradient(#4dc47f,#b5ffd4); }
 
-.input-group-text, .aqua { width: 50%; border-radius: 5px 1px 1px 5px; background-color: lightgreen; margin-left: 0px; margin-right: 0px;/*background-image: linear-gradient(#4dc47f,#b5ffd4);*/}
+.input-group-text, .aqua { width: fit-content; border-radius: 5px 1px 1px 5px; background-color: lightgreen; margin-left: 0px; margin-right: 0px;/*background-image: linear-gradient(#4dc47f,#b5ffd4);*/}
 .center-btn {margin-left: -1px; border-radius: 1px 1px 1px 1px; background-color: lightgreen; box-shadow: 0px 3px 4px -2px #333; margin-right: 0px;}
 .form-control { width: 51%; border-radius: 1px 5px 5px 1px; height: auto; margin-left: 0px; background-color: lightgreen;  }/**/
 
