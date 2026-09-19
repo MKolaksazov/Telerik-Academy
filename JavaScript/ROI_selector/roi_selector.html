@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Field ROI Selector</title>
+<style>
+  :root{
+    --bg: #1b211f;
+    --panel: #232a27;
+    --panel-2: #1f2523;
+    --border: #3a453f;
+    --text: #e4e9e5;
+    --text-dim: #91a099;
+    --accent: #8fae66;
+    --accent-strong: #c3dd9c;
+    --r: #cf7a6b;
+    --g: #8fae66;
+    --b: #6b93cf;
+    --mono: ui-monospace, "SF Mono", "Cascadia Code", Consolas, "Liberation Mono", Menlo, monospace;
+    --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
+    min-height: 100vh;
+  }
+
+  header {
+    padding: 20px 24px 16px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  header h1 {
+    margin: 0 0 4px;
+    font-size: 19px;
+    font-weight: 600;
+    letter-spacing: 0.2px;
+  }
+
+  header p {
+    margin: 0;
+    color: var(--text-dim);
+    font-size: 13.5px;
+    max-width: 62ch;
+    line-height: 1.5;
+  }
+
+  main {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 300px;
+    gap: 20px;
+    padding: 20px 24px 32px;
+    align-items: start;
+  }
+
+  @media (max-width: 820px) {
+    main { grid-template-columns: 1fr; }
+  }
+
+  .toolbar {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-bottom: 14px;
+  }
+
+  .file-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    color: var(--text);
+    padding: 8px 14px;
+    border-radius: 4px;
+    font-size: 13.5px;
+    cursor: pointer;
+  }
+  .file-btn:hover { border-color: var(--accent); }
+  input[type="file"] { display: none; }
+
+  button.ghost {
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--text-dim);
+    padding: 8px 12px;
+    border-radius: 4px;
+    font-size: 13.5px;
+    cursor: pointer;
+  }
+  button.ghost:hover { color: var(--text); border-color: var(--text-dim); }
+  button.ghost:disabled { opacity: 0.4; cursor: not-allowed; }
+
+  .meta {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--text-dim);
+  }
+
+  .canvas-wrap {
+    position: relative;
+    width: 100%;
+    border: 1px solid var(--border);
+    background:
+      linear-gradient(45deg, #20261f 25%, transparent 25%) 0 0/16px 16px,
+      linear-gradient(-45deg, #20261f 25%, transparent 25%) 0 0/16px 16px,
+      linear-gradient(45deg, transparent 75%, #20261f 75%) 0 0/16px 16px,
+      linear-gradient(-45deg, transparent 75%, #20261f 75%) 0 0/16px 16px,
+      var(--panel-2);
+    min-height: 240px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  #baseCanvas {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  #overlayCanvas {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%;
+    height: 100%;
+    touch-action: none;
+    cursor: crosshair;
+  }
+
+  .placeholder {
+    color: var(--text-dim);
+    font-size: 13.5px;
+    text-align: center;
+    padding: 40px;
+  }
+
+  .hint {
+    margin-top: 8px;
+    font-size: 12.5px;
+    color: var(--text-dim);
+  }
+
+  .panel {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 16px;
+  }
+
+  .panel h2 {
+    margin: 0 0 12px;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-dim);
+  }
+
+  .stat-row {
+    display: flex;
+    justify-content: space-between;
+    font-family: var(--mono);
+    font-size: 12.5px;
+    padding: 4px 0;
+    border-bottom: 1px dashed var(--border);
+  }
+  .stat-row:last-child { border-bottom: none; }
+  .stat-row .k { color: var(--text-dim); }
+  .stat-row .v { color: var(--text); }
+
+  table.chan-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: var(--mono);
+    font-size: 12px;
+    margin-top: 10px;
+  }
+  table.chan-table th {
+    text-align: right;
+    color: var(--text-dim);
+    font-weight: 500;
+    padding: 4px 0 6px 8px;
+    border-bottom: 1px solid var(--border);
+  }
+  table.chan-table th:first-child { text-align: left; padding-left: 0; }
+  table.chan-table td {
+    text-align: right;
+    padding: 5px 0 5px 8px;
+    border-bottom: 1px dashed var(--border);
+  }
+  table.chan-table td:first-child { text-align: left; padding-left: 0; }
+  table.chan-table tr:last-child td { border-bottom: none; }
+
+  .dot {
+    display: inline-block;
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    margin-right: 6px;
+  }
+
+  .divider {
+    height: 1px;
+    background: var(--border);
+    margin: 14px 0;
+  }
+
+  .footnote {
+    font-size: 12px;
+    color: var(--text-dim);
+    line-height: 1.5;
+    margin-top: 14px;
+  }
+
+  .empty {
+    color: var(--text-dim);
+    font-size: 12.5px;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Field ROI Selector</h1>
+  <p>Step 1 — load a drone image, drag a rectangle over a field / plot, and read out the pixel statistics (0–255) for that region. Normalization to NDVI-scale values comes next.</p>
+</header>
+
+<main>
+  <div>
+    <div class="toolbar">
+      <label class="file-btn" for="fileInput">Load image</label>
+      <input type="file" id="fileInput" accept="image/*">
+      <button class="ghost" id="clearBtn" disabled>Clear selection</button>
+      <span class="meta" id="imgMeta"></span>
+    </div>
+
+    <div class="canvas-wrap" id="canvasWrap">
+      <div class="placeholder" id="placeholder">No image loaded.<br>Choose a file, or drag an image in here.</div>
+      <canvas id="baseCanvas" style="display:none"></canvas>
+      <canvas id="overlayCanvas" style="display:none"></canvas>
+    </div>
+    <div class="hint" id="hint" style="display:none">Click and drag on the image to select a region.</div>
+  </div>
+
+  <div class="panel">
+    <h2>Selection</h2>
+    <div id="selBlock">
+      <div class="empty">No region selected yet.</div>
+    </div>
+
+    <div class="divider"></div>
+
+    <h2>Pixel statistics (per channel)</h2>
+    <div id="statsBlock">
+      <div class="empty">Draw a rectangle to compute mean / std.</div>
+    </div>
+
+    <div class="divider"></div>
+
+    <h2>Hue &amp; NDVI (from spectrum)</h2>
+    <div id="ndviBlock">
+      <div class="empty">Draw a rectangle to read hue and decode NDVI from the color spectrum.</div>
+    </div>
+
+    <div class="footnote">
+      Mean / Std are computed on raw 8-bit values (0–255) via <span style="font-family:var(--mono)">canvas.getImageData()</span>. NDVI is decoded per pixel by matching its color against control points sampled from your device's own legend (magenta → red → yellow → green, fading to grey near 0), then averaged — not derived from the averaged color, since the decode is non-linear. Hue is shown alongside as a reference reading, using circular statistics since hue wraps at 360°. Greyscale / unmatched pixels (negative NDVI, for now, or background) are excluded and reported separately.
+    </div>
+  </div>
+</main>
+
+<script>
+(function(){
+  const fileInput = document.getElementById('fileInput');
+  const clearBtn = document.getElementById('clearBtn');
+  const imgMeta = document.getElementById('imgMeta');
+  const canvasWrap = document.getElementById('canvasWrap');
+  const placeholder = document.getElementById('placeholder');
+  const baseCanvas = document.getElementById('baseCanvas');
+  const overlayCanvas = document.getElementById('overlayCanvas');
+  const hint = document.getElementById('hint');
+  const selBlock = document.getElementById('selBlock');
+  const statsBlock = document.getElementById('statsBlock');
+  const ndviBlock = document.getElementById('ndviBlock');
+
+  const baseCtx = baseCanvas.getContext('2d', { willReadFrequently: true });
+  const overlayCtx = overlayCanvas.getContext('2d');
+
+  let img = null;
+  let isDragging = false;
+  let startPt = null;
+  let finalRect = null; // {x,y,w,h} in backing-store (natural image) pixels
+
+  // ---------- image loading ----------
+
+  function loadImageFile(file) {
+    if (!file || !file.type.startsWith('image/')) return;
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      const image = new Image();
+      image.onload = () => setupImage(image, file.name);
+      image.onerror = () => alert('Could not decode that file as an image.');
+      image.src = e.target.result;
+    };
+    reader.readAsDataURL(file);
+  }
+
+  function setupImage(image, name) {
+    img = image;
+    const w = img.naturalWidth, h = img.naturalHeight;
+
+    baseCanvas.width = w;
+    baseCanvas.height = h;
+    overlayCanvas.width = w;
+    overlayCanvas.height = h;
+
+    baseCtx.drawImage(img, 0, 0);
+    overlayCtx.clearRect(0, 0, w, h);
+
+    placeholder.style.display = 'none';
+    baseCanvas.style.display = 'block';
+    overlayCanvas.style.display = 'block';
+    hint.style.display = 'block';
+    clearBtn.disabled = false;
+
+    imgMeta.textContent = `${name}  ·  ${w} × ${h}px`;
+
+    finalRect = null;
+    resetPanels();
+  }
+
+  fileInput.addEventListener('change', (e) => {
+    if (e.target.files && e.target.files[0]) loadImageFile(e.target.files[0]);
+  });
+
+  ['dragover', 'dragenter'].forEach(evt =>
+    canvasWrap.addEventListener(evt, (e) => { e.preventDefault(); })
+  );
+  canvasWrap.addEventListener('drop', (e) => {
+    e.preventDefault();
+    const file = e.dataTransfer.files && e.dataTransfer.files[0];
+    if (file) loadImageFile(file);
+  });
+
+  // ---------- coordinate mapping ----------
+
+  function toCanvasCoords(evt) {
+    const rect = overlayCanvas.getBoundingClientRect();
+    const scaleX = overlayCanvas.width / rect.width;
+    const scaleY = overlayCanvas.height / rect.height;
+    let x = (evt.clientX - rect.left) * scaleX;
+    let y = (evt.clientY - rect.top) * scaleY;
+    x = Math.max(0, Math.min(overlayCanvas.width, x));
+    y = Math.max(0, Math.min(overlayCanvas.height, y));
+    return { x, y };
+  }
+
+  function normalizeRect(x0, y0, x1, y1) {
+    const x = Math.min(x0, x1);
+    const y = Math.min(y0, y1);
+    const w = Math.abs(x1 - x0);
+    const h = Math.abs(y1 - y0);
+    return { x, y, w, h };
+  }
+
+  // ---------- drawing the marquee ----------
+
+  function drawMarquee(r, committed) {
+    overlayCtx.clearRect(0, 0, overlayCanvas.width, overlayCanvas.height);
+    if (!r || r.w < 1 || r.h < 1) return;
+
+    const lineW = Math.max(1.5, img.naturalWidth / 450);
+    overlayCtx.save();
+    overlayCtx.fillStyle = committed ? 'rgba(143,174,102,0.16)' : 'rgba(143,174,102,0.22)';
+    overlayCtx.fillRect(r.x, r.y, r.w, r.h);
+    overlayCtx.lineWidth = lineW;
+    overlayCtx.strokeStyle = committed ? 'rgba(195,221,156,0.95)' : 'rgba(195,221,156,0.7)';
+    overlayCtx.setLineDash(committed ? [] : [lineW * 2, lineW * 2]);
+    overlayCtx.strokeRect(r.x, r.y, r.w, r.h);
+    overlayCtx.restore();
+  }
+
+  // ---------- pointer events ----------
+
+  overlayCanvas.addEventListener('pointerdown', (e) => {
+    if (!img) return;
+    isDragging = true;
+    overlayCanvas.setPointerCapture(e.pointerId);
+    startPt = toCanvasCoords(e);
+    drawMarquee({ x: startPt.x, y: startPt.y, w: 0, h: 0 }, false);
+  });
+
+  overlayCanvas.addEventListener('pointermove', (e) => {
+    if (!isDragging) return;
+    const p = toCanvasCoords(e);
+    const r = normalizeRect(startPt.x, startPt.y, p.x, p.y);
+    drawMarquee(r, false);
+    updateSelectionLive(r);
+  });
+
+  window.addEventListener('pointerup', (e) => {
+    if (!isDragging) return;
+    isDragging = false;
+    const p = toCanvasCoords(e);
+    const r = normalizeRect(startPt.x, startPt.y, p.x, p.y);
+
+    if (r.w < 2 || r.h < 2) {
+      finalRect = null;
+      drawMarquee(null, true);
+      resetPanels();
+      return;
+    }
+
+    finalRect = {
+      x: Math.round(r.x),
+      y: Math.round(r.y),
+      w: Math.round(r.w),
+      h: Math.round(r.h)
+    };
+    // clamp inside image bounds
+    finalRect.w = Math.min(finalRect.w, baseCanvas.width - finalRect.x);
+    finalRect.h = Math.min(finalRect.h, baseCanvas.height - finalRect.y);
+
+    drawMarquee(finalRect, true);
+    computeAndRenderStats(finalRect);
+  });
+
+  clearBtn.addEventListener('click', () => {
+    finalRect = null;
+    if (overlayCanvas.width) overlayCtx.clearRect(0, 0, overlayCanvas.width, overlayCanvas.height);
+    resetPanels();
+  });
+
+  // ---------- colormap decoding (calibrated against your device's own legend) ----------
+  // These control points were sampled directly from the legend in your sample image:
+  // magenta (v=1) -> red -> yellow -> green -> fading toward grey around v≈0.15-0.2.
+  // Checked against real field pixels from your second sample image and they matched
+  // almost exactly (most within a few RGB units) - this is the actual ramp your device
+  // renders, not a generic "rainbow" formula.
+  const SPECTRUM_STOPS = [
+    { v: 1.000, rgb: [255,   0, 207] }, // magenta - top of the legend
+    { v: 0.892, rgb: [255,   5,   0] }, // red
+    { v: 0.523, rgb: [255, 255,   0] }, // yellow
+    { v: 0.277, rgb: [  7, 255,   0] }, // green
+    { v: 0.200, rgb: [ 78, 190, 143] }, // starting to fade toward grey
+  ];
+  const MAX_MATCH_DIST = 40; // RGB-space distance beyond which a pixel isn't "in spectrum"
+
+  // Closest point on segment a->b to point p, in RGB space. Returns how far along (t, 0-1)
+  // and how close the match is (d).
+  function closestOnSegment(p, a, b) {
+    const abx = b[0]-a[0], aby = b[1]-a[1], abz = b[2]-a[2];
+    const apx = p[0]-a[0], apy = p[1]-a[1], apz = p[2]-a[2];
+    const ab2 = abx*abx + aby*aby + abz*abz;
+    let t = ab2 === 0 ? 0 : (apx*abx + apy*aby + apz*abz) / ab2;
+    t = Math.max(0, Math.min(1, t));
+    const cx = a[0]+t*abx, cy = a[1]+t*aby, cz = a[2]+t*abz;
+    const d = Math.sqrt((p[0]-cx)**2 + (p[1]-cy)**2 + (p[2]-cz)**2);
+    return { t, d };
+  }
+
+  // Returns { ndvi, inRange } by snapping the pixel to the nearest point on the calibrated
+  // spectrum polyline. Pixels too far from every segment (grey, background, UI chrome) are
+  // flagged out of range rather than forced to a bogus value.
+  function decodePixelToNDVI(r, g, b) {
+    const p = [r, g, b];
+    let best = null;
+    for (let i = 0; i < SPECTRUM_STOPS.length - 1; i++) {
+      const s0 = SPECTRUM_STOPS[i], s1 = SPECTRUM_STOPS[i + 1];
+      const { t, d } = closestOnSegment(p, s0.rgb, s1.rgb);
+      if (best === null || d < best.d) best = { d, ndvi: s0.v + t * (s1.v - s0.v) };
+    }
+    return best.d <= MAX_MATCH_DIST ? { ndvi: best.ndvi, inRange: true } : { ndvi: null, inRange: false };
+  }
+
+  // Hue is shown purely as a reference reading alongside the decode above - it's not what
+  // the decode itself uses (the calibrated match above is more accurate near the magenta
+  // cap and the fade-to-grey zone, where a pure hue formula would drift).
+  function rgbToHueDeg(r, g, b) {
+    const rn = r / 255, gn = g / 255, bn = b / 255;
+    const max = Math.max(rn, gn, bn), min = Math.min(rn, gn, bn);
+    const delta = max - min;
+    let h = 0;
+    if (delta !== 0) {
+      if (max === rn)      h = 60 * (((gn - bn) / delta) % 6);
+      else if (max === gn) h = 60 * ((bn - rn) / delta + 2);
+      else                 h = 60 * ((rn - gn) / delta + 4);
+    }
+    if (h < 0) h += 360;
+    return h;
+  }
+
+  // ---------- panels ----------
+
+  function updateSelectionLive(r) {
+    selBlock.innerHTML = `
+      <div class="stat-row"><span class="k">x, y</span><span class="v">${Math.round(r.x)}, ${Math.round(r.y)}</span></div>
+      <div class="stat-row"><span class="k">width × height</span><span class="v">${Math.round(r.w)} × ${Math.round(r.h)} px</span></div>
+      <div class="stat-row"><span class="k">pixel count</span><span class="v">${(Math.round(r.w) * Math.round(r.h)).toLocaleString()}</span></div>
+    `;
+  }
+
+  function resetPanels() {
+    selBlock.innerHTML = '<div class="empty">No region selected yet.</div>';
+    statsBlock.innerHTML = '<div class="empty">Draw a rectangle to compute mean / std.</div>';
+    ndviBlock.innerHTML = '<div class="empty">Draw a rectangle to read hue and decode NDVI from the color spectrum.</div>';
+  }
+
+  function computeAndRenderStats(r) {
+    updateSelectionLive(r);
+
+    const { data } = baseCtx.getImageData(r.x, r.y, r.w, r.h);
+    let n = 0;
+    let sumR = 0, sumG = 0, sumB = 0, sumGray = 0;
+    let sqR = 0, sqG = 0, sqB = 0, sqGray = 0;
+
+    let nColored = 0;
+    let sumNdvi = 0, sqNdvi = 0;
+    let sumHueCos = 0, sumHueSin = 0;
+
+    for (let i = 0; i < data.length; i += 4) {
+      const rv = data[i], gv = data[i + 1], bv = data[i + 2];
+      const gray = (rv + gv + bv) / 3;
+      sumR += rv; sumG += gv; sumB += bv; sumGray += gray;
+      sqR += rv * rv; sqG += gv * gv; sqB += bv * bv; sqGray += gray * gray;
+      n++;
+
+      // Decode each pixel individually - NDVI is a non-linear function of RGB (via hue),
+      // so this must happen before averaging, not after.
+      const d = decodePixelToNDVI(rv, gv, bv);
+      if (d.inRange) {
+        sumNdvi += d.ndvi;
+        sqNdvi += d.ndvi * d.ndvi;
+        nColored++;
+
+        // Hue wraps at 360°, so accumulate as unit vectors (circular mean/std) rather
+        // than averaging the degree values directly - a plain average of e.g. 358° and
+        // 2° would wrongly come out near 180° instead of near 0°.
+        const rad = rgbToHueDeg(rv, gv, bv) * Math.PI / 180;
+        sumHueCos += Math.cos(rad);
+        sumHueSin += Math.sin(rad);
+      }
+    }
+
+    const chan = (sum, sq, count) => {
+      const mean = sum / count;
+      const variance = Math.max(0, sq / count - mean * mean);
+      return { mean, std: Math.sqrt(variance) };
+    };
+
+    const R = chan(sumR, sqR, n);
+    const G = chan(sumG, sqG, n);
+    const B = chan(sumB, sqB, n);
+    const Gray = chan(sumGray, sqGray, n);
+    const NDVI = nColored > 0 ? chan(sumNdvi, sqNdvi, nColored) : null;
+
+    const fmt = (v) => v.toFixed(2);
+    const fmt01 = (v) => (v / 255).toFixed(4);
+
+    const row = (label, dotColor, s) => `
+      <tr>
+        <td><span class="dot" style="background:${dotColor}"></span>${label}</td>
+        <td>${fmt(s.mean)}</td>
+        <td>${fmt(s.std)}</td>
+        <td>${fmt01(s.mean)}</td>
+      </tr>`;
+
+    statsBlock.innerHTML = `
+      <table class="chan-table">
+        <thead>
+          <tr><th>channel</th><th>mean</th><th>std</th><th>mean (0–1)</th></tr>
+        </thead>
+        <tbody>
+          ${row('R', 'var(--r)', R)}
+          ${row('G', 'var(--g)', G)}
+          ${row('B', 'var(--b)', B)}
+          ${row('Gray', '#9aa3ab', Gray)}
+        </tbody>
+      </table>
+    `;
+
+    const pctColored = n > 0 ? ((nColored / n) * 100).toFixed(1) : '0.0';
+
+    let hueBlock = `<div class="empty">No pixels matched the spectrum here (all greyscale / unmatched).</div>`;
+    if (NDVI) {
+      // Circular mean/std for hue (in degrees), since hue wraps at 360°.
+      const meanCos = sumHueCos / nColored, meanSin = sumHueSin / nColored;
+      let meanRad = Math.atan2(meanSin, meanCos);
+      if (meanRad < 0) meanRad += 2 * Math.PI;
+      const hueMeanDeg = (meanRad * 180 / Math.PI) % 360;
+      const R = Math.min(1, Math.sqrt(meanCos * meanCos + meanSin * meanSin));
+      const hueStdDeg = Math.sqrt(Math.max(0, -2 * Math.log(Math.max(R, 1e-9)))) * 180 / Math.PI;
+
+      hueBlock = `
+        <div class="stat-row"><span class="k">hue (mean)</span><span class="v">${hueMeanDeg.toFixed(1)}°</span></div>
+        <div class="stat-row"><span class="k">hue (circ. std)</span><span class="v">±${hueStdDeg.toFixed(1)}°</span></div>
+        <div class="divider" style="margin:8px 0"></div>
+        <div class="stat-row"><span class="k">NDVI mean</span><span class="v">${NDVI.mean.toFixed(4)}</span></div>
+        <div class="stat-row"><span class="k">NDVI std</span><span class="v">${NDVI.std.toFixed(4)}</span></div>
+        <div class="stat-row"><span class="k">pixels in spectrum</span><span class="v">${nColored.toLocaleString()} / ${n.toLocaleString()} (${pctColored}%)</span></div>
+      `;
+    }
+    ndviBlock.innerHTML = hueBlock;
+  }
+})();
+</script>
+
+</body>
+</html>
